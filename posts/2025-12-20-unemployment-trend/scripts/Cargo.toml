@@ -1,0 +1,26 @@
+[package]
+name = "unemployment-trend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = { version = "0.12", features = ["blocking", "json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = "0.4"
+ureq = "3.1"
+scirs2 = "0.1.0-rc.3"
+
+# Fetchers
+[[bin]]
+name = "fetch_unemployment"
+path = "src/fetchers/fetch_unemployment.rs"
+
+[[bin]]
+name = "recession_indicator"
+path = "src/fetchers/recession_indicator.rs"
+
+# Transformations
+[[bin]]
+name = "unemployment_trend_analysis"
+path = "src/transformations/unemployment_trend_analysis.rs"

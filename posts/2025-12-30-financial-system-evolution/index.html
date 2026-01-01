@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How We Got Here: The Evolution of Global Finance</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <style>
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .intro {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #0066cc;
+        }
+
+        .era-card {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+
+        .era-card h3 {
+            margin-top: 0;
+            color: #28a745;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .era-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .era-date {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .era-summary {
+            background: #fff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            font-size: 0.95em;
+        }
+
+        .key-features {
+            background: #e7f3ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .key-features h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+
+        .key-features ul {
+            margin-left: 20px;
+        }
+
+        .collapse-trigger {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .collapse-trigger h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+
+        .consequences {
+            background: #f0f0f0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .consequences h4 {
+            margin-top: 0;
+            color: #dc3545;
+        }
+
+        ul, ol {
+            margin: 10px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .timeline {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .timeline-item {
+            padding: 15px 0;
+            border-left: 3px solid #0066cc;
+            padding-left: 20px;
+            margin-left: 10px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: #0066cc;
+            border-radius: 50%;
+            position: absolute;
+            left: -8px;
+            top: 20px;
+        }
+
+        .timeline-year {
+            font-weight: 600;
+            color: #0066cc;
+            font-size: 1.1em;
+        }
+
+        .key-insight {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .key-insight h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95em;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .comparison-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .reference {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .reference a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .reference a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .era-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>How We Got Here: The Evolution of Global Finance</h1>
+        
+        <div class="meta">
+            <time datetime="2025-12-30">December 30, 2025</time>
+        </div>
+        
+        <div class="intro">
+            The global financial system didn't emerge naturally—it was designed, redesigned, and patched together over decades by governments, central banks, and international institutions. Understanding this history is essential because today's system—with the US dollar as the reserve currency, the IMF as the lender of last resort, and central banks controlling money supply—is not inevitable. It's the result of specific historical choices, crises, and power struggles. Let's trace how we got here.
+        </div>
+
+        <h2>Before Bretton Woods: The Gold Standard</h2>
+
+        <div class="era-card">
+            <div class="era-header">
+                <h3>The Classical Gold Standard</h3>
+                <div class="era-date">1870s - 1914</div>
+            </div>
+
+            <p><strong>How it worked:</strong> Currencies were directly convertible to gold at fixed rates. If you had $20.67, you could exchange it for one ounce of gold, anywhere in the world. This created a self-regulating system.</p>
+
+            <div class="key-features">
+                <h4>Key Features</h4>
+                <ul>
+                    <li><strong>Fixed exchange rates:</strong> If gold defined both the dollar and the pound, their exchange rate was automatically fixed</li>
+                    <li><strong>Automatic adjustment:</strong> Countries running trade deficits lost gold, forcing them to tighten monetary policy</li>
+                    <li><strong>Limited central bank power:</strong> Banks couldn't print unlimited money—they needed gold backing</li>
+                    <li><strong>Free capital flows:</strong> Gold moved freely across borders</li>
+                </ul>
+            </div>
+
+            <div class="collapse-trigger">
+                <h4>Why It Collapsed</h4>
+                <p><strong>World War I (1914-1918):</strong> Countries suspended gold convertibility to finance war spending. After the war, attempts to return to gold failed. The system couldn't handle the economic disruptions, debt levels, and political pressures of the interwar period. The Great Depression (1929-1939) delivered the final blow as countries abandoned gold to fight deflation.</p>
+            </div>
+
+            <div class="key-insight">
+                <h4>The Core Problem</h4>
+                <p>The gold standard was rigid. During recessions, it prevented countries from expanding money supply to stimulate growth. During booms, it prevented cooling overheated economies. It forced painful deflations instead of allowing currency adjustments. This rigidity made the Great Depression worse—countries that left gold earlier recovered faster.</p>
+            </div>
+        </div>
+
+        <h2>Bretton Woods: Rebuilding the System</h2>
+
+        <div class="era-card">
+            <div class="era-header">
+                <h3>The Bretton Woods Agreement</h3>
+                <div class="era-date">1944 - 1971</div>
+            </div>
+
+            <p><strong>The Setup:</strong> In July 1944, representatives from 44 countries met in Bretton Woods, New Hampshire, to design a new international monetary system. The goal: prevent the chaos of the 1930s while avoiding the rigidity of the gold standard.</p>
+
+            <div class="era-summary">
+                <strong>The Compromise:</strong> Create a "gold-exchange standard." The US dollar would be convertible to gold at $35/ounce. Other currencies would be pegged to the dollar (with adjustable rates). This made the dollar "as good as gold" and positioned the US at the center of the system.
+            </div>
+
+            <div class="key-features">
+                <h4>What Bretton Woods Created</h4>
+                <ul>
+                    <li><strong>The <a href="../2025-12-30-global-organizations/index.html#imf" style="color: #0066cc; text-decoration: none;">International Monetary Fund (IMF)</a>:</strong> To provide short-term loans to countries with balance of payments problems</li>
+                    <li><strong>The <a href="../2025-12-30-global-organizations/index.html#world-bank" style="color: #0066cc; text-decoration: none;">World Bank</a>:</strong> To finance post-war reconstruction and development</li>
+                    <li><strong>Fixed but adjustable exchange rates:</strong> Countries could devalue in case of "fundamental disequilibrium"</li>
+                    <li><strong>Capital controls:</strong> Countries could restrict capital flows to maintain stability</li>
+                    <li><strong>US dollar as reserve currency:</strong> Countries held dollars instead of gold for reserves</li>
+                </ul>
+            </div>
+
+            <div class="key-insight">
+                <h4>Why It Worked (For a While)</h4>
+                <p>The system worked because the US had 75% of the world's monetary gold and ran large trade surpluses. The world needed dollars for reconstruction and trade. The US was willing and able to supply them. This created stable exchange rates and facilitated rapid post-war growth—the "Golden Age" of capitalism (1950s-1960s).</p>
+            </div>
+
+            <div class="collapse-trigger">
+                <h4>The Triffin Dilemma</h4>
+                <p>In 1960, economist Robert Triffin identified a fatal flaw: For the world economy to grow, countries needed more dollars for reserves and trade. But if the US supplied those dollars (by running deficits), it would eventually have more dollar liabilities than gold to back them. Confidence would collapse.</p>
+                <p>By the late 1960s, this was happening. The US was running deficits to finance the Vietnam War and domestic programs. Foreign central banks held more dollars than the US had gold. France, led by Charles de Gaulle, started demanding gold for dollars. A run on US gold was beginning.</p>
+            </div>
+
+            <div class="consequences">
+                <h4>The Nixon Shock (August 15, 1971)</h4>
+                <p>President Nixon unilaterally suspended dollar-gold convertibility. This was supposed to be temporary. It became permanent. Bretton Woods was dead.</p>
+                <p><strong>Immediate effects:</strong> Currencies floated against each other. Exchange rate volatility spiked. A new system had to be negotiated.</p>
+            </div>
+        </div>
+
+        <h2>The Fiat Currency Era</h2>
+
+        <div class="era-card">
+            <div class="era-header">
+                <h3>Floating Exchange Rates and the Dollar System</h3>
+                <div class="era-date">1971 - Present</div>
+            </div>
+
+            <p><strong>What replaced Bretton Woods:</strong> Nothing formal. Instead, an ad-hoc system emerged where currencies floated against each other, determined by supply and demand. But the dollar remained the global reserve currency—not because it was backed by gold, but because of US economic power, deep financial markets, and network effects.</p>
+
+            <div class="key-features">
+                <h4>Characteristics of the New System</h4>
+                <ul>
+                    <li><strong>Fiat money:</strong> Currencies backed by nothing except government decree and trust</li>
+                    <li><strong>Floating exchange rates:</strong> Market-determined (though central banks intervene)</li>
+                    <li><strong>Central bank dominance:</strong> Monetary policy unconstrained by gold reserves</li>
+                    <li><strong>Dollar hegemony:</strong> 60% of global reserves, 90% of FX transactions, most commodities priced in dollars</li>
+                    <li><strong>Financial globalization:</strong> Capital flows freely (mostly), creating boom-bust cycles</li>
+                </ul>
+            </div>
+
+            <div class="key-insight">
+                <h4>The "Exorbitant Privilege"</h4>
+                <p>French Finance Minister Valéry Giscard d'Estaing coined this term in the 1960s. Because the world demands dollars, the US can run persistent trade deficits, borrow cheaply, and impose financial sanctions. The US prints the money everyone else needs. This is enormously powerful—but also creates global imbalances.</p>
+            </div>
+
+            <h3>The 1970s Crisis: Stagflation</h3>
+            <p>Freed from gold constraints, governments expanded money supply aggressively. Combined with oil shocks (1973, 1979), this created "stagflation"—high inflation and high unemployment simultaneously, something Keynesian economics said was impossible.</p>
+
+            <div class="consequences">
+                <h4>The Volcker Shock (1979-1982)</h4>
+                <p>Fed Chairman Paul Volcker raised interest rates to 20% to crush inflation. This caused a brutal recession but restored central bank credibility. It also established the modern approach: central banks control inflation through interest rates, independent from political pressure.</p>
+            </div>
+        </div>
+
+        <h2>The Washington Consensus</h2>
+
+        <div class="era-card">
+            <div class="era-header">
+                <h3>Neoliberal Globalization</h3>
+                <div class="era-date">1989 - 2008</div>
+            </div>
+
+            <p><strong>The ideology:</strong> After the Cold War, a set of policy prescriptions became dominant, named the "Washington Consensus" because they were endorsed by the <a href="../2025-12-30-global-organizations/index.html#imf" style="color: #0066cc; text-decoration: none;">IMF</a>, <a href="../2025-12-30-global-organizations/index.html#world-bank" style="color: #0066cc; text-decoration: none;">World Bank</a>, and US Treasury—all based in Washington.</p>
+
+            <div class="key-features">
+                <h4>Core Principles</h4>
+                <ul>
+                    <li><strong>Fiscal discipline:</strong> Balanced budgets, low deficits</li>
+                    <li><strong>Trade liberalization:</strong> Remove tariffs and trade barriers</li>
+                    <li><strong>Capital account liberalization:</strong> Allow free movement of money</li>
+                    <li><strong>Privatization:</strong> Sell state-owned enterprises to private sector</li>
+                    <li><strong>Deregulation:</strong> Remove government restrictions on business</li>
+                    <li><strong>Secure property rights:</strong> Legal framework for market economy</li>
+                    <li><strong>Low inflation:</strong> Central bank independence and inflation targeting</li>
+                </ul>
+            </div>
+
+            <div class="era-summary">
+                <strong>The Promise:</strong> Countries that followed these policies would achieve sustained economic growth, convergence with developed economies, and integration into the global economy. The IMF and World Bank made these reforms conditions for loans.
+            </div>
+
+            <h3>Implementation and Consequences</h3>
+            <p>Countries that borrowed from the IMF had to implement "structural adjustment programs"—austerity, privatization, deregulation. This created:</p>
+
+            <ul>
+                <li><strong>Winners:</strong> China and East Asian countries that selectively adopted these policies (but maintained capital controls and industrial policy)</li>
+                <li><strong>Mixed results:</strong> Some Latin American countries saw growth after initial pain</li>
+                <li><strong>Disasters:</strong> Russia's shock therapy in the 1990s, various financial crises in developing countries</li>
+            </ul>
+
+            <div class="collapse-trigger">
+                <h4>Financial Crises Under the Washington Consensus</h4>
+                <ul>
+                    <li><strong>Mexican Peso Crisis (1994-1995):</strong> Capital flight after liberalization</li>
+                    <li><strong>Asian Financial Crisis (1997-1998):</strong> Thailand, Indonesia, South Korea devastated by hot money outflows</li>
+                    <li><strong>Russian Default (1998):</strong> Shock therapy and capital flight led to collapse</li>
+                    <li><strong>Argentine Crisis (2001-2002):</strong> Fixed exchange rate and austerity created depression</li>
+                </ul>
+                <p>Pattern: Capital account liberalization + fixed exchange rates + sudden stops = crisis. The IMF's austerity conditions often made crises worse.</p>
+            </div>
+
+            <div class="key-insight">
+                <h4>The Great Moderation (1985-2007)</h4>
+                <p>In developed countries, this era saw low inflation, steady growth, and reduced volatility. Central bankers declared they had solved the business cycle. This hubris blinded them to building risks in the financial system.</p>
+            </div>
+        </div>
+
+        <h2>The 2008 Financial Crisis: System Failure</h2>
+
+        <div class="era-card">
+            <div class="era-header">
+                <h3>The Global Financial Crisis</h3>
+                <div class="era-date">2007 - 2009</div>
+            </div>
+
+            <p><strong>What happened:</strong> The US housing bubble burst, but the crisis spread globally because of financial interconnection. Banks worldwide held toxic mortgage-backed securities. Lehman Brothers collapsed. Credit froze. The global financial system nearly failed.</p>
+
+            <div class="consequences">
+                <h4>The Response</h4>
+                <ul>
+                    <li><strong>Bank bailouts:</strong> Governments spent trillions saving banks deemed "too big to fail"</li>
+                    <li><strong>Zero interest rates:</strong> Central banks cut rates to zero (or below)</li>
+                    <li><strong>Quantitative Easing:</strong> Central banks bought trillions in bonds, expanding balance sheets massively</li>
+                    <li><strong>Fiscal stimulus:</strong> Governments ran large deficits (initially, then switched to austerity)</li>
+                    <li><strong>Currency swaps:</strong> Fed provided dollars to foreign central banks, preventing global dollar shortage</li>
+                </ul>
+            </div>
+
+            <div class="key-insight">
+                <h4>What Changed</h4>
+                <p>The crisis revealed that the Washington Consensus had failed. Deregulated finance created systemic risk. Central banks became more powerful than ever—"whatever it takes" became the motto. The crisis also accelerated China's rise, as Western economies stagnated while China maintained growth.</p>
+            </div>
+
+            <h3>Post-Crisis Reforms</h3>
+            <ul>
+                <li><strong><a href="../2025-12-30-global-organizations/index.html#bis" style="color: #0066cc; text-decoration: none;">Basel III</a> (2010):</strong> Stricter bank capital requirements, liquidity rules (set by Bank for International Settlements)</li>
+                <li><strong>Dodd-Frank Act (2010):</strong> US financial regulation overhaul (partially repealed later)</li>
+                <li><strong>Stress testing:</strong> Regular tests of bank resilience</li>
+                <li><strong>Resolution frameworks:</strong> Plans for orderly failure of big banks</li>
+                <li><strong>Macroprudential policy:</strong> Central banks monitoring systemic risk, not just inflation</li>
+            </ul>
+
+            <div class="era-summary">
+                <strong>The result:</strong> Banks are better capitalized, but remain too big to fail. Financial risks migrated to shadow banking. Central banks are now trapped—balance sheets can't be normalized without causing crisis.
+            </div>
+        </div>
+
+        <h2>The Current System (2010s-Present)</h2>
+
+        <div class="era-card">
+            <div class="era-header">
+                <h3>Post-Crisis Limbo</h3>
+                <div class="era-date">2010 - Present</div>
+            </div>
+
+            <h3>Characteristics of the Current Era</h3>
+
+            <div class="key-features">
+                <h4>Key Trends</h4>
+                <ul>
+                    <li><strong>Permanent low rates:</strong> Interest rates near zero for over a decade (until 2022)</li>
+                    <li><strong>QE as standard tool:</strong> Central banks bought $25+ trillion in assets</li>
+                    <li><strong>Fiscal-monetary blur:</strong> Lines between fiscal policy and monetary policy blurring</li>
+                    <li><strong>Rising inequality:</strong> Asset price inflation benefits wealthy, wages stagnate</li>
+                    <li><strong>Dollar dominance intact:</strong> Despite predictions, dollar share of reserves hasn't fallen</li>
+                    <li><strong>Fragmentation beginning:</strong> Trade wars, sanctions, competing payment systems</li>
+                </ul>
+            </div>
+
+            <h3>COVID-19 and the 2020 Response</h3>
+            <p>When pandemic hit, central banks and governments responded with unprecedented coordination:</p>
+            <ul>
+                <li>Central banks bought bonds to prevent yield spikes</li>
+                <li>Governments sent direct payments to citizens (helicopter money)</li>
+                <li>Fed provided unlimited dollar liquidity globally</li>
+                <li>Total global stimulus: ~$20 trillion</li>
+            </ul>
+
+            <div class="collapse-trigger">
+                <h4>The Inflation Surge (2021-2023)</h4>
+                <p>Combination of massive stimulus, supply chain disruptions, and Russia-Ukraine war caused inflation to spike to 9% (US) and higher elsewhere. Central banks raised rates aggressively—fastest tightening in decades. This broke several banks (Silicon Valley Bank, Credit Suisse) and triggered stress.</p>
+            </div>
+
+            <div class="key-insight">
+                <h4>The Impossible Trinity Returns</h4>
+                <p>Central banks face impossible choices: Fight inflation (raise rates) but risk recession and financial instability. Support economy (low rates) but risk inflation and asset bubbles. There are no good options—only trade-offs.</p>
+            </div>
+        </div>
+
+        <h2>The Emerging Multipolar Financial System</h2>
+
+        <div class="era-card">
+            <div class="era-header">
+                <h3>The Dollar's Slow Decline?</h3>
+                <div class="era-date">2020s - Future</div>
+            </div>
+
+            <p><strong>Current challenges to dollar dominance:</strong></p>
+
+            <div class="key-features">
+                <h4>Alternative Systems Emerging</h4>
+                <ul>
+                    <li><strong><a href="../2025-12-30-global-organizations/index.html#brics" style="color: #0066cc; text-decoration: none;">BRICS</a> currencies and New Development Bank:</strong> Attempt to reduce dollar dependence</li>
+                    <li><strong>China's CIPS payment system:</strong> Alternative to SWIFT</li>
+                    <li><strong>Digital currencies:</strong> China's digital yuan, central bank digital currencies (CBDCs)</li>
+                    <li><strong>Bilateral currency swaps:</strong> Trade settlement bypassing dollars</li>
+                    <li><strong>De-dollarization by sanctioned countries:</strong> Russia, Iran seeking alternatives after sanctions</li>
+                    <li><strong>Euro's persistence:</strong> Second reserve currency, 20% of reserves</li>
+                    <li><strong>Gold accumulation:</strong> Central banks buying gold again</li>
+                </ul>
+            </div>
+
+            <div class="key-insight">
+                <h4>Why Dollar Dominance Persists</h4>
+                <p>Despite challenges, no viable alternative exists. The yuan isn't freely convertible. The euro lacks unified fiscal backing. No other financial market has the depth, liquidity, and rule of law of US markets. Network effects are powerful—everyone uses dollars because everyone else uses dollars.</p>
+                <p>But: The system is becoming more fragmented. A truly multipolar financial system may be emerging, but slowly.</p>
+            </div>
+        </div>
+
+        <h2>Timeline: Key Moments in Financial System Evolution</h2>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">1944</div>
+                <p><strong>Bretton Woods Conference</strong> - Dollar-gold standard established, IMF and World Bank created</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">1971</div>
+                <p><strong>Nixon Shock</strong> - Dollar-gold convertibility ended, floating exchange rates begin</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">1979</div>
+                <p><strong>Volcker Shock</strong> - Interest rates to 20% to crush inflation, central bank independence established</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">1989</div>
+                <p><strong>Washington Consensus</strong> - Neoliberal policy package becomes dominant development model</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">1997-98</div>
+                <p><strong>Asian Financial Crisis</strong> - Reveals dangers of capital account liberalization</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2008-09</div>
+                <p><strong>Global Financial Crisis</strong> - System nearly collapses, massive bailouts and QE begin</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2010</div>
+                <p><strong>Basel III</strong> - Stricter banking regulations adopted globally</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2020</div>
+                <p><strong>COVID-19 Response</strong> - Unprecedented monetary and fiscal coordination</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2022-23</div>
+                <p><strong>Inflation Surge</strong> - Fastest rate hikes in decades, financial stress returns</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2024+</div>
+                <p><strong>Multipolar Era?</strong> - BRICS expansion, digital currencies, gradual fragmentation</p>
+            </div>
+        </div>
+
+        <h2>What This History Teaches Us</h2>
+
+        <div class="key-insight">
+            <h4>1. Every System Eventually Breaks</h4>
+            <p>The gold standard broke. Bretton Woods broke. The Washington Consensus broke. The current system is showing cracks. Financial systems are not natural or inevitable—they're designed by people and contain inherent contradictions that eventually cause crises.</p>
+        </div>
+
+        <div class="key-insight">
+            <h4>2. Crises Drive Change</h4>
+            <p>Major reforms happen only after disasters. The Great Depression led to Bretton Woods. The Nixon Shock led to floating rates. The 2008 crisis led to Basel III. Incremental change is impossible—systems limp along until catastrophe forces redesign.</p>
+        </div>
+
+        <div class="key-insight">
+            <h4>3. Power Shapes the System</h4>
+            <p>Bretton Woods reflected US post-war dominance. The Washington Consensus reflected US ideological victory after the Cold War. China's rise is creating alternative institutions (AIIB, NDB, BRICS). Financial systems reflect geopolitical power—as power shifts, so do systems.</p>
+        </div>
+
+        <div class="key-insight">
+            <h4>4. The Trilemma Is Real</h4>
+            <p>You can have at most two of three: fixed exchange rates, free capital flows, independent monetary policy. This "impossible trinity" has driven every crisis. Bretton Woods chose fixed rates and capital controls. Today we have floating rates and free capital (mostly) but frequent crises.</p>
+        </div>
+
+        <div class="key-insight">
+            <h4>5. Dollar Dominance Has Real Consequences</h4>
+            <p>The US can run deficits others can't. It can impose sanctions others can't. But this creates global imbalances and resentment. Countries are slowly building alternatives. Whether they succeed depends on geopolitics, not just economics.</p>
+        </div>
+
+        <h2>Where We're Headed</h2>
+
+        <p>The current system is unsustainable but resilient. Likely future scenarios:</p>
+
+        <ol>
+            <li><strong>Slow fragmentation:</strong> Multiple reserve currencies, regional payment systems, digital currencies coexisting. Dollar remains largest but not dominant.</li>
+            <li><strong>Crisis-driven reform:</strong> A major crisis (debt, banking, geopolitical) forces creation of new Bretton Woods-style institutions.</li>
+            <li><strong>Muddling through:</strong> System limps along with periodic crises, patched together with central bank interventions. No fundamental change.</li>
+            <li><strong>Digital transformation:</strong> CBDCs and blockchain technology enable new architectures we can't yet imagine.</li>
+        </ol>
+
+        <p>What's certain: The system will continue evolving, driven by crises, power shifts, and technological change. Understanding the history helps us recognize the patterns and prepare for what's coming.</p>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This article presents historical analysis and current debates in international finance. It does not constitute financial, investment, or policy advice. Views on the future of the financial system are speculative.
+        </div>
+
+        <div class="reference">
+            <strong>References:</strong><br>
+            <a href="https://www.imf.org/external/np/exr/facts/brettonwoods.htm" target="_blank">IMF: Bretton Woods History</a> | 
+            <a href="https://www.federalreservehistory.org/essays/bretton-woods-created" target="_blank">Federal Reserve History</a> |
+            <a href="https://www.bis.org/about/history.htm" target="_blank">BIS: Central Banking History</a> |
+            <a href="https://www.piie.com/publications/working-papers/what-was-washington-consensus" target="_blank">Peterson Institute: Washington Consensus</a> |
+            <a href="https://www.federalreserve.gov/econres/notes/feds-notes/the-international-role-of-the-u-s-dollar-20211006.html" target="_blank">Federal Reserve: Dollar's International Role</a>
+        </div>
+
+        <footer>
+            <p><strong>Methodology:</strong> This article synthesizes economic history from academic sources, central bank archives, and historical analysis. Events and dates are documented facts; interpretations reflect ongoing scholarly debate.</p>
+            <p>Last updated: December 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

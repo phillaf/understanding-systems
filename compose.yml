@@ -1,0 +1,27 @@
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - .:/www:z,ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:z,ro
+    restart: unless-stopped
+
+  # Development tool - not needed for production
+  # To run data fetchers/transformations for a specific post:
+  #   cd posts/unemployment-trend/scripts && cargo run --release --bin fetch_unemployment
+  #   cd posts/recession-unemployment/scripts && cargo run --release --bin fetch_gdp
+
+  # Test runner - validates HTML/JS/data files for a specific post
+  # Usage: docker compose run --rm -e POST=unemployment-trend test
+  test:
+    image: node:alpine
+    working_dir: /app
+    volumes:
+      - ./posts:/app/posts:z,ro
+    environment:
+      - POST=${POST:-unemployment-trend}
+    command: sh -c "npm install jsdom && node posts/$$POST/test.js"
+    profiles:
+      - tools

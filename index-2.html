@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Systems - Data-Driven Analysis</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            background: white;
+            color: #333;
+        }
+        h1 {
+            color: #1a1a1a;
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        .tagline {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 3em;
+        }
+        .posts {
+            display: grid;
+            gap: 40px;
+            margin-top: 50px;
+        }
+        .post-card {
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            padding: 30px;
+            background: white;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .post-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .post-title {
+            color: #1a1a1a;
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-bottom: 0.5em;
+        }
+        .post-date {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 1em;
+        }
+        .post-excerpt {
+            color: #555;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 1em;
+        }
+        .read-more {
+            color: #333;
+            font-weight: 500;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        .post-card:hover .read-more {
+            text-decoration: underline;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 60px;
+            padding: 20px 0;
+            border-top: 1px solid #e5e5e5;
+        }
+        .page-link {
+            color: #333;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+        }
+        .page-link:hover:not(.disabled) {
+            background: #f5f5f5;
+        }
+        .page-link.disabled {
+            color: #ccc;
+            pointer-events: none;
+        }
+        .page-info {
+            color: #666;
+        }
+        footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #e5e5e5;
+            color: #999;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Understanding Systems</h1>
+    <p class="tagline">Exploring how the world works through data, networks, and influence</p>
+    
+    <div class="posts">
+        <a href="posts/2025-12-15-recession-unemployment/" class="post-card">
+            <div class="post-title">Do Recessions Actually Make People Lose Jobs?</div>
+            <div class="post-date">December 2025</div>
+            <div class="post-excerpt">
+                A statistical investigation using five different methods: rolling correlation, cross-correlation, Granger causality, and spectral coherence. Spoiler: the relationship exists, but it's weaker and weirder than you'd expect. Plus, we finally explain why Okun's Law doesn't jump out of the data.
+            </div>
+            <span class="read-more">Read more →</span>
+        </a>
+    </div>
+
+    <div class="pagination">
+        <a href="index.html" class="page-link ">← Newer</a>
+        <span class="page-info">Page 2 of 2</span>
+        <a href="#" class="page-link disabled">Older →</a>
+    </div>
+    <footer>
+        <p><a href="about.html">About this blog</a></p>
+        <p>Last updated: January 2026</p>
+    </footer>
+</body>
+</html>

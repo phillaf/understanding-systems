@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Banks Actually Make Money</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <style>
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .intro {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #0066cc;
+        }
+
+        .revenue-card {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .revenue-card h3 {
+            margin-top: 0;
+            color: #28a745;
+        }
+
+        .example-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .example-box h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1em;
+        }
+
+        .breakdown-table th,
+        .breakdown-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .breakdown-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .breakdown-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .breakdown-table .category {
+            font-weight: 600;
+            background: #e9ecef;
+        }
+
+        .breakdown-table .amount {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+
+        .breakdown-table .percentage {
+            text-align: right;
+            color: #666;
+        }
+
+        .key-insight {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .key-insight h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .cost-card {
+            background: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .cost-card h3 {
+            margin-top: 0;
+            color: #dc3545;
+        }
+
+        .reference {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .reference a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .reference a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>How Banks Actually Make Money</h1>
+        
+        <div class="meta">
+            <time datetime="2025-12-30">December 30, 2025</time>
+        </div>
+        
+        <div class="intro">
+            The simple story: you deposit $1,000, the bank pays you 0.5% interest ($5/year), then lends it to someone else at 7% ($70/year), and keeps the $65 difference. Multiply by billions of dollars, and banks make massive profits. But if this were the whole story, every bank would be printing money, and none would ever fail. Reality is more complex—and more interesting.
+        </div>
+
+        <h2>The Four Revenue Streams</h2>
+
+        <p>Banks make money through four main channels. Let's examine each using real data from major U.S. banks.</p>
+
+        <div class="revenue-card">
+            <h3>1. Net Interest Income (The Core Business)</h3>
+            <p>This is the "borrow low, lend high" model everyone knows. But the devil is in the details.</p>
+
+            <h4>How It Works:</h4>
+            <ul>
+                <li><strong>Assets (What Banks Lend)</strong>: Mortgages (4-7%), auto loans (5-10%), credit cards (15-25%), business loans (5-12%)</li>
+                <li><strong>Liabilities (What Banks Pay)</strong>: Checking accounts (0-0.1%), savings accounts (0.3-0.5%), CDs (3-5%), borrowed funds (4-6%)</li>
+                <li><strong>Net Interest Margin (NIM)</strong>: The difference between what they earn and what they pay, typically 2-3.5%</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>Real Example: JPMorgan Chase (2023)</h4>
+                <p><strong>Interest Income:</strong> $105.6 billion<br>
+                <strong>Interest Expense:</strong> $48.0 billion<br>
+                <strong>Net Interest Income:</strong> $57.6 billion<br>
+                <strong>Net Interest Margin:</strong> 2.44%</p>
+                <p>On $3.7 trillion in assets, a 2.44% margin generates massive revenue. But that margin is razor-thin—small changes in interest rates dramatically affect profitability.</p>
+            </div>
+
+            <div class="key-insight">
+                <h4>Key Insight: The Interest Rate Squeeze</h4>
+                <p>When interest rates rise, banks' costs increase faster than their revenues. Why? Deposits can be withdrawn instantly, forcing banks to raise rates immediately. But loans are locked in for years at fixed rates. This is why banks struggled in 2022-2023 when the Fed rapidly raised rates.</p>
+            </div>
+        </div>
+
+        <div class="revenue-card">
+            <h3>2. Fee Income (The Hidden Cash Cow)</h3>
+            <p>Banks charge fees for hundreds of services. Many of these fees have much higher profit margins than interest income.</p>
+
+            <h4>Major Fee Categories:</h4>
+            <ul>
+                <li><strong>Overdraft fees:</strong> $30-35 per overdraft, generating ~$8 billion annually industry-wide</li>
+                <li><strong>ATM fees:</strong> $2-3 per out-of-network transaction</li>
+                <li><strong>Wire transfer fees:</strong> $15-30 domestic, $40-50 international</li>
+                <li><strong>Account maintenance fees:</strong> $5-15 per month if minimum balance not met</li>
+                <li><strong>Credit card interchange fees:</strong> 1.5-3% of each transaction (paid by merchants)</li>
+                <li><strong>Investment management fees:</strong> 0.5-2% of assets under management</li>
+                <li><strong>Transaction fees:</strong> Payment processing, foreign exchange, cashier's checks</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>Real Example: Bank of America (2023)</h4>
+                <p><strong>Service charges:</strong> $7.1 billion<br>
+                <strong>Card income:</strong> $9.3 billion<br>
+                <strong>Investment/brokerage fees:</strong> $4.8 billion<br>
+                <strong>Total non-interest income:</strong> $41.4 billion</p>
+                <p>Fee income represented 42% of total revenue. Importantly, fee income has minimal capital requirements and near-zero marginal cost—it's almost pure profit.</p>
+            </div>
+        </div>
+
+        <div class="revenue-card">
+            <h3>3. Investment Banking & Trading (Big Banks Only)</h3>
+            <p>Large banks make substantial money from investment banking activities and proprietary trading.</p>
+
+            <h4>Revenue Sources:</h4>
+            <ul>
+                <li><strong>Underwriting:</strong> Fees for helping companies issue stocks and bonds (typically 3-7% of issuance)</li>
+                <li><strong>M&A Advisory:</strong> Fees for advising on mergers and acquisitions (1-2% of deal value)</li>
+                <li><strong>Trading:</strong> Buying and selling securities, currencies, and derivatives for clients and for the bank's own account</li>
+                <li><strong>Sales & Trading:</strong> Market-making activities and commission on trades</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>Real Example: Goldman Sachs (2023)</h4>
+                <p><strong>Investment banking:</strong> $7.1 billion<br>
+                <strong>Trading revenue:</strong> $15.1 billion<br>
+                <strong>Asset management:</strong> $8.5 billion</p>
+                <p>For investment banks, these activities can generate 70-80% of revenue. The profit margins are higher, but so is the risk and volatility.</p>
+            </div>
+        </div>
+
+        <div class="revenue-card">
+            <h3>4. Asset Management & Wealth Services</h3>
+            <p>Managing other people's money generates steady, high-margin fees.</p>
+
+            <h4>Revenue Sources:</h4>
+            <ul>
+                <li><strong>Management fees:</strong> Percentage of assets under management (AUM)</li>
+                <li><strong>Performance fees:</strong> Share of investment profits</li>
+                <li><strong>Custody fees:</strong> Holding and administering securities</li>
+                <li><strong>Trust services:</strong> Estate planning and trust management</li>
+            </ul>
+
+            <p>This business is attractive because it's capital-light (doesn't require banks to lend their own money) and generates recurring revenue.</p>
+        </div>
+
+        <h2>The Cost Side: Where the Money Goes</h2>
+
+        <p>Understanding how banks make money is incomplete without understanding their costs. Revenue means nothing if expenses eat it all.</p>
+
+        <div class="cost-card">
+            <h3>Major Cost Categories</h3>
+
+            <h4>1. Provision for Credit Losses (10-20% of revenue)</h4>
+            <p>Not all loans get repaid. Banks must set aside money for expected losses. During recessions, these provisions spike dramatically.</p>
+            <ul>
+                <li>Credit cards: 2-4% default rate typically, 6-10% in recessions</li>
+                <li>Mortgages: 0.5-1% default rate typically, 3-5% in crisis (2008: 11%)</li>
+                <li>Auto loans: 1-2% default rate</li>
+            </ul>
+
+            <h4>2. Operating Expenses (50-60% of revenue)</h4>
+            <ul>
+                <li><strong>Employee compensation:</strong> Salaries, bonuses, benefits (largest single expense)</li>
+                <li><strong>Technology:</strong> IT infrastructure, cybersecurity, digital banking platforms</li>
+                <li><strong>Occupancy:</strong> Rent, utilities, branch operations</li>
+                <li><strong>Marketing:</strong> Customer acquisition and retention</li>
+            </ul>
+
+            <h4>3. Regulatory Compliance & Capital Requirements</h4>
+            <p>After 2008, regulations significantly increased costs:</p>
+            <ul>
+                <li><strong>Capital requirements:</strong> Banks must hold 10-13% of assets as capital (money they can't lend)</li>
+                <li><strong>Stress testing:</strong> Regular examinations costing millions annually</li>
+                <li><strong>Compliance staff:</strong> Armies of lawyers and compliance officers</li>
+                <li><strong>FDIC insurance:</strong> Insurance premiums on deposits</li>
+            </ul>
+        </div>
+
+        <h2>Putting It All Together: A Real Bank's P&L</h2>
+
+        <div class="example-box">
+            <h4>JPMorgan Chase 2023 Income Statement (Simplified)</h4>
+            <table class="breakdown-table">
+                <tr class="category">
+                    <td>Revenue</td>
+                    <td class="amount">$161.2 billion</td>
+                    <td class="percentage">100%</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Net Interest Income</td>
+                    <td class="amount">$57.6 billion</td>
+                    <td class="percentage">36%</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Non-Interest Income (Fees, Trading, etc.)</td>
+                    <td class="amount">$103.6 billion</td>
+                    <td class="percentage">64%</td>
+                </tr>
+                <tr class="category">
+                    <td>Expenses</td>
+                    <td class="amount">$112.1 billion</td>
+                    <td class="percentage">70%</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Credit Loss Provision</td>
+                    <td class="amount">$9.9 billion</td>
+                    <td class="percentage">6%</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Operating Expenses</td>
+                    <td class="amount">$102.2 billion</td>
+                    <td class="percentage">63%</td>
+                </tr>
+                <tr class="category">
+                    <td><strong>Net Income</strong></td>
+                    <td class="amount"><strong>$49.1 billion</strong></td>
+                    <td class="percentage"><strong>30%</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="key-insight">
+            <h4>The Surprising Truth</h4>
+            <p><strong>Most revenue (64%) comes from fees and other non-interest sources.</strong> The traditional "borrow low, lend high" model is actually the minority of the business for large banks. This is why banks push credit cards, wealth management, and transaction services so aggressively—the margins are better.</p>
+        </div>
+
+        <h2>Why Banks Are Actually Fragile</h2>
+
+        <p>Despite massive profits, banks operate on thin margins and high leverage. Here's why:</p>
+
+        <div class="key-insight">
+            <h4>The Leverage Problem</h4>
+            <p>Banks typically have $10-15 in assets for every $1 of capital. This 10-15x leverage amplifies both gains and losses. A 5% decline in asset value can wipe out 50-75% of capital. This is why small problems cascade into crises.</p>
+        </div>
+
+        <h3>Three Fundamental Risks</h3>
+
+        <ol>
+            <li>
+                <strong>Liquidity Risk:</strong> Banks borrow short (deposits can be withdrawn instantly) and lend long (30-year mortgages). If depositors panic and withdraw en masse, banks can fail even if solvent. This is what happened to Silicon Valley Bank (2023).
+            </li>
+            <li>
+                <strong>Credit Risk:</strong> If loans default faster than expected, banks lose money. During recessions, this can spiral quickly. If a bank is perceived as risky, it becomes risky (self-fulfilling prophecy).
+            </li>
+            <li>
+                <strong>Interest Rate Risk:</strong> When rates change rapidly, banks get squeezed. Their liabilities (deposits) reprice immediately, but assets (loans) are locked in at old rates.
+            </li>
+        </ol>
+
+        <h2>The Bottom Line</h2>
+
+        <div class="key-insight">
+            <h4>What You Should Remember</h4>
+            <ul>
+                <li><strong>Interest income is shrinking as a percentage of revenue</strong> for most banks—fees and services are the growth areas</li>
+                <li><strong>Net interest margins are thin</strong> (2-3.5%), meaning small changes in rates have huge impacts</li>
+                <li><strong>Banks make money on volume,</strong> not huge per-transaction profits—they need scale</li>
+                <li><strong>Operating leverage is enormous</strong>—small revenue changes create large profit swings</li>
+                <li><strong>Capital requirements limit growth</strong>—banks can't lend infinite money, they're constrained by regulations</li>
+                <li><strong>The business model is inherently fragile</strong>—borrowing short and lending long creates structural vulnerability</li>
+            </ul>
+        </div>
+
+        <p>Understanding how banks make money isn't just academic—it explains why they behave the way they do, why they're vulnerable to crises, and why they push certain products so hard. This foundation is essential for understanding broader financial systems, central banking, and economic policy.</p>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This article uses publicly available financial data from bank annual reports and SEC filings. Figures are approximate and for illustrative purposes. Banking regulations and practices vary by jurisdiction and change over time.
+        </div>
+
+        <div class="reference">
+            <strong>References:</strong><br>
+            <a href="https://www.jpmorganchase.com/ir/annual-report" target="_blank">JPMorgan Chase Annual Reports</a> | 
+            <a href="https://investor.bankofamerica.com/" target="_blank">Bank of America Investor Relations</a> |
+            <a href="https://www.goldmansachs.com/investor-relations/" target="_blank">Goldman Sachs Investor Relations</a> |
+            <a href="https://www.fdic.gov/analysis/quarterly-banking-profile/" target="_blank">FDIC Quarterly Banking Profile</a> |
+            <a href="https://www.federalreserve.gov/publications/financial-stability-report.htm" target="_blank">Federal Reserve Financial Stability Reports</a>
+        </div>
+
+        <footer>
+            <p><strong>Methodology:</strong> Financial data sourced from publicly available 10-K filings and annual reports from major U.S. banks for fiscal year 2023. All figures are in U.S. dollars.</p>
+            <p>Last updated: December 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

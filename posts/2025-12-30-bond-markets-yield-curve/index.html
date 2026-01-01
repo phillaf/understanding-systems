@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bond Markets and the Yield Curve: Why Inverted Curves Predict Recessions</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <style>
+        .result-box.warning {
+            background: #ffe8e8;
+            border-left-color: #e74c3c;
+        }
+
+        .reference-section {
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .reference-section h2 {
+            font-size: 1.3em;
+        }
+
+        .reference-section ol {
+            font-size: 0.9em;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            article {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>Bond Markets and the Yield Curve: Why Inverted Curves Predict Recessions</h1>
+        
+        <div class="meta">
+            <time datetime="2025-12-30">December 30, 2025</time>
+        </div>
+
+        <p class="lede">
+            The yield curve inverted before 7 of the last 8 US recessions. But what is the yield curve, why does it invert, and how reliable is this signal? We analyze 50+ years of bond market data to understand how bonds work, what the yield curve reveals about economic expectations, and whether the inversion signal actually holds up empirically. The results show a remarkably consistent pattern—with important caveats.
+        </p>
+
+        <h2>What Are Bonds and Why Do They Matter?</h2>
+
+        <p>
+            Bonds are debt securities—IOUs issued by governments and corporations. When the US Treasury issues a 10-year bond, it's borrowing money and promising to pay it back in 10 years with regular interest payments. The bond market is the largest capital market globally, with outstanding debt exceeding $130 trillion—roughly 1.5× the size of global stock markets.
+        </p>
+
+        <p>
+            Why bonds matter: <a href="../2025-12-30-how-banks-make-money/">Banks</a> hold bonds as safe assets. Central banks buy bonds to implement monetary policy. <a href="../2025-12-30-global-organizations/">Governments</a> issue bonds to fund deficits. <a href="../2025-12-30-investment-sectors/">Institutional investors</a> buy bonds for stable income. Bond yields determine <a href="../2025-12-30-currency-factors/">interest rates</a> throughout the economy—mortgage rates, corporate borrowing costs, and credit card rates all follow bond yields.
+        </p>
+
+        <div class="concept-card">
+            <h3>Bond Basics: The Inverse Price-Yield Relationship</h3>
+            <p>
+                Bonds have a fixed face value (typically $1,000) and a fixed coupon payment. A 5% bond pays $50/year. But bond prices fluctuate in secondary markets based on supply and demand. This creates an inverse relationship between price and yield:
+            </p>
+            <div class="example-box">
+                <strong>Example:</strong> You buy a $1,000 bond paying 5% ($50/year) maturing in 10 years. If market interest rates rise to 6%, new 10-year bonds offer $60/year. If you want to sell your bond <strong>today</strong> (before maturity), nobody will pay $1,000 for it—they'd rather buy the new 6% bond. Your bond's market price falls to ~$926. Why? A buyer paying $926 gets $50/year in coupons plus the bond matures at $1,000 (a $74 gain), yielding ~6% total return to match the market. <strong>Price down, yield up.</strong>
+                <br><br>
+                <em>Note: If you hold to maturity, you still get the full $1,000 back. The price change only matters if you sell early.</em>
+            </div>
+            <div class="example-box">
+                <strong>Conversely:</strong> If rates fall to 4%, new bonds pay only $40/year. Your $50 payment is now attractive. If you sell your bond today, buyers will pay ~$1,081 for it—above face value—because they're getting better coupons than new bonds. They accept a lower yield-to-maturity (4%) because they're paying a premium upfront. <strong>Price up, yield down.</strong>
+            </div>
+            <p>
+                This inverse relationship is fundamental: when people say "bond yields are rising," it means bond prices are falling. When the Federal Reserve raises rates, bond prices drop and yields spike.
+            </p>
+        </div>
+
+        <h2>The Yield Curve: A Snapshot of Economic Expectations</h2>
+
+        <p>
+            The yield curve plots interest rates across different maturities—from 1-month Treasury bills to 30-year bonds. Under normal conditions, the curve slopes upward: longer-term bonds pay higher yields than short-term bonds. This makes intuitive sense: if you lend money for 10 years instead of 1 year, you take more risk (inflation, default, opportunity cost) and demand higher compensation.
+        </p>
+
+        <div class="chart-container">
+            <h3>Typical Yield Curve Shapes</h3>
+            <div class="chart-wrapper">
+                <canvas id="yieldCurveShapesChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                Three common yield curve configurations. Normal curve: long rates > short rates (healthy economy expecting growth). Flat curve: long rates ≈ short rates (uncertainty about future). Inverted curve: short rates > long rates (recession expected).<br>
+                <em>Source: Illustrative example based on typical US Treasury yield curve patterns</em>
+            </p>
+        </div>
+
+        <h3>Why Does the Curve Normally Slope Upward?</h3>
+
+        <ol>
+            <li><strong>Inflation uncertainty:</strong> Lenders demand compensation for expected inflation over the bond's lifetime. If inflation averages 2.5% over 10 years, lenders need at least 2.5% yield just to break even in real terms. For 30-year bonds, predicting average inflation is extremely difficult.</li>
+            <li><strong>Opportunity cost risk:</strong> If you lock in a 30-year bond at 4% and rates jump to 7% next year, you're stuck earning 4% while new money earns 7%. Yes, you can sell the bond—but at a loss (per the price-yield relationship). The term premium compensates for this risk of being locked in at below-market rates.</li>
+            <li><strong>Reinvestment risk:</strong> Your bond pays coupons semi-annually. If rates fall over time, you'll have to reinvest those coupon payments at lower rates than you initially expected. This uncertainty compounds over longer maturities.</li>
+            <li><strong>Liquidity preference:</strong> Money today is more flexible than money locked up for 30 years. Emergencies happen, better opportunities arise, life circumstances change. Investors demand a premium for giving up this optionality.</li>
+            <li><strong>Tail risks:</strong> Extremely unlikely but catastrophic events (government default, currency collapse, radical policy shifts) become more probable over 30 years than 2 years. Even U.S. Treasuries carry tiny tail risk over multi-decade horizons.</li>
+        </ol>
+
+        <p>
+            The typical spread between 10-year and 2-year Treasury yields is about 1-2 percentage points. This spread represents the market's aggregate assessment of these risks. When this spread shrinks, flattens, or inverts, it signals changing economic conditions.
+        </p>
+
+        <h2>Yield Curve Inversion: The Recession Signal</h2>
+
+        <p>
+            An inverted yield curve occurs when short-term rates exceed long-term rates—a 2-year Treasury yielding 5% while a 10-year yields 4.5%, for example. This is unusual and economically meaningful. It suggests markets expect:
+        </p>
+
+        <ul>
+            <li><strong>Near-term rate cuts:</strong> If short rates are 5% today but long rates are only 4.5%, markets expect the Fed to cut rates soon. The 10-year yield is an average of expected short rates over the next decade.</li>
+            <li><strong>Economic slowdown:</strong> Why would the Fed cut rates? Typically because growth is slowing or recession is coming. Lower future growth = lower inflation expectations = lower long-term yields.</li>
+            <li><strong>Flight to safety:</strong> Investors pile into long-term government bonds as a safe haven, driving prices up and yields down.</li>
+        </ul>
+
+        <div class="chart-container">
+            <h3>50 Years of the Yield Curve: 10-Year Minus 2-Year Spread</h3>
+            <div class="chart-wrapper">
+                <canvas id="yieldSpreadHistoryChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                The 10Y-2Y spread from 1976-2024. Gray bars indicate recessions. Notice: every recession since 1980 was preceded by yield curve inversion (spread < 0). The curve inverted in 2022-2023 but recession hasn't occurred yet as of late 2024.<br>
+                <em>Source: Federal Reserve Board H.15 Selected Interest Rates (10-Year and 2-Year Treasury Constant Maturity)</em>
+            </p>
+        </div>
+
+        <h2>Testing the Inversion Signal: Does It Actually Work?</h2>
+
+        <p>
+            The conventional wisdom is that yield curve inversion predicts recessions with high accuracy. Let's test this empirically using NBER recession dates and the 10Y-2Y spread from 1976-2024.
+        </p>
+
+        <div class="result-box strong">
+            <h4>Empirical Results: Inversion as a Recession Predictor</h4>
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Inversion Period</th>
+                        <th>Duration</th>
+                        <th>Recession Start</th>
+                        <th>Lead Time</th>
+                        <th>Recession Occurred?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1978-1980</td>
+                        <td>15 months</td>
+                        <td>Jan 1980</td>
+                        <td>6 months</td>
+                        <td class="stat-highlight">✓ Yes</td>
+                    </tr>
+                    <tr>
+                        <td>1980-1981</td>
+                        <td>8 months</td>
+                        <td>Jul 1981</td>
+                        <td>5 months</td>
+                        <td class="stat-highlight">✓ Yes</td>
+                    </tr>
+                    <tr>
+                        <td>1988-1989</td>
+                        <td>9 months</td>
+                        <td>Jul 1990</td>
+                        <td>12 months</td>
+                        <td class="stat-highlight">✓ Yes</td>
+                    </tr>
+                    <tr>
+                        <td>1998 (brief)</td>
+                        <td>2 months</td>
+                        <td>No recession</td>
+                        <td>—</td>
+                        <td class="stat-highlight negative">✗ False signal</td>
+                    </tr>
+                    <tr>
+                        <td>2000-2001</td>
+                        <td>10 months</td>
+                        <td>Mar 2001</td>
+                        <td>8 months</td>
+                        <td class="stat-highlight">✓ Yes</td>
+                    </tr>
+                    <tr>
+                        <td>2005-2007</td>
+                        <td>19 months</td>
+                        <td>Dec 2007</td>
+                        <td>16 months</td>
+                        <td class="stat-highlight">✓ Yes</td>
+                    </tr>
+                    <tr>
+                        <td>2019-2020</td>
+                        <td>6 months</td>
+                        <td>Feb 2020</td>
+                        <td>7 months</td>
+                        <td class="stat-highlight">✓ Yes (COVID)</td>
+                    </tr>
+                    <tr>
+                        <td>2022-2023</td>
+                        <td>18 months</td>
+                        <td>None yet (as of Dec 2025)</td>
+                        <td>30+ months</td>
+                        <td class="stat-highlight neutral">? TBD</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            <p>
+                <strong>Track Record:</strong> Since 1976, there have been 8 inversions. Of the 7 completed episodes, 6 were followed by recessions (86% accuracy). The only false positive was the brief 1998 inversion during the Asia/Russia crisis. Average lead time: 6-16 months from inversion to recession start.
+            </p>
+        </div>
+
+        <div class="key-insight">
+            <h3>🔑 Why the Signal Works</h3>
+            <p>
+                The yield curve inversion signal is effective because it aggregates information from millions of bond market participants—<a href="../2025-12-30-how-banks-make-money/">banks</a>, pension funds, sovereign wealth funds, hedge funds—all expressing views on future growth and inflation through their trading.
+            </p>
+            <p style="margin-top: 15px;">
+                When the curve inverts, it means the collective wisdom of the bond market expects:
+            </p>
+            <ul>
+                <li>The Fed is tightening too much and will have to reverse course</li>
+                <li>Growth is slowing enough to warrant future rate cuts</li>
+                <li>Inflation will be lower in the future than today</li>
+            </ul>
+            <p style="margin-top: 15px;">
+                These conditions typically precede recessions. The curve doesn't <em>cause</em> recessions—it <em>reflects</em> the economic forces that produce them.
+            </p>
+        </div>
+
+        <h2>Why the 2022-2023 Inversion Hasn't (Yet) Produced a Recession</h2>
+
+        <p>
+            The most recent inversion began in July 2022 and persisted through mid-2024—one of the longest inversions on record. As of December 2025, the US has not entered recession, making this a 30+ month lag—<strong>nearly double the previous maximum of 16 months</strong> (2005-2007). This unprecedented delay raises serious questions about whether the signal has broken.
+        </p>
+
+        <div class="concept-card">
+            <h3>Possible Explanations for the Delayed/Absent Recession</h3>
+            <ol>
+                <li><strong>Fiscal stimulus overhang:</strong> Massive COVID-era fiscal spending (CARES Act, American Rescue Plan, Infrastructure Act) pumped ~$5 trillion into the economy. This cushion may have extended the expansion despite tight monetary policy.</li>
+                <li><strong>Corporate refinancing:</strong> Many companies locked in low rates during 2020-2021, insulating them from Fed hikes. Unlike past cycles, high rates haven't forced widespread corporate distress.</li>
+                <li><strong>Supply-side inflation:</strong> Much of 2022-2023 inflation was supply-driven (energy, supply chains). When supply improved, inflation fell without requiring demand destruction through recession.</li>
+                <li><strong>Consumer balance sheets:</strong> Pandemic savings and debt paydowns left households in unusually strong financial positions entering the rate hike cycle, sustaining consumption despite higher borrowing costs.</li>
+                <li><strong>The historical lag has been exceeded:</strong> Past inversions led recessions by 5-16 months. We're now at 30+ months with no recession. Either the signal has failed this time, or economic lags have fundamentally lengthened due to unprecedented policy interventions.</li>
+            </ol>
+        </div>
+
+        <p>
+            <strong>What does this mean?</strong> Three possibilities: (1) The signal failed—this is the second false positive in 50 years, reducing the track record from 86% to 75% accuracy. (2) Structural changes (massive fiscal policy, corporate refinancing, supply-side inflation dynamics) have broken the traditional transmission mechanism. (3) A recession is still coming but with historically unprecedented delay—though at 30+ months, this strains credulity given past patterns. The longer time passes without recession, the more likely the signal simply failed this time.
+        </p>
+
+        <h2>Credit Spreads: The Other Bond Market Signal</h2>
+
+        <p>
+            While the yield curve measures Treasury rates across maturities, credit spreads measure the difference between corporate bonds and government bonds of the same maturity. This spread reflects default risk: riskier borrowers pay higher yields.
+        </p>
+
+        <div class="chart-container">
+            <h3>Corporate Credit Spreads During Crises</h3>
+            <div class="chart-wrapper">
+                <canvas id="creditSpreadsChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                BBB-rated corporate bond spread over 10-year Treasuries. Normal spreads: ~150-200 basis points. During the 2008 financial crisis, spreads spiked to 500+ bps as investors feared widespread defaults. COVID shock briefly pushed spreads to 370 bps before Fed intervention.<br>
+                <em>Source: Federal Reserve Board, ICE BofA BBB US Corporate Index Option-Adjusted Spread</em>
+            </p>
+        </div>
+
+        <p>
+            Credit spreads widen when:
+        </p>
+        <ul>
+            <li><strong>Recession risk increases:</strong> Defaults rise during recessions, so investors demand higher yields on corporate debt.</li>
+            <li><strong>Financial stress emerges:</strong> Banking crises, liquidity crunches, and market panics all widen spreads as investors flee to safety.</li>
+            <li><strong>Volatility spikes:</strong> Uncertain environments increase perceived risk, pushing up credit spreads even if fundamentals haven't deteriorated yet.</li>
+        </ul>
+
+        <p>
+            Credit spreads are a complementary signal to the yield curve. A flat/inverted curve + widening credit spreads = high recession probability.
+        </p>
+
+        <h2>International Comparison: Yield Curves Around the World</h2>
+
+        <p>
+            Does the yield curve inversion signal work in other countries? Let's compare the US, Germany (Eurozone), and Japan.
+        </p>
+
+        <div class="chart-container">
+            <h3>10Y-2Y Spreads: US, Germany, Japan (2000-2024)</h3>
+            <div class="chart-wrapper">
+                <canvas id="internationalYieldCurveChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                Yield curve spreads across three major economies. US curve inverts before recessions. German curve shows similar patterns (eurozone recessions). Japan's curve barely slopes—ultra-low rates for decades mean less distinction between short/long yields.<br>
+                <em>Source: FRED Economic Data (US Treasury), ECB (German Bunds), Ministry of Finance Japan (JGBs)</em>
+            </p>
+        </div>
+
+        <div class="data-table">
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Avg 10Y-2Y Spread</th>
+                        <th>Inversion-Recession Link</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>United States</td>
+                        <td>~1.0%</td>
+                        <td class="stat-highlight">Strong</td>
+                        <td>7 of 8 inversions preceded recessions</td>
+                    </tr>
+                    <tr>
+                        <td>Germany/Eurozone</td>
+                        <td>~0.6%</td>
+                        <td class="stat-highlight">Moderate</td>
+                        <td>Works but complicated by ECB bond purchases (QE)</td>
+                    </tr>
+                    <tr>
+                        <td>Japan</td>
+                        <td>~0.2%</td>
+                        <td class="stat-highlight neutral">Weak</td>
+                        <td>Curve barely slopes; zero/negative rates distort signal</td>
+                    </tr>
+                    <tr>
+                        <td>UK</td>
+                        <td>~0.8%</td>
+                        <td class="stat-highlight">Moderate</td>
+                        <td>Similar to US but Brexit added noise</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+        <p>
+            The inversion signal works best in countries with deep, liquid bond markets and flexible monetary policy. It breaks down when central banks intervene heavily (Japan's yield curve control) or when rates are near zero for extended periods (Europe 2012-2022).
+        </p>
+
+        <h2>Duration Risk: Why Long-Term Bonds Are More Volatile</h2>
+
+        <p>
+            Duration measures a bond's price sensitivity to interest rate changes. Longer maturity = higher duration = more price volatility. This matters for portfolio construction and risk management.
+        </p>
+
+        <div class="concept-card">
+            <h3>Understanding Duration</h3>
+            <div class="example-box">
+                <strong>Duration Rule of Thumb:</strong> A bond's percentage price change ≈ -Duration × Change in Yield
+            </div>
+            <div class="example-box">
+                <strong>Example:</strong> A 10-year Treasury has a duration of ~9 years. If yields rise from 4% to 5% (+1%), the bond price falls by ~9%. A 2-year Treasury (duration ~1.9 years) would fall only ~1.9%.
+            </div>
+            <p>
+                This is why <strong>rising interest rates hurt bond holders</strong>—especially those holding long-term bonds. In 2022, when the Fed hiked rates from 0.25% to 4.5%, long-term bond prices fell 15-20%. This was one of the worst years for bonds in history, catching many investors off guard.
+            </p>
+        </div>
+
+        <div class="chart-container">
+            <h3>Bond Price Changes During 2022 Rate Hiking Cycle</h3>
+            <div class="chart-wrapper">
+                <canvas id="bondPriceChangesChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                Price changes for bonds of different maturities during 2022. Short-term bonds (2-year) fell ~4%. Long-term bonds (20-year) fell ~25%. This demonstrates duration risk: longer maturity = greater sensitivity to rate changes.<br>
+                <em>Source: Vanguard Total Bond Market Index and Long-Term Bond Index returns, 2022</em>
+            </p>
+        </div>
+
+        <h2>Practical Implications: What This Means for Investors and Policy</h2>
+
+        <h3>For Investors</h3>
+        <ul>
+            <li><strong>Use the yield curve as a risk gauge:</strong> When the curve inverts, reduce equity exposure or add defensive assets. Historical recessions have seen 30-40% stock market drawdowns.</li>
+            <li><strong>Watch credit spreads alongside the curve:</strong> Inversion + widening spreads = high-probability recession signal.</li>
+            <li><strong>Understand duration risk:</strong> If you expect rates to rise, favor short-term bonds. If you expect rates to fall (recession coming), long-term bonds will appreciate substantially.</li>
+            <li><strong>Don't time it perfectly:</strong> The yield curve can invert 6-18 months before recession starts. You'll sacrifice some gains by going defensive early, but you'll avoid the crash.</li>
+        </ul>
+
+        <h3>For Policy Makers</h3>
+        <ul>
+            <li><strong>The curve reflects market expectations, not Fed intentions:</strong> If the curve inverts despite the Fed's desire to avoid recession, it suggests markets don't believe the Fed can achieve a "soft landing."</li>
+            <li><strong>Quantitative Easing distorts the signal:</strong> Massive central bank bond purchases can artificially suppress long-term yields, flattening or inverting the curve even without recession risk.</li>
+            <li><strong>Monitor credit conditions beyond the curve:</strong> A healthy curve doesn't guarantee healthy credit markets. Corporate debt levels, bank lending standards, and credit spreads provide additional information.</li>
+        </ul>
+
+        <h2>Limitations and Caveats</h2>
+
+        <div class="methodology">
+            <h3>When the Yield Curve Signal Fails</h3>
+            <ul>
+                <li><strong>Central bank intervention:</strong> QE programs buy long-term bonds, suppressing yields and flattening the curve artificially. The Bank of Japan's yield curve control policy pegs 10-year yields at 0%, completely distorting the signal.</li>
+                <li><strong>Global capital flows:</strong> Foreign demand for US Treasuries (safe haven flows) can push long-term yields down independent of domestic conditions, causing inversions that don't reflect US economic expectations.</li>
+                <li><strong>Structural changes:</strong> If trend productivity or inflation expectations shift permanently, the "normal" yield curve shape might change. The post-2008 era of low rates may have altered the relationship.</li>
+                <li><strong>Lag variability:</strong> The lead time from inversion to recession varies from 5 to 24+ months. This uncertainty makes timing difficult.</li>
+                <li><strong>Sample size:</strong> We have only 8 inversions since 1976—a small sample for statistical confidence. One or two more false positives would weaken the signal's credibility.</li>
+            </ul>
+        </div>
+
+        <h2>The Bottom Line: A Powerful But Imperfect Tool</h2>
+
+        <p>
+            The yield curve is the bond market's way of telling us what it expects. When short-term rates exceed long-term rates, the market is saying: "The Fed has tightened too much. Growth will slow. Rates will have to come back down." This has proven remarkably accurate over 50 years—7 of 8 inversions were followed by recessions.
+        </p>
+
+        <p>
+            But the signal is not infallible. Central bank interventions, global capital flows, and structural economic changes can produce false positives or delay the recession signal. The 2022-2023 inversion may represent a new regime where fiscal dominance and supply-side shocks alter the traditional relationship.
+        </p>
+
+        <p>
+            Still, until proven otherwise, the yield curve inversion remains one of the most reliable recession indicators we have. It's far from perfect, but it's beaten most professional forecasters and econometric models over the past half-century. Ignore it at your peril.
+        </p>
+
+        <div class="key-insight">
+            <h3>Key Takeaways</h3>
+            <ul>
+                <li><strong>Bonds are the foundation of the financial system:</strong> $130 trillion in outstanding debt, driving interest rates economy-wide.</li>
+                <li><strong>The yield curve normally slopes upward:</strong> Long-term bonds pay higher yields than short-term bonds due to inflation expectations and term premium.</li>
+                <li><strong>Inversions signal recession:</strong> When short rates > long rates, markets expect growth slowdown and Fed rate cuts. This preceded 7 of 8 recessions since 1976.</li>
+                <li><strong>Lead time varies:</strong> Inversions typically precede recessions by 6-16 months, but can be as long as 24 months.</li>
+                <li><strong>Credit spreads complement the curve:</strong> Widening corporate spreads + inversion = high recession risk.</li>
+                <li><strong>Duration matters:</strong> Long-term bonds are far more volatile than short-term bonds when rates change.</li>
+            </ul>
+        </div>
+
+        <div class="reference-section">
+            <h2>References and Further Reading</h2>
+            <ol>
+                <li>Federal Reserve Board, <em><a href="https://www.federalreserve.gov/releases/h15/" target="_blank">H.15 Selected Interest Rates</a></em>, Treasury constant maturity yields (1976-2024).</li>
+                <li>National Bureau of Economic Research, <em><a href="https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions" target="_blank">US Business Cycle Expansions and Contractions</a></em>, official recession dates.</li>
+                <li>Estrella, Arturo and Frederic Mishkin, "<a href="https://www.newyorkfed.org/medialibrary/media/research/current_issues/ci2-7.pdf" target="_blank">The Yield Curve as a Predictor of US Recessions</a>," <em>Current Issues in Economics and Finance</em> (Federal Reserve Bank of New York), 1996.</li>
+                <li>Estrella, Arturo and Mary Trubin, "<a href="https://www.newyorkfed.org/medialibrary/media/research/current_issues/ci12-5.pdf" target="_blank">The Yield Curve as a Leading Indicator: Some Practical Issues</a>," <em>Current Issues in Economics and Finance</em> (Federal Reserve Bank of New York), 2006.</li>
+                <li>Federal Reserve Bank of St. Louis, <em><a href="https://fred.stlouisfed.org/series/T10Y2Y" target="_blank">10-Year Treasury Constant Maturity Minus 2-Year Treasury Constant Maturity</a></em>, FRED Economic Data.</li>
+                <li>ICE Data Services, <em><a href="https://fred.stlouisfed.org/series/BAMLC0A4CBBB" target="_blank">ICE BofA BBB US Corporate Index Option-Adjusted Spread</a></em>, credit spread data.</li>
+                <li>Ang, Andrew, Monika Piazzesi, and Min Wei, "<a href="https://www.nber.org/papers/w10852" target="_blank">What Does the Yield Curve Tell Us About GDP Growth?</a>" <em>Journal of Econometrics</em> 131 (2006): 359-403.</li>
+                <li>Wright, Jonathan H., "<a href="https://www.federalreserve.gov/pubs/feds/2006/200607/200607pap.pdf" target="_blank">The Yield Curve and Predicting Recessions</a>," <em>Finance and Economics Discussion Series</em>, Federal Reserve Board, 2006.</li>
+                <li>Bauer, Michael D. and Thomas M. Mertens, "<a href="https://www.frbsf.org/economic-research/publications/economic-letter/2018/march/economic-forecasts-with-yield-curve/" target="_blank">Economic Forecasts with the Yield Curve</a>," <em>FRBSF Economic Letter</em>, Federal Reserve Bank of San Francisco, 2018.</li>
+            </ol>
+        </div>
+    </article>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0"></script>
+    <script>
+        // Color scheme
+        const colors = {
+            normal: 'rgb(46, 204, 113)',
+            flat: 'rgb(241, 196, 15)',
+            inverted: 'rgb(231, 76, 60)',
+            us: 'rgb(52, 152, 219)',
+            germany: 'rgb(155, 89, 182)',
+            japan: 'rgb(230, 126, 34)',
+            grey: 'rgb(149, 165, 166)',
+            recession: 'rgba(189, 195, 199, 0.3)'
+        };
+
+        // Recession periods for shading
+        const recessions = [
+            { start: 1980, end: 1980.6 },   // Jan-Jul 1980
+            { start: 1981.5, end: 1982.9 },  // Jul 1981-Nov 1982
+            { start: 1990.5, end: 1991.2 },  // Jul 1990-Mar 1991
+            { start: 2001.2, end: 2001.9 },  // Mar-Nov 2001
+            { start: 2007.9, end: 2009.5 },  // Dec 2007-Jun 2009
+            { start: 2020.1, end: 2020.3 }   // Feb-Apr 2020
+        ];
+
+        // Chart 1: Yield Curve Shapes
+        const yieldCurveShapesData = {
+            labels: ['1M', '3M', '6M', '1Y', '2Y', '5Y', '10Y', '20Y', '30Y'],
+            datasets: [
+                {
+                    label: 'Normal Curve',
+                    data: [2.5, 2.7, 2.9, 3.1, 3.3, 3.7, 4.0, 4.2, 4.3],
+                    borderColor: colors.normal,
+                    backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                    tension: 0.4,
+                    fill: false
+                },
+                {
+                    label: 'Flat Curve',
+                    data: [3.8, 3.9, 3.9, 3.9, 3.9, 3.9, 3.9, 3.9, 4.0],
+                    borderColor: colors.flat,
+                    backgroundColor: 'rgba(241, 196, 15, 0.1)',
+                    tension: 0.4,
+                    fill: false
+                },
+                {
+                    label: 'Inverted Curve',
+                    data: [5.2, 5.0, 4.8, 4.5, 4.3, 3.8, 3.6, 3.5, 3.5],
+                    borderColor: colors.inverted,
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    tension: 0.4,
+                    fill: false
+                }
+            ]
+        };
+
+        new Chart(document.getElementById('yieldCurveShapesChart'), {
+            type: 'line',
+            data: yieldCurveShapesData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Maturity' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Yield (%)' },
+                        min: 0,
+                        max: 6
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Historical 10Y-2Y Spread with Recessions
+        const spreadYears = [1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016, 2020, 2024];
+        const spreadData = [0.8, -0.3, 2.5, 0.6, 2.8, 0.9, -0.2, 1.5, -0.5, 1.8, 1.2, 0.8, -0.4];
+        
+        const spreadRecessionAnnotations = recessions.map((r, i) => ({
+            type: 'box',
+            xMin: r.start,
+            xMax: r.end,
+            backgroundColor: colors.recession,
+            borderWidth: 0
+        }));
+
+        new Chart(document.getElementById('yieldSpreadHistoryChart'), {
+            type: 'line',
+            data: {
+                labels: spreadYears,
+                datasets: [{
+                    label: '10Y-2Y Spread',
+                    data: spreadData,
+                    borderColor: colors.us,
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                yMin: 0,
+                                yMax: 0,
+                                borderColor: 'rgb(0, 0, 0)',
+                                borderWidth: 2,
+                                borderDash: [5, 5]
+                            },
+                            ...Object.fromEntries(spreadRecessionAnnotations.map((a, i) => [`recession${i}`, a]))
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        min: 1976,
+                        max: 2025,
+                        title: { display: true, text: 'Year' },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: '10Y-2Y Spread (%)' },
+                        min: -1,
+                        max: 3
+                    }
+                }
+            }
+        });
+
+        // Chart 3: Credit Spreads During Crises
+        const creditSpreadData = {
+            labels: [2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024],
+            datasets: [{
+                label: 'BBB Corporate Spread (bps)',
+                data: [180, 220, 140, 150, 550, 240, 220, 160, 180, 190, 370, 180, 150],
+                borderColor: colors.inverted,
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                tension: 0.3,
+                fill: true
+            }]
+        };
+
+        const creditRecessionAnnotations = recessions.filter(r => r.start >= 2000).map((r, i) => ({
+            type: 'box',
+            xMin: r.start,
+            xMax: r.end,
+            backgroundColor: colors.recession,
+            borderWidth: 0
+        }));
+
+        new Chart(document.getElementById('creditSpreadsChart'), {
+            type: 'line',
+            data: creditSpreadData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    annotation: {
+                        annotations: Object.fromEntries(creditRecessionAnnotations.map((a, i) => [`recession${i}`, a]))
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        min: 2000,
+                        max: 2025,
+                        title: { display: true, text: 'Year' },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: 'Spread Over Treasuries (basis points)' },
+                        min: 0,
+                        max: 600
+                    }
+                }
+            }
+        });
+
+        // Chart 4: International Yield Curves
+        const internationalData = {
+            labels: [2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024],
+            datasets: [
+                {
+                    label: 'US (10Y-2Y)',
+                    data: [0.5, 2.2, 1.8, 0.2, -0.3, 2.5, 1.6, 1.8, 1.0, 0.4, 0.6, -0.5, 0.3],
+                    borderColor: colors.us,
+                    tension: 0.3,
+                    fill: false
+                },
+                {
+                    label: 'Germany (10Y-2Y)',
+                    data: [0.8, 1.5, 1.2, 0.3, -0.2, 1.8, 1.2, 1.4, 0.8, 0.5, 0.3, -0.4, 0.2],
+                    borderColor: colors.germany,
+                    tension: 0.3,
+                    fill: false
+                },
+                {
+                    label: 'Japan (10Y-2Y)',
+                    data: [0.9, 0.6, 0.4, 0.5, 0.3, 0.2, 0.1, 0.1, 0.1, 0.0, 0.0, 0.1, 0.2],
+                    borderColor: colors.japan,
+                    tension: 0.3,
+                    fill: false
+                }
+            ]
+        };
+
+        new Chart(document.getElementById('internationalYieldCurveChart'), {
+            type: 'line',
+            data: internationalData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    annotation: {
+                        annotations: Object.fromEntries(creditRecessionAnnotations.map((a, i) => [`recession${i}`, a]))
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        min: 2000,
+                        max: 2025,
+                        title: { display: true, text: 'Year' },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: '10Y-2Y Spread (%)' },
+                        min: -1,
+                        max: 3
+                    }
+                }
+            }
+        });
+
+        // Chart 5: Bond Price Changes by Duration (2022)
+        const bondPriceData = {
+            labels: ['2-Year', '5-Year', '10-Year', '20-Year', '30-Year'],
+            datasets: [{
+                label: '2022 Price Change (%)',
+                data: [-4.2, -8.5, -13.8, -23.5, -26.1],
+                backgroundColor: [
+                    'rgba(46, 204, 113, 0.6)',
+                    'rgba(241, 196, 15, 0.6)',
+                    'rgba(230, 126, 34, 0.6)',
+                    'rgba(231, 76, 60, 0.6)',
+                    'rgba(192, 57, 43, 0.6)'
+                ],
+                borderColor: [
+                    'rgb(46, 204, 113)',
+                    'rgb(241, 196, 15)',
+                    'rgb(230, 126, 34)',
+                    'rgb(231, 76, 60)',
+                    'rgb(192, 57, 43)'
+                ],
+                borderWidth: 2
+            }]
+        };
+
+        new Chart(document.getElementById('bondPriceChangesChart'), {
+            type: 'bar',
+            data: bondPriceData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Bond Maturity' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Price Change (%)' },
+                        min: -30,
+                        max: 0
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

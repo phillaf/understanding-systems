@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hidden Pattern in 75 Years of Unemployment Data</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <style>
+        article {
+    <style>
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        .insight-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+        .callout {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        strong {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>The Hidden Pattern in 75 Years of Unemployment Data</h1>
+        
+        <div class="meta">
+            <time datetime="2025-12-20">December 20, 2025</time>
+        </div>
+        
+        <p><em>An exploration of Kurt Lunsford's 2021 Cleveland Fed research: why "normal" unemployment keeps changing, and what recession timing tells us about where it's headed.</em></p>
+
+    <h2>The Shifting Target</h2>
+
+    <p>Quick question: Is 6% unemployment good or bad?</p>
+
+    <p>The answer? It depends on when you're asking. In 1982, 6% unemployment would've been cause for celebration—a sign the economy was finally recovering from double-digit joblessness. In 2019, 6% would've triggered alarm bells—nearly double the record low of 3.5%.</p>
+
+    <p>This is the fundamental problem with the unemployment rate: <strong>the "normal" level keeps changing</strong>. In the 1960s, 4% was normal. In the 1980s, 7% was normal. Today, 4% is normal again. What's going on?</p>
+
+    <div class="chart-container">
+        <canvas id="unemploymentTrendChart"></canvas>
+    </div>
+
+    <p>Most explanations focus on demographics (Baby Boomers, women entering the workforce, aging population) or policy changes (unemployment insurance, minimum wage laws). These matter, but there's a simpler, more mechanical explanation that often gets overlooked:</p>
+
+    <p><strong>The frequency of recessions changes what counts as "normal" unemployment.</strong></p>
+
+    <h2>The Cleveland Fed Insight</h2>
+
+    <p>In 2021, economist Kurt Lunsford at the Federal Reserve Bank of Cleveland published a paper with a deceptively simple observation: unemployment behaves asymmetrically over the business cycle.</p>
+
+    <p>Here's what that means:</p>
+    <ul>
+        <li><strong>In recessions:</strong> Unemployment rises quickly (companies lay off workers in waves)</li>
+        <li><strong>In expansions:</strong> Unemployment falls slowly (companies hire cautiously, one position at a time)</li>
+    </ul>
+
+    <p>This asymmetry has a critical implication: <strong>if a recession cuts an expansion short, unemployment might not fall back to its previous low before the next recession hits</strong>. Think of it like a ratchet—unemployment shoots up during downturns but only gradually clicks back down during recoveries.</p>
+
+    <div class="insight-box">
+        <strong>The pattern emerges:</strong>
+        <ul style="margin-top: 0.5em;">
+            <li><strong>Frequent recessions → upward drift in unemployment.</strong> The 1950s had recessions in 1949, 1953, 1957, and 1960—barely enough time between them for unemployment to recover. Result: unemployment trended upward.</li>
+            <li><strong>Infrequent recessions → downward drift in unemployment.</strong> After 1983, recessions became rare (1990, 2001, 2008, 2020) with long expansions in between. Result: unemployment hit lower lows each cycle.</li>
+        </ul>
+    </div>
+
+    <h2>The Methodology: Detrended Cumulative Recession Months</h2>
+
+    <p>To visualize this pattern, Lunsford created a clever metric:</p>
+
+    <ol>
+        <li><strong>Count cumulative recession months</strong> since 1948 (using NBER recession dates)</li>
+        <li><strong>Fit a linear trend</strong> to this cumulative sum (showing the average pace of recession accumulation)</li>
+        <li><strong>Remove the trend</strong> to reveal when recessions have accumulated faster or slower than average</li>
+    </ol>
+
+    <p>The result is a "detrended cumulative sum of recession months" that rises during each recession (by definition) but falls during expansions (if the expansion is longer than average). This creates a oscillating pattern that tracks unemployment remarkably well.</p>
+
+    <div class="chart-container">
+        <canvas id="detrendedRecessionChart"></canvas>
+    </div>
+
+    <div class="callout">
+        <strong>How to read this chart:</strong> When the line is rising, recessions are accumulating faster than the historical average (frequent recessions). When falling, recessions are accumulating slower than average (long expansions). The chart shows that 1948-1960 and 1970-1982 had rapid recession accumulation, while the 1960s, 1983-2000, and 2010s had slow accumulation.
+    </div>
+
+    <h2>The Correlation: 0.7 Over 70 Years</h2>
+
+    <p>Here's where it gets interesting. When you overlay the detrended cumulative recession months with the actual unemployment rate, they move together with a correlation of about 0.7—even including the April 2020 COVID spike.</p>
+
+    <div class="chart-container">
+        <canvas id="overlayChart"></canvas>
+    </div>
+
+    <p><strong>Lunsford's finding:</strong> The unemployment rate tracks recession frequency with stunning consistency across seven decades. When recessions pile up (1950s, 1970s), unemployment drifts upward. When expansions lengthen (1960s, 1990s, 2010s), unemployment drifts downward.</p>
+
+    <div class="insight-box">
+        <strong>Why this matters:</strong> This isn't just a statistical curiosity. It means the unemployment rate's "trend" is not separate from the business cycle—it IS the business cycle's long-run accumulation pattern. Standard detrending methods (like the Hodrick-Prescott filter) try to separate "trend" from "cycle," but unemployment's trend is fundamentally cyclical in nature.
+    </div>
+
+    <h2>Forecasting the "Natural Rate"</h2>
+
+    <p>If recession frequency drives the unemployment trend, we can flip the question: <strong>Where would unemployment go if recessions stopped happening?</strong></p>
+
+    <p>Lunsford uses a Vector Autoregression (VAR) model with two variables: the unemployment rate and a recession indicator (0 in expansions, 1 in recessions). He then produces 20-year forecasts under the assumption of no future recessions.</p>
+
+    <p>The result, regardless of starting point (1982 recession, 2009 recession, or 2020 pre-COVID): unemployment converges to about <strong>3.6%</strong> after 20 years without a recession.</p>
+
+    <div class="chart-container">
+        <canvas id="forecastChart"></canvas>
+    </div>
+
+    <p><strong>Lunsford's interpretation:</strong> If the US could sustain indefinitely long expansions (no recessions for 20+ years), the unemployment rate would settle around 3.6%. This represents a kind of "friction-only" unemployment—people between jobs, structural mismatches, new entrants to the labor force—without any cyclical component.</p>
+
+    <div class="callout">
+        <strong>Reality check:</strong> The unconditional forecast (allowing for future recessions at historical frequency) predicts 5.7% unemployment—more than 2 percentage points higher. The mere expectation of future recessions changes where we think unemployment should be.
+    </div>
+
+    <h2>Why This Beats Demographics-Only Explanations</h2>
+
+    <p>The traditional story is that demographic shifts explain unemployment trends:</p>
+    <ul>
+        <li><strong>1960s-1970s:</strong> Baby Boomers and women entering the workforce → higher unemployment as they searched for jobs</li>
+        <li><strong>1980s-2000s:</strong> Workforce matured, labor force participation stabilized → lower unemployment</li>
+        <li><strong>2010s-2020s:</strong> Aging population, fewer young workers → lower unemployment</li>
+    </ul>
+
+    <p>These factors certainly matter, but they don't explain why unemployment spiked in the early 1980s (when demographics were supposedly favorable) or fell to record lows in 2019 (when aging should've been neutral).</p>
+
+    <p>The recession-frequency explanation is simpler: <strong>The Great Moderation</strong> (post-1983 reduction in economic volatility) meant fewer, less frequent recessions. Longer expansions allowed unemployment to fall further each cycle. That's it.</p>
+
+    <h2>Implications for Today</h2>
+
+    <p>As of late 2024, the unemployment rate sits around 4%. Based on the Cleveland Fed analysis:</p>
+
+    <ol>
+        <li><strong>This is sustainable if expansions continue.</strong> The current level is only slightly above the 3.6% "no-recession equilibrium."</li>
+        
+        <li><strong>But recessions reset the clock.</strong> If a recession hits in 2025, unemployment will spike (say, to 6-7%), then slowly fall over the next expansion. Whether it reaches a new low depends on how long that expansion lasts.</li>
+        
+        <li><strong>The FOMC's "longer-run" unemployment projections have drifted down</strong> from 5-6% in 2012 to 3.5-4.5% today. This drift reflects the realized pattern of infrequent recessions and long expansions, not just demographic changes.</li>
+        
+        <li><strong>Forecasting unemployment requires forecasting recessions.</strong> You can't predict the unemployment rate's trend without predicting business cycle timing. They're the same thing.</li>
+    </ol>
+
+    <div class="insight-box">
+        <strong>The bottom line:</strong> "Normal" unemployment is not a fixed natural rate determined by demographics and institutions. It's a moving target that reflects the accumulated history of recessions and expansions. Frequent recessions push it up. Long expansions pull it down. The 3.5% unemployment rate in 2019 wasn't an unsustainable anomaly—it was exactly what you'd expect after the longest expansion in US history.
+    </div>
+
+    <h2>The Conclusion</h2>
+
+    <p>So what is "normal" unemployment? The uncomfortable answer is: <strong>it depends on how lucky we get with avoiding recessions</strong>.</p>
+
+    <p>If we experience another Great Moderation with infrequent downturns, unemployment could stay near 4% or drift even lower. If we return to the 1950s-1970s pattern of frequent recessions, unemployment will ratchet upward toward 6-7%.</p>
+
+    <p>This isn't a defeatist take—it's a recognition that <strong>business cycle management matters enormously</strong>. Monetary policy that extends expansions, fiscal policy that buffers downturns, and financial regulation that prevents crises don't just smooth out fluctuations—they fundamentally change the long-run unemployment trend.</p>
+
+    <p>The Federal Reserve's dual mandate (maximum employment and stable prices) isn't just about fighting recessions when they happen. It's about preventing recessions from happening in the first place, because every avoided recession is a few more years for unemployment to drift downward.</p>
+
+    <div class="callout">
+        <strong>The hidden pattern revealed:</strong> Unemployment isn't wandering around some mysterious natural rate. It's mechanically accumulating the history of recessions and expansions, rising quickly in downturns and falling slowly in recoveries. Once you see this pattern, it seems obvious. But somehow, it took 70 years of data for economists to notice.
+    </div>
+
+    <hr style="margin: 40px 0; border: none; border-top: 2px solid #ddd;">
+
+    <p style="color: #999; font-size: 0.9em;">
+        <strong>Methodology:</strong> Data from FRED API (Unemployment Rate UNRATE, NBER Recession Indicator USREC). Detrended cumulative recession months calculated following Lunsford (2021). VAR forecasts simplified using exponential decay convergence. Charts rendered with Chart.js.
+    </p>
+
+    <p style="color: #999; font-size: 0.9em;">
+        <strong>Source:</strong> Lunsford, Kurt G. 2021. "Recessions and the Trend in the US Unemployment Rate." Federal Reserve Bank of Cleveland, Economic Commentary 2021-01. <a href="https://doi.org/10.26509/frbc-ec-202101">https://doi.org/10.26509/frbc-ec-202101</a>
+    </p>
+
+    <p style="color: #999; font-size: 0.9em;">
+        <strong>Note:</strong> This article implements and explores Lunsford's methodology with updated data through 2024. All findings and interpretations are from the original research paper. Our contribution is the implementation in Rust and interactive visualizations.
+    </p>
+
+    <p style="color: #999; font-size: 0.9em;">
+        Last updated: December 2025
+    </p>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="data/raw/unemployment.js?v=4"></script>
+    <script src="data/transformed/unemployment_trend_analysis.js?v=4"></script>
+
+    <script>
+        // Chart 1: Unemployment with HP trend (datasets 0 and 1)
+        const unempTrendCtx = document.getElementById('unemploymentTrendChart');
+        new Chart(unempTrendCtx, {
+            type: 'line',
+            data: {
+                datasets: [
+                    unemploymentTrendAnalysis.datasets[0],
+                    unemploymentTrendAnalysis.datasets[1]
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'US Unemployment Rate with Hodrick-Prescott Trend (1948-2024)' },
+                    legend: { display: true }
+                },
+                scales: {
+                    x: { type: 'time', time: { unit: 'year' } },
+                    y: { title: { display: true, text: 'Unemployment Rate (%)' }, beginAtZero: false }
+                },
+                elements: {
+                    point: { radius: 0 }
+                }
+            }
+        });
+
+        // Chart 2: Detrended cumulative recession months (dataset 2)
+        const detrendedCtx = document.getElementById('detrendedRecessionChart');
+        new Chart(detrendedCtx, {
+            type: 'line',
+            data: {
+                datasets: [unemploymentTrendAnalysis.datasets[2]]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Detrended Cumulative Recession Months (1948-2024)' },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { type: 'time', time: { unit: 'year' } },
+                    y: { title: { display: true, text: 'Months (detrended)' } }
+                },
+                elements: {
+                    point: { radius: 0 }
+                }
+            }
+        });
+
+        // Chart 3: Overlay (dual axis) - datasets 2 and 4 (unemployment is at index 4)
+        const overlayCtx = document.getElementById('overlayChart');
+        new Chart(overlayCtx, {
+            type: 'line',
+            data: {
+                datasets: [
+                    unemploymentTrendAnalysis.datasets[2],
+                    unemploymentTrendAnalysis.datasets[4]
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Recession Frequency vs Unemployment Rate (Correlation: 0.7)' },
+                    legend: { display: true }
+                },
+                scales: {
+                    x: { type: 'time', time: { unit: 'year' } },
+                    y: { 
+                        type: 'linear', 
+                        position: 'left', 
+                        title: { display: true, text: 'Detrended Recession Months' },
+                        min: -20,
+                        max: 20
+                    },
+                    y1: { 
+                        type: 'linear', 
+                        position: 'right', 
+                        title: { display: true, text: 'Unemployment Rate (%)' }, 
+                        grid: { drawOnChartArea: false },
+                        min: 2,
+                        max: 12
+                    }
+                },
+                elements: {
+                    point: { radius: 0 }
+                }
+            }
+        });
+
+        // Chart 4: VAR forecasts (datasets 5, 6, 7)
+        const forecastCtx = document.getElementById('forecastChart');
+        new Chart(forecastCtx, {
+            type: 'line',
+            data: {
+                datasets: [
+                    unemploymentTrendAnalysis.datasets[5],
+                    unemploymentTrendAnalysis.datasets[6],
+                    unemploymentTrendAnalysis.datasets[7]
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: '20-Year Unemployment Forecasts (No Future Recessions)' },
+                    legend: { display: true }
+                },
+                scales: {
+                    x: { 
+                        type: 'linear',
+                        title: { display: true, text: 'Years into forecast' },
+                        min: 0,
+                        max: 20
+                    },
+                    y: { title: { display: true, text: 'Unemployment Rate (%)' }, suggestedMin: 2, suggestedMax: 12 }
+                },
+                elements: {
+                    point: { radius: 0 }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

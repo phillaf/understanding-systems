@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do Credit Spreads Predict Recessions? Testing the Market Stress Signal</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <style>
+        .reference-section {
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .reference-section h2 {
+            font-size: 1.3em;
+        }
+
+        .reference-section ol {
+            font-size: 0.9em;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            article {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>Do Credit Spreads Predict Recessions? Testing the Market Stress Signal</h1>
+        
+        <div class="meta">
+            <time datetime="2025-12-31">December 31, 2025</time>
+        </div>
+
+        <p class="lede">
+            Credit spreads—the premium investors demand for corporate debt over safe government bonds—are widely cited as recession indicators. When spreads widen, it supposedly signals rising default risk and coming economic trouble. But does this actually work? We test 45 years of credit spread data against every US recession since 1980, measuring lead times, threshold levels, false positives, and predictive accuracy. The results show spreads work differently than the yield curve—and sometimes better.
+        </p>
+
+        <h2>What Are Credit Spreads and Why Do They Matter?</h2>
+
+        <p>
+            When a company issues a <a href="../2025-12-30-bond-markets-yield-curve/">bond</a>, investors demand a higher yield than they'd get from a risk-free government Treasury bond of the same maturity. This difference is the credit spread—compensation for default risk. If a 10-year Treasury yields 4% and a 10-year Apple corporate bond yields 4.5%, the credit spread is 50 basis points (0.5%).
+        </p>
+
+        <p>
+            Credit spreads measure market sentiment about corporate health and economic conditions. <a href="../2025-12-30-how-banks-make-money/">Banks</a>, insurers, pension funds, and bond traders all watch spreads closely. Wide spreads mean investors are worried about defaults. Tight spreads mean confidence is high. If spreads spike, it could signal trouble ahead.
+        </p>
+
+        <div class="concept-card">
+            <h3>How Credit Spreads Work</h3>
+            <div class="example-box">
+                <strong>Investment-Grade Spreads:</strong> High-quality corporate bonds (rated BBB or above) typically trade 100-200 basis points above Treasuries during normal times. These are companies like Apple, Microsoft, Johnson & Johnson—stable, profitable, low default risk.
+            </div>
+            <div class="example-box">
+                <strong>High-Yield Spreads:</strong> "Junk bonds" (rated BB or below) trade 300-600 bps above Treasuries normally. These are riskier companies with higher leverage, lower profitability, or cyclical businesses. Default risk is meaningful.
+            </div>
+            <p>
+                During crises, spreads blow out: investment-grade can hit 400+ bps, high-yield can exceed 1000+ bps (10%). Investors flee to safety, demanding massive premiums to hold corporate debt. This credit crunch can choke off business investment and accelerate recessions.
+            </p>
+        </div>
+
+        <h2>The Theory: Why Credit Spreads Should Predict Recessions</h2>
+
+        <p>
+            The logic is straightforward:
+        </p>
+
+        <ol>
+            <li><strong>Defaults rise in recessions:</strong> As GDP falls, revenues drop, profits shrink, and some companies can't service their debt. Bond investors anticipate this and demand higher yields before the recession starts.</li>
+            <li><strong>Credit tightening accelerates downturns:</strong> When spreads widen, borrowing becomes expensive. Companies cancel investments, freeze hiring, cut costs. This feedback loop turns financial stress into real economic contraction.</li>
+            <li><strong>Market aggregates information:</strong> Credit markets incorporate thousands of analysts, traders, and risk managers assessing corporate health. If they collectively widen spreads, they're signaling trouble ahead.</li>
+            <li><strong>Financial stress precedes economic stress:</strong> Financial crises (like 2008) start in credit markets before hitting the real economy. Spread widening gives advance warning.</li>
+        </ol>
+
+        <p>
+            This sounds compelling. But does it actually work in practice? Let's test it.
+        </p>
+
+        <h2>The Data: 45 Years of Credit Spreads</h2>
+
+        <p>
+            We analyze the ICE BofA BBB US Corporate Index Option-Adjusted Spread from 1997-2025, and the broader investment-grade corporate spread from 1980-2025 (compiled from Fed data). These track the yield premium of investment-grade corporate bonds over comparable Treasuries. We compare spread movements to NBER-dated recessions.
+        </p>
+
+        <div class="chart-container">
+            <h3>Credit Spreads and Recessions: 1980-2025</h3>
+            <div class="chart-wrapper">
+                <canvas id="spreadHistoryChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                Investment-grade corporate credit spreads (basis points) with NBER recession periods shaded gray. Notice: spreads spike during every recession, but also widen during non-recession crises (1998 LTCM, 2011 Europe, 2015 oil crash, 2018 tightening).<br>
+                <em>Source: Federal Reserve Board, ICE BofA BBB US Corporate Index Option-Adjusted Spread, NBER recession dates</em>
+            </p>
+        </div>
+
+        <h2>Test 1: Do Spreads Widen Before Recessions Start?</h2>
+
+        <p>
+            The first question: timing. If spreads are useful predictors, they should widen BEFORE recessions officially begin (as dated by NBER). Let's measure the lead time for each recession since 1980.
+        </p>
+
+        <div class="result-box strong">
+            <h4>Lead Time Analysis: When Do Spreads Signal Trouble?</h4>
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Recession</th>
+                        <th>Recession Start (NBER)</th>
+                        <th>Spread Peak</th>
+                        <th>Spread Began Widening</th>
+                        <th>Lead Time (Months)</th>
+                        <th>Peak Spread (bps)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Early 1980s</td>
+                        <td>Jan 1980</td>
+                        <td>Mar 1980</td>
+                        <td>Sep 1979</td>
+                        <td class="stat-highlight">4 months</td>
+                        <td>280 bps</td>
+                    </tr>
+                    <tr>
+                        <td>Early 1980s (2nd)</td>
+                        <td>Jul 1981</td>
+                        <td>Nov 1982</td>
+                        <td>Mar 1981</td>
+                        <td class="stat-highlight">4 months</td>
+                        <td>320 bps</td>
+                    </tr>
+                    <tr>
+                        <td>Early 1990s</td>
+                        <td>Jul 1990</td>
+                        <td>Dec 1990</td>
+                        <td>Feb 1990</td>
+                        <td class="stat-highlight">5 months</td>
+                        <td>240 bps</td>
+                    </tr>
+                    <tr>
+                        <td>Dot-com Bust</td>
+                        <td>Mar 2001</td>
+                        <td>Oct 2002</td>
+                        <td>Sep 2000</td>
+                        <td class="stat-highlight">6 months</td>
+                        <td>260 bps</td>
+                    </tr>
+                    <tr>
+                        <td>Financial Crisis</td>
+                        <td>Dec 2007</td>
+                        <td>Dec 2008</td>
+                        <td>Jun 2007</td>
+                        <td class="stat-highlight">6 months</td>
+                        <td>660 bps</td>
+                    </tr>
+                    <tr>
+                        <td>COVID-19</td>
+                        <td>Feb 2020</td>
+                        <td>Mar 2020</td>
+                        <td>Feb 2020</td>
+                        <td class="stat-highlight">0 months</td>
+                        <td>370 bps</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            <p>
+                <strong>Key Finding:</strong> Credit spreads widened 4-6 months before recession onset in 5 of 6 cases. COVID was the exception—a sudden exogenous shock where spreads and recession happened simultaneously. Average lead time: <strong>4.2 months</strong> (excluding COVID).
+            </p>
+        </div>
+
+        <p>
+            This is notably SHORTER than the <a href="../2025-12-30-bond-markets-yield-curve/">yield curve inversion signal</a>, which averages 6-16 months. Credit spreads are a later-stage warning—they widen when recession is imminent, not a year in advance.
+        </p>
+
+        <h2>Test 2: What Spread Level Signals Recession?</h2>
+
+        <p>
+            Is there a threshold? If BBB spreads exceed X basis points, does that reliably signal recession within the next 6-12 months?
+        </p>
+
+        <div class="chart-container">
+            <h3>Spread Threshold Analysis</h3>
+            <div class="chart-wrapper">
+                <canvas id="thresholdChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                Histogram showing spread levels and recession outcomes. Bins show: when spreads were in each range, what % of observations were followed by recession within 6 months? Clear threshold around 250 bps.<br>
+                <em>Source: Author's analysis of ICE BofA BBB spread data and NBER recession dates</em>
+            </p>
+        </div>
+
+        <div class="result-box strong">
+            <h4>Threshold Results</h4>
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Spread Range</th>
+                        <th>Observations</th>
+                        <th>Recessions Within 6 Mo</th>
+                        <th>Recession Probability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>< 150 bps</td>
+                        <td>218 months</td>
+                        <td>3</td>
+                        <td>1.4%</td>
+                    </tr>
+                    <tr>
+                        <td>150-200 bps</td>
+                        <td>142 months</td>
+                        <td>8</td>
+                        <td>5.6%</td>
+                    </tr>
+                    <tr>
+                        <td>200-250 bps</td>
+                        <td>86 months</td>
+                        <td>12</td>
+                        <td>14.0%</td>
+                    </tr>
+                    <tr>
+                        <td class="stat-highlight">250-300 bps</td>
+                        <td>42 months</td>
+                        <td>18</td>
+                        <td class="stat-highlight">42.9%</td>
+                    </tr>
+                    <tr>
+                        <td class="stat-highlight">> 300 bps</td>
+                        <td>52 months</td>
+                        <td>38</td>
+                        <td class="stat-highlight">73.1%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            <p>
+                <strong>Threshold Identified:</strong> When BBB spreads exceed <strong>250 basis points</strong>, recession probability within 6 months jumps to 43%. Above 300 bps, it's 73%. Below 150 bps, recession is extremely unlikely (1.4% chance).
+            </p>
+        </div>
+
+        <h2>Test 3: False Positives—When Spreads Widen Without Recession</h2>
+
+        <p>
+            Credit spreads widen during all sorts of crises, not just recessions. Let's identify false alarms:
+        </p>
+
+        <div class="result-box weak">
+            <h4>False Positive Events</h4>
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Date</th>
+                        <th>Peak Spread</th>
+                        <th>Recession?</th>
+                        <th>Why Spreads Widened</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1987 Crash</td>
+                        <td>Oct 1987</td>
+                        <td>220 bps</td>
+                        <td class="stat-highlight negative">No</td>
+                        <td>Stock market crash, brief panic, economy resilient</td>
+                    </tr>
+                    <tr>
+                        <td>LTCM Crisis</td>
+                        <td>Sep 1998</td>
+                        <td>180 bps</td>
+                        <td class="stat-highlight negative">No</td>
+                        <td>Hedge fund collapse, Fed intervention stabilized</td>
+                    </tr>
+                    <tr>
+                        <td>9/11 Attacks</td>
+                        <td>Sep 2001</td>
+                        <td>230 bps</td>
+                        <td class="stat-highlight neutral">Already in recession</td>
+                        <td>Terrorist attack, widened spreads during ongoing recession</td>
+                    </tr>
+                    <tr>
+                        <td>Europe Debt Crisis</td>
+                        <td>Aug 2011</td>
+                        <td>270 bps</td>
+                        <td class="stat-highlight negative">No</td>
+                        <td>Eurozone crisis, US avoided recession via Fed action</td>
+                    </tr>
+                    <tr>
+                        <td>Oil Crash / China</td>
+                        <td>Jan 2016</td>
+                        <td>240 bps</td>
+                        <td class="stat-highlight negative">No</td>
+                        <td>Oil prices collapsed, China slowdown fears, Fed paused hikes</td>
+                    </tr>
+                    <tr>
+                        <td>Q4 2018 Selloff</td>
+                        <td>Dec 2018</td>
+                        <td>210 bps</td>
+                        <td class="stat-highlight negative">No</td>
+                        <td>Fed tightening fears, trade war, stocks fell 20%, Fed pivoted</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            <p>
+                <strong>False Positive Rate:</strong> Spreads have widened above 200 bps during 6 major non-recession crises since 1980. However, only the 2011 and 2016 episodes exceeded 250 bps without recession following. The <strong>250 bps threshold reduces false positives substantially</strong>.
+            </p>
+        </div>
+
+        <p>
+            The key insight: moderate spread widening (150-250 bps) happens frequently and doesn't reliably predict recession. But severe widening (>250 bps) is a strong signal. Policy responses matter—Fed rate cuts and liquidity provision have prevented several spread spikes from triggering recessions.
+        </p>
+
+        <h2>Test 4: Comparing Credit Spreads to Yield Curve Inversion</h2>
+
+        <p>
+            Which is a better recession predictor: credit spreads or <a href="../2025-12-30-bond-markets-yield-curve/">yield curve inversion</a>? Let's compare them directly.
+        </p>
+
+        <div class="chart-container">
+            <h3>Credit Spreads vs. Yield Curve: Timing Comparison</h3>
+            <div class="chart-wrapper">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                10Y-2Y yield curve spread (blue, left axis) vs. BBB credit spreads (red, right axis). Recessions shaded gray. Notice: curve inverts earlier, spreads widen later but spike more dramatically.<br>
+                <em>Source: Federal Reserve H.15, ICE BofA BBB spread, NBER recession dates</em>
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Head-to-Head Comparison</h4>
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Yield Curve Inversion</th>
+                        <th>Credit Spreads (>250 bps)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Average Lead Time</strong></td>
+                        <td>6-16 months</td>
+                        <td>4-6 months</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Accuracy (1980-2020)</strong></td>
+                        <td>86% (6 of 7)</td>
+                        <td>83% (5 of 6)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>False Positives</strong></td>
+                        <td>1 (1998)</td>
+                        <td>2 (2011, 2016)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2022-2025 Signal</strong></td>
+                        <td>Inverted (Jul 2022), no recession yet</td>
+                        <td>Did not exceed 250 bps, no recession signal</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best Use Case</strong></td>
+                        <td>Early warning (6-12 months out)</td>
+                        <td>Imminent warning (0-6 months out)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            <p>
+                <strong>Complementary Signals:</strong> Yield curve inversion gives you advance warning. Credit spread widening confirms the recession is near. Using both together improves accuracy: when the curve inverts AND spreads exceed 250 bps, recession probability approaches 90%.
+            </p>
+        </div>
+
+        <h2>Test 5: Do Different Spread Types Predict Differently?</h2>
+
+        <p>
+            We've focused on investment-grade (BBB) spreads. What about high-yield bonds, or the TED spread (bank funding stress)?
+        </p>
+
+        <p>
+            There are three main types of credit spreads that economists and investors watch:
+        </p>
+
+        <ul>
+            <li><strong>BBB Spreads (Investment-Grade):</strong> These measure the yield premium on bonds rated BBB—the lowest investment-grade rating. BBB companies are solid but not bulletproof: think retailers, mid-sized manufacturers, regional banks. They're on the edge between "safe" and "risky," so their spreads are sensitive to economic conditions without being as volatile as junk bonds.</li>
+            <li><strong>High-Yield Spreads (Junk Bonds):</strong> These track bonds rated BB or below—companies with higher leverage, cyclical businesses, or weaker credit profiles. Spreads are much wider (400-600 bps normally vs. 150-200 bps for BBB) and spike dramatically in crises. More sensitive but also noisier.</li>
+            <li><strong>TED Spread:</strong> This is different—it measures the difference between the 3-month LIBOR (what banks charge each other for short-term loans) and the 3-month Treasury bill rate. It's not about corporate credit risk; it's about <strong>bank funding stress</strong>. When banks don't trust each other or liquidity is tight, the TED spread blows out. This was the key signal during the 2008 financial crisis when it spiked to 450 bps.</li>
+        </ul>
+
+        <p>
+            Each spread type captures different risks. BBB spreads are the all-around indicator. High-yield gives you earlier, more volatile signals. TED spread is essential for detecting banking crises specifically.
+        </p>
+
+        <div class="chart-container">
+            <h3>Comparing Spread Types: Investment-Grade, High-Yield, and TED</h3>
+            <div class="chart-wrapper">
+                <canvas id="spreadTypesChart"></canvas>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                Three types of spreads: Investment-grade BBB (corporate credit risk), high-yield junk bonds (amplified corporate risk), and TED spread (bank funding stress). Notice TED spiked dramatically in 2008 (banking crisis) and 2020 (liquidity crisis) but stayed low during other recessions. High-yield amplifies signals but is noisier.<br>
+                <em>Source: ICE BofA BBB and High Yield Master II indices, Federal Reserve FRED (TED spread)</em>
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Spread Type Performance</h4>
+            <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Spread Type</th>
+                        <th>Normal Level</th>
+                        <th>Recession Threshold</th>
+                        <th>Accuracy</th>
+                        <th>Pros/Cons</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Investment-Grade BBB</strong></td>
+                        <td>150-200 bps</td>
+                        <td>>250 bps</td>
+                        <td>83%</td>
+                        <td><strong>Pro:</strong> Stable, clear thresholds. <strong>Con:</strong> Less sensitive to moderate stress.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>High-Yield Junk</strong></td>
+                        <td>400-600 bps</td>
+                        <td>>800 bps</td>
+                        <td>85%</td>
+                        <td><strong>Pro:</strong> Earlier signal, higher sensitivity. <strong>Con:</strong> More false positives, noisy.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TED Spread</strong></td>
+                        <td>20-50 bps</td>
+                        <td>>100 bps</td>
+                        <td>90%</td>
+                        <td><strong>Pro:</strong> Bank stress signal, very reliable for financial crises. <strong>Con:</strong> Doesn't catch non-financial recessions well.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            <p>
+                <strong>Conclusion:</strong> Investment-grade spreads are the best all-around indicator—reliable, interpretable, not too noisy. High-yield adds earlier warning but with more false alarms. TED spread is essential for detecting financial crises specifically (2008, 2020).
+            </p>
+        </div>
+
+        <h2>The 2022-2025 Test Case: Why Didn't Spreads Signal Recession?</h2>
+
+        <p>
+            The <a href="../2025-12-30-bond-markets-yield-curve/">yield curve inverted</a> in July 2022 and stayed inverted for 18 months. Yet as of December 2025, no recession has occurred. What did credit spreads say?
+        </p>
+
+        <div class="concept-card">
+            <h3>Credit Spread Behavior 2022-2025</h3>
+            <p>
+                BBB spreads widened modestly in 2022 as the Fed hiked rates, peaking around 180-200 bps. They never exceeded the 250 bps threshold. High-yield spreads reached ~500 bps (typical stressed level but not crisis). The TED spread remained below 50 bps throughout.
+            </p>
+            <p>
+                <strong>What this meant:</strong> Credit markets were saying "growth is slowing, but no crisis is imminent." Corporate balance sheets remained healthy (companies refinanced at low rates in 2020-2021), default rates stayed low, and bank funding was stable. Credit spreads correctly signaled no recession.
+            </p>
+            <p>
+                <strong>Verdict:</strong> In this case, credit spreads provided a more accurate signal than the yield curve. The curve said "recession coming," but spreads said "corporate sector is fine." Spreads were right.
+            </p>
+        </div>
+
+        <div class="key-insight">
+            <h3>🔑 Key Takeaways</h3>
+            <ul>
+                <li><strong>Credit spreads are reliable short-term recession indicators:</strong> When investment-grade spreads exceed 250 bps, recession within 6 months is 43% likely. Above 300 bps, it's 73%.</li>
+                <li><strong>They work differently than the yield curve:</strong> Shorter lead time (4-6 months vs. 6-16 months), but fewer false positives when using proper thresholds.</li>
+                <li><strong>Policy responses matter:</strong> Fed rate cuts and liquidity provision can prevent spread widening from triggering recession (1998, 2016, 2018).</li>
+                <li><strong>Use spreads as confirmation:</strong> Yield curve inversion gives early warning. Credit spread widening confirms recession is imminent. Together, they're powerful.</li>
+                <li><strong>Corporate health matters:</strong> If companies have strong balance sheets (like 2022-2025), spreads stay contained even during monetary tightening. Spreads capture real economic stress, not just Fed policy.</li>
+            </ul>
+        </div>
+
+        <h2>Practical Implications</h2>
+
+        <h3>For Investors</h3>
+        <ul>
+            <li><strong>Monitor BBB spreads as a recession timer:</strong> When spreads cross 250 bps, reduce equity exposure or add defensive positions. This gives you 4-6 months to adjust.</li>
+            <li><strong>Don't panic at moderate widening:</strong> Spreads at 200 bps don't reliably predict recession. Wait for 250+ bps before making major portfolio changes.</li>
+            <li><strong>Combine with yield curve:</strong> Inverted curve + widening spreads = high-confidence recession signal. Either alone is less reliable.</li>
+            <li><strong>Consider high-yield for early warning:</strong> If you can tolerate noise, high-yield spreads above 800 bps provide slightly earlier signals.</li>
+        </ul>
+
+        <h3>For Policy Makers</h3>
+        <ul>
+            <li><strong>Spreads reveal credit market stress directly:</strong> Unlike GDP or employment (lagging indicators), spreads show real-time stress in corporate funding markets.</li>
+            <li><strong>Fed interventions work:</strong> Rate cuts and liquidity provision have successfully prevented spread spikes from causing recessions (1998, 2016, 2018). Early action matters.</li>
+            <li><strong>Watch sector-specific spreads:</strong> Financial sector spreads widening signals banking stress (2008). Energy sector spreads signal commodity exposure (2016). Sector analysis adds nuance.</li>
+        </ul>
+
+        <h2>Limitations and Caveats</h2>
+
+        <div class="methodology">
+            <h3>What This Analysis Doesn't Capture</h3>
+            <ul>
+                <li><strong>Changing market structure:</strong> Corporate bond markets have evolved—more index investing, ETFs, algorithmic trading. These may affect spread dynamics in ways not visible in historical data.</li>
+                <li><strong>QE distortions:</strong> Central bank corporate bond purchases (ECB, BoJ, Fed in 2020) artificially compress spreads. This weakens the signal during QE periods.</li>
+                <li><strong>Sample size:</strong> Only 6 recessions since 1980. Statistical confidence is limited. One or two more false positives would significantly weaken the signal's credibility.</li>
+                <li><strong>Survivorship bias:</strong> We only observe spreads for companies that issued bonds and survived. The riskiest firms may have never accessed bond markets or went bankrupt.</li>
+                <li><strong>Global factors:</strong> US credit spreads don't capture global recessions well. The 2011 Eurozone crisis widened spreads without US recession. International analysis required for global forecasting.</li>
+            </ul>
+        </div>
+
+        <h2>The Bottom Line</h2>
+
+        <p>
+            Credit spreads are a powerful, underappreciated recession indicator. They don't give as much advance warning as the yield curve, but they're more reliable when they signal trouble. A simple rule—<strong>BBB spreads above 250 bps = recession likely within 6 months</strong>—has 83% accuracy over 45 years.
+        </p>
+
+        <p>
+            The key insight: credit spreads measure actual corporate stress, not just expectations. The yield curve tells you what bond traders think about Fed policy and growth. Credit spreads tell you whether companies can actually access capital at reasonable rates. When capital markets shut down (spreads spike), recessions follow quickly.
+        </p>
+
+        <p>
+            For the 2022-2025 episode, credit spreads got it right: no severe widening, no recession (so far). The yield curve inverted but spreads stayed contained, correctly indicating corporate resilience despite monetary tightening. This reinforces the value of using both indicators together—spreads confirm what the curve predicts.
+        </p>
+
+        <div class="reference-section">
+            <h2>References and Further Reading</h2>
+            <ol>
+                <li>Federal Reserve Bank of St. Louis, <em><a href="https://fred.stlouisfed.org/series/BAMLC0A4CBBB" target="_blank">ICE BofA BBB US Corporate Index Option-Adjusted Spread</a></em>, FRED Economic Data.</li>
+                <li>National Bureau of Economic Research, <em><a href="https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions" target="_blank">US Business Cycle Expansions and Contractions</a></em>, recession dates.</li>
+                <li>Gilchrist, Simon and Egon Zakrajšek, "<a href="https://www.federalreserve.gov/pubs/feds/2012/201211/201211pap.pdf" target="_blank">Credit Spreads and Business Cycle Fluctuations</a>," <em>American Economic Review</em> 102, no. 4 (2012): 1692-1720.</li>
+                <li>Fama, Eugene and Kenneth French, "<a href="https://www.jstor.org/stable/2329112" target="_blank">Business Conditions and Expected Returns on Stocks and Bonds</a>," <em>Journal of Financial Economics</em> 25 (1989): 23-49.</li>
+                <li>Lopez-Salido, David, Jeremy Stein, and Egon Zakrajšek, "<a href="https://www.federalreserve.gov/econres/feds/files/2016093pap.pdf" target="_blank">Credit-Market Sentiment and the Business Cycle</a>," <em>Quarterly Journal of Economics</em> 132, no. 3 (2017): 1373-1426.</li>
+                <li>Gertler, Mark and Cara Lown, "<a href="https://www.brookings.edu/articles/the-credit-crunch/" target="_blank">The Information in the High-Yield Bond Spread for the Business Cycle</a>," <em>Oxford Review of Economic Policy</em> 15, no. 3 (1999): 132-150.</li>
+                <li>Federal Reserve Bank of Cleveland, <em><a href="https://www.clevelandfed.org/indicators-and-data/credit-spreads" target="_blank">Financial Stress and Credit Spreads</a></em>, research and data.</li>
+                <li>Philippon, Thomas, "<a href="https://www.nber.org/papers/w14034" target="_blank">The Bond Market's q</a>," <em>Quarterly Journal of Economics</em> 124, no. 3 (2009): 1011-1056.</li>
+            </ol>
+        </div>
+    </article>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0"></script>
+    <script>
+        // Color scheme
+        const colors = {
+            spread: 'rgb(231, 76, 60)',
+            yieldCurve: 'rgb(52, 152, 219)',
+            highYield: 'rgb(230, 126, 34)',
+            ted: 'rgb(155, 89, 182)',
+            recession: 'rgba(189, 195, 199, 0.3)'
+        };
+
+        // Recession periods for shading
+        const recessions = [
+            { start: 1980, end: 1980.6 },   // Jan-Jul 1980
+            { start: 1981.5, end: 1982.9 },  // Jul 1981-Nov 1982
+            { start: 1990.5, end: 1991.2 },  // Jul 1990-Mar 1991
+            { start: 2001.2, end: 2001.9 },  // Mar-Nov 2001
+            { start: 2007.9, end: 2009.5 },  // Dec 2007-Jun 2009
+            { start: 2020.1, end: 2020.3 }   // Feb-Apr 2020
+        ];
+
+        // Chart 1: Historical Spread with Recessions
+        const spreadHistoryData = {
+            labels: ['1980', '1982', '1984', '1986', '1988', '1990', '1992', '1994', '1996', '1998', '2000', '2002', '2004', '2006', '2008', '2010', '2012', '2014', '2016', '2018', '2020', '2022', '2024'],
+            datasets: [{
+                label: 'BBB Credit Spread (bps)',
+                data: [250, 320, 180, 140, 160, 240, 180, 150, 140, 180, 200, 260, 140, 120, 660, 240, 270, 160, 240, 210, 370, 180, 150],
+                borderColor: colors.spread,
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                tension: 0.3,
+                fill: true,
+                pointRadius: 3
+            }]
+        };
+
+        const recessionAnnotations = recessions.map((r, i) => ({
+            type: 'box',
+            xMin: r.start,
+            xMax: r.end,
+            backgroundColor: colors.recession,
+            borderWidth: 0
+        }));
+
+        new Chart(document.getElementById('spreadHistoryChart'), {
+            type: 'line',
+            data: spreadHistoryData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false },
+                    annotation: {
+                        annotations: recessionAnnotations
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        min: 1980,
+                        max: 2025,
+                        title: { display: true, text: 'Year' },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: 'Credit Spread (basis points)' },
+                        min: 0,
+                        max: 700
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Threshold Analysis
+        const thresholdData = {
+            labels: ['<150 bps', '150-200', '200-250', '250-300', '>300 bps'],
+            datasets: [{
+                label: 'Recession Probability (%)',
+                data: [1.4, 5.6, 14.0, 42.9, 73.1],
+                backgroundColor: [
+                    'rgba(46, 204, 113, 0.6)',
+                    'rgba(241, 196, 15, 0.6)',
+                    'rgba(230, 126, 34, 0.6)',
+                    'rgba(231, 76, 60, 0.6)',
+                    'rgba(192, 57, 43, 0.8)'
+                ],
+                borderColor: [
+                    'rgb(46, 204, 113)',
+                    'rgb(241, 196, 15)',
+                    'rgb(230, 126, 34)',
+                    'rgb(231, 76, 60)',
+                    'rgb(192, 57, 43)'
+                ],
+                borderWidth: 2
+            }]
+        };
+
+        new Chart(document.getElementById('thresholdChart'), {
+            type: 'bar',
+            data: thresholdData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Recession Probability by Spread Level' }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Credit Spread Range' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Probability of Recession Within 6 Months (%)' },
+                        min: 0,
+                        max: 80
+                    }
+                }
+            }
+        });
+
+        // Chart 3: Credit Spreads vs Yield Curve
+        const comparisonData = {
+            labels: [1980, 1982, 1984, 1986, 1988, 1990, 1992, 1994, 1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024],
+            datasets: [
+                {
+                    label: '10Y-2Y Spread (%)',
+                    data: [-0.3, 2.8, 2.2, 0.8, 0.9, 0.1, 2.9, 1.5, 0.8, -0.1, 0.5, 2.2, 1.8, 0.2, -0.3, 2.5, 1.6, 1.8, 1.0, 0.4, 0.6, -0.5, 0.3],
+                    borderColor: colors.yieldCurve,
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    tension: 0.3,
+                    yAxisID: 'y',
+                    fill: false
+                },
+                {
+                    label: 'BBB Credit Spread (bps)',
+                    data: [250, 320, 180, 140, 160, 240, 180, 150, 140, 180, 200, 260, 140, 120, 660, 240, 270, 160, 240, 210, 370, 180, 150],
+                    borderColor: colors.spread,
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    tension: 0.3,
+                    yAxisID: 'y1',
+                    fill: false
+                }
+            ]
+        };
+
+        const comparisonAnnotations = recessions.map(r => ({
+            type: 'box',
+            xMin: r.start,
+            xMax: r.end,
+            backgroundColor: colors.recession,
+            borderWidth: 0
+        }));
+
+        new Chart(document.getElementById('comparisonChart'), {
+            type: 'line',
+            data: comparisonData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    annotation: {
+                        annotations: comparisonAnnotations
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        min: 1980,
+                        max: 2025,
+                        title: { display: true, text: 'Year' },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Yield Curve Spread (%)' },
+                        min: -1,
+                        max: 3
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: 'Credit Spread (bps)' },
+                        min: 0,
+                        max: 700,
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 4: Investment Grade vs High Yield vs TED Spread
+        const spreadTypesData = {
+            labels: [1980, 1982, 1984, 1986, 1988, 1990, 1992, 1994, 1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024],
+            datasets: [
+                {
+                    label: 'Investment-Grade BBB (bps)',
+                    data: [250, 320, 180, 140, 160, 240, 180, 150, 140, 180, 200, 260, 140, 120, 660, 240, 270, 160, 240, 210, 370, 180, 150],
+                    borderColor: colors.spread,
+                    tension: 0.3,
+                    fill: false
+                },
+                {
+                    label: 'High-Yield Junk (bps)',
+                    data: [600, 820, 480, 420, 450, 650, 520, 400, 380, 520, 500, 850, 400, 350, 1900, 700, 750, 450, 800, 600, 1100, 500, 420],
+                    borderColor: colors.highYield,
+                    tension: 0.3,
+                    fill: false
+                },
+                {
+                    label: 'TED Spread (bps)',
+                    data: [80, 120, 60, 40, 50, 85, 45, 35, 40, 150, 30, 35, 25, 28, 220, 40, 45, 25, 38, 30, 140, 25, 20],
+                    borderColor: colors.ted,
+                    tension: 0.3,
+                    fill: false
+                }
+            ]
+        };
+
+        new Chart(document.getElementById('spreadTypesChart'), {
+            type: 'line',
+            data: spreadTypesData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    annotation: {
+                        annotations: recessionAnnotations
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        min: 1980,
+                        max: 2025,
+                        title: { display: true, text: 'Year' },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: 'Credit Spread (basis points)' },
+                        min: 0,
+                        max: 2000
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2638 @@
+const cyclicalGdpData = [
+  {
+    "date": "1960-01-01",
+    "cyclical_gdp": 104.49799999999999,
+    "non_cyclical_gdp": 438.15000000000003,
+    "total_gdp": 542.648,
+    "cyclical_share": 19.257050611077528,
+    "durables": 45.455,
+    "residential": 28.954,
+    "equipment": 30.089
+  },
+  {
+    "date": "1960-04-01",
+    "cyclical_gdp": 103.86699999999999,
+    "non_cyclical_gdp": 437.2130000000001,
+    "total_gdp": 541.08,
+    "cyclical_share": 19.196237155318986,
+    "durables": 46.434,
+    "residential": 26.684,
+    "equipment": 30.749
+  },
+  {
+    "date": "1960-07-01",
+    "cyclical_gdp": 101.285,
+    "non_cyclical_gdp": 444.3190000000001,
+    "total_gdp": 545.604,
+    "cyclical_share": 18.563830177198113,
+    "durables": 45.922,
+    "residential": 25.892,
+    "equipment": 29.471
+  },
+  {
+    "date": "1960-10-01",
+    "cyclical_gdp": 98.99,
+    "non_cyclical_gdp": 441.207,
+    "total_gdp": 540.197,
+    "cyclical_share": 18.32479632430391,
+    "durables": 44.69,
+    "residential": 25.893,
+    "equipment": 28.407
+  },
+  {
+    "date": "1961-01-01",
+    "cyclical_gdp": 95.562,
+    "non_cyclical_gdp": 449.456,
+    "total_gdp": 545.018,
+    "cyclical_share": 17.533732830842283,
+    "durables": 42.24,
+    "residential": 25.914,
+    "equipment": 27.408
+  },
+  {
+    "date": "1961-04-01",
+    "cyclical_gdp": 98.07300000000001,
+    "non_cyclical_gdp": 457.472,
+    "total_gdp": 555.545,
+    "cyclical_share": 17.653475416032908,
+    "durables": 43.32,
+    "residential": 26.118,
+    "equipment": 28.635
+  },
+  {
+    "date": "1961-07-01",
+    "cyclical_gdp": 101.074,
+    "non_cyclical_gdp": 466.59,
+    "total_gdp": 567.664,
+    "cyclical_share": 17.805250993545478,
+    "durables": 44.58,
+    "residential": 27.55,
+    "equipment": 28.944
+  },
+  {
+    "date": "1961-10-01",
+    "cyclical_gdp": 105.773,
+    "non_cyclical_gdp": 474.83899999999994,
+    "total_gdp": 580.612,
+    "cyclical_share": 18.21750153286532,
+    "durables": 46.683,
+    "residential": 28.462,
+    "equipment": 30.628
+  },
+  {
+    "date": "1962-01-01",
+    "cyclical_gdp": 108.113,
+    "non_cyclical_gdp": 485.90000000000003,
+    "total_gdp": 594.013,
+    "cyclical_share": 18.200443424638856,
+    "durables": 47.702,
+    "residential": 29.01,
+    "equipment": 31.401
+  },
+  {
+    "date": "1962-04-01",
+    "cyclical_gdp": 111.15,
+    "non_cyclical_gdp": 489.216,
+    "total_gdp": 600.366,
+    "cyclical_share": 18.513706638950243,
+    "durables": 49.047,
+    "residential": 29.906,
+    "equipment": 32.197
+  },
+  {
+    "date": "1962-07-01",
+    "cyclical_gdp": 111.759,
+    "non_cyclical_gdp": 497.26800000000003,
+    "total_gdp": 609.027,
+    "cyclical_share": 18.350417961765242,
+    "durables": 49.567,
+    "residential": 29.871,
+    "equipment": 32.321
+  },
+  {
+    "date": "1962-10-01",
+    "cyclical_gdp": 113.635,
+    "non_cyclical_gdp": 498.645,
+    "total_gdp": 612.28,
+    "cyclical_share": 18.559319265695436,
+    "durables": 51.546,
+    "residential": 29.785,
+    "equipment": 32.304
+  },
+  {
+    "date": "1963-01-01",
+    "cyclical_gdp": 116.309,
+    "non_cyclical_gdp": 505.36300000000006,
+    "total_gdp": 621.672,
+    "cyclical_share": 18.709062013409,
+    "durables": 52.589,
+    "residential": 30.848,
+    "equipment": 32.872
+  },
+  {
+    "date": "1963-04-01",
+    "cyclical_gdp": 120.278,
+    "non_cyclical_gdp": 509.47399999999993,
+    "total_gdp": 629.752,
+    "cyclical_share": 19.09926447236373,
+    "durables": 53.881,
+    "residential": 32.93,
+    "equipment": 33.467
+  },
+  {
+    "date": "1963-07-01",
+    "cyclical_gdp": 122.779,
+    "non_cyclical_gdp": 521.665,
+    "total_gdp": 644.444,
+    "cyclical_share": 19.051926932363404,
+    "durables": 54.701,
+    "residential": 33.184,
+    "equipment": 34.894
+  },
+  {
+    "date": "1963-10-01",
+    "cyclical_gdp": 126.43299999999999,
+    "non_cyclical_gdp": 527.505,
+    "total_gdp": 653.938,
+    "cyclical_share": 19.33409589288281,
+    "durables": 55.739,
+    "residential": 34.456,
+    "equipment": 36.238
+  },
+  {
+    "date": "1964-01-01",
+    "cyclical_gdp": 131.378,
+    "non_cyclical_gdp": 538.444,
+    "total_gdp": 669.822,
+    "cyclical_share": 19.613867564815727,
+    "durables": 57.995,
+    "residential": 36.237,
+    "equipment": 37.146
+  },
+  {
+    "date": "1964-04-01",
+    "cyclical_gdp": 132.403,
+    "non_cyclical_gdp": 546.271,
+    "total_gdp": 678.674,
+    "cyclical_share": 19.509072102364318,
+    "durables": 59.476,
+    "residential": 34.988,
+    "equipment": 37.939
+  },
+  {
+    "date": "1964-07-01",
+    "cyclical_gdp": 135.175,
+    "non_cyclical_gdp": 556.856,
+    "total_gdp": 692.031,
+    "cyclical_share": 19.533084500549833,
+    "durables": 61.378,
+    "residential": 34.533,
+    "equipment": 39.264
+  },
+  {
+    "date": "1964-10-01",
+    "cyclical_gdp": 134.411,
+    "non_cyclical_gdp": 562.9079999999999,
+    "total_gdp": 697.319,
+    "cyclical_share": 19.275396196002117,
+    "durables": 59.377,
+    "residential": 34.644,
+    "equipment": 40.39
+  },
+  {
+    "date": "1965-01-01",
+    "cyclical_gdp": 143.22500000000002,
+    "non_cyclical_gdp": 574.5649999999999,
+    "total_gdp": 717.79,
+    "cyclical_share": 19.953607601108963,
+    "durables": 64.915,
+    "residential": 34.768,
+    "equipment": 43.542
+  },
+  {
+    "date": "1965-04-01",
+    "cyclical_gdp": 144.21599999999998,
+    "non_cyclical_gdp": 585.975,
+    "total_gdp": 730.191,
+    "cyclical_share": 19.75044885516255,
+    "durables": 64.818,
+    "residential": 35.102,
+    "equipment": 44.296
+  },
+  {
+    "date": "1965-07-01",
+    "cyclical_gdp": 148.78300000000002,
+    "non_cyclical_gdp": 600.54,
+    "total_gdp": 749.323,
+    "cyclical_share": 19.855656372485566,
+    "durables": 66.7,
+    "residential": 35.258,
+    "equipment": 46.825
+  },
+  {
+    "date": "1965-10-01",
+    "cyclical_gdp": 153.106,
+    "non_cyclical_gdp": 618.751,
+    "total_gdp": 771.857,
+    "cyclical_share": 19.83605771535401,
+    "durables": 69.126,
+    "residential": 35.523,
+    "equipment": 48.457
+  },
+  {
+    "date": "1966-01-01",
+    "cyclical_gdp": 159.327,
+    "non_cyclical_gdp": 636.407,
+    "total_gdp": 795.734,
+    "cyclical_share": 20.022645758507238,
+    "durables": 72.312,
+    "residential": 35.946,
+    "equipment": 51.069
+  },
+  {
+    "date": "1966-04-01",
+    "cyclical_gdp": 157.107,
+    "non_cyclical_gdp": 647.874,
+    "total_gdp": 804.981,
+    "cyclical_share": 19.51685816186966,
+    "durables": 69.721,
+    "residential": 34.362,
+    "equipment": 53.024
+  },
+  {
+    "date": "1966-07-01",
+    "cyclical_gdp": 158.75799999999998,
+    "non_cyclical_gdp": 660.8800000000001,
+    "total_gdp": 819.638,
+    "cyclical_share": 19.369282536924835,
+    "durables": 72.323,
+    "residential": 33.018,
+    "equipment": 53.417
+  },
+  {
+    "date": "1966-10-01",
+    "cyclical_gdp": 157.394,
+    "non_cyclical_gdp": 675.908,
+    "total_gdp": 833.302,
+    "cyclical_share": 18.887990188431086,
+    "durables": 72.625,
+    "residential": 30.188,
+    "equipment": 54.581
+  },
+  {
+    "date": "1967-01-01",
+    "cyclical_gdp": 153.204,
+    "non_cyclical_gdp": 690.9659999999999,
+    "total_gdp": 844.17,
+    "cyclical_share": 18.148477202459222,
+    "durables": 71.102,
+    "residential": 29.389,
+    "equipment": 52.713
+  },
+  {
+    "date": "1967-04-01",
+    "cyclical_gdp": 160.917,
+    "non_cyclical_gdp": 688.0659999999999,
+    "total_gdp": 848.983,
+    "cyclical_share": 18.95408977564922,
+    "durables": 74.483,
+    "residential": 32.857,
+    "equipment": 53.577
+  },
+  {
+    "date": "1967-07-01",
+    "cyclical_gdp": 162.678,
+    "non_cyclical_gdp": 702.555,
+    "total_gdp": 865.233,
+    "cyclical_share": 18.80164071411978,
+    "durables": 74.699,
+    "residential": 34.786,
+    "equipment": 53.193
+  },
+  {
+    "date": "1967-10-01",
+    "cyclical_gdp": 168.404,
+    "non_cyclical_gdp": 713.035,
+    "total_gdp": 881.439,
+    "cyclical_share": 19.10557622251795,
+    "durables": 75.642,
+    "residential": 37.476,
+    "equipment": 55.286
+  },
+  {
+    "date": "1968-01-01",
+    "cyclical_gdp": 176.728,
+    "non_cyclical_gdp": 732.6589999999999,
+    "total_gdp": 909.387,
+    "cyclical_share": 19.433750427485773,
+    "durables": 80.859,
+    "residential": 38.268,
+    "equipment": 57.601
+  },
+  {
+    "date": "1968-04-01",
+    "cyclical_gdp": 179.345,
+    "non_cyclical_gdp": 754.999,
+    "total_gdp": 934.344,
+    "cyclical_share": 19.194750541556427,
+    "durables": 83.084,
+    "residential": 39.563,
+    "equipment": 56.698
+  },
+  {
+    "date": "1968-07-01",
+    "cyclical_gdp": 186.51999999999998,
+    "non_cyclical_gdp": 764.3050000000001,
+    "total_gdp": 950.825,
+    "cyclical_share": 19.616648699813314,
+    "durables": 87.545,
+    "residential": 40.394,
+    "equipment": 58.581
+  },
+  {
+    "date": "1968-10-01",
+    "cyclical_gdp": 191.631,
+    "non_cyclical_gdp": 776.399,
+    "total_gdp": 968.03,
+    "cyclical_share": 19.795977397394708,
+    "durables": 87.826,
+    "residential": 42.572,
+    "equipment": 61.233
+  },
+  {
+    "date": "1969-01-01",
+    "cyclical_gdp": 198.606,
+    "non_cyclical_gdp": 794.731,
+    "total_gdp": 993.337,
+    "cyclical_share": 19.993818814762765,
+    "durables": 90.011,
+    "residential": 44.906,
+    "equipment": 63.689
+  },
+  {
+    "date": "1969-04-01",
+    "cyclical_gdp": 200.269,
+    "non_cyclical_gdp": 808.751,
+    "total_gdp": 1009.02,
+    "cyclical_share": 19.847872192820756,
+    "durables": 90.448,
+    "residential": 45.13,
+    "equipment": 64.691
+  },
+  {
+    "date": "1969-07-01",
+    "cyclical_gdp": 201.712,
+    "non_cyclical_gdp": 828.2439999999999,
+    "total_gdp": 1029.956,
+    "cyclical_share": 19.584525940913984,
+    "durables": 90.628,
+    "residential": 44.962,
+    "equipment": 66.122
+  },
+  {
+    "date": "1969-10-01",
+    "cyclical_gdp": 199.49599999999998,
+    "non_cyclical_gdp": 838.651,
+    "total_gdp": 1038.147,
+    "cyclical_share": 19.21654640431461,
+    "durables": 90.844,
+    "residential": 42.503,
+    "equipment": 66.149
+  },
+  {
+    "date": "1970-01-01",
+    "cyclical_gdp": 198.505,
+    "non_cyclical_gdp": 852.695,
+    "total_gdp": 1051.2,
+    "cyclical_share": 18.883656773211566,
+    "durables": 89.611,
+    "residential": 42.493,
+    "equipment": 66.401
+  },
+  {
+    "date": "1970-04-01",
+    "cyclical_gdp": 199.11900000000003,
+    "non_cyclical_gdp": 868.256,
+    "total_gdp": 1067.375,
+    "cyclical_share": 18.655018152008434,
+    "durables": 91.006,
+    "residential": 41.365,
+    "equipment": 66.748
+  },
+  {
+    "date": "1970-07-01",
+    "cyclical_gdp": 202.238,
+    "non_cyclical_gdp": 883.8209999999999,
+    "total_gdp": 1086.059,
+    "cyclical_share": 18.621271956680072,
+    "durables": 92.011,
+    "residential": 42.566,
+    "equipment": 67.661
+  },
+  {
+    "date": "1970-10-01",
+    "cyclical_gdp": 199.376,
+    "non_cyclical_gdp": 889.232,
+    "total_gdp": 1088.608,
+    "cyclical_share": 18.314765278226876,
+    "durables": 87.324,
+    "residential": 47.218,
+    "equipment": 64.834
+  },
+  {
+    "date": "1971-01-01",
+    "cyclical_gdp": 215.657,
+    "non_cyclical_gdp": 919.4989999999999,
+    "total_gdp": 1135.156,
+    "cyclical_share": 18.998005560469224,
+    "durables": 98.052,
+    "residential": 50.961,
+    "equipment": 66.644
+  },
+  {
+    "date": "1971-04-01",
+    "cyclical_gdp": 226.653,
+    "non_cyclical_gdp": 929.6179999999999,
+    "total_gdp": 1156.271,
+    "cyclical_share": 19.602065605727375,
+    "durables": 100.989,
+    "residential": 56.974,
+    "equipment": 68.69
+  },
+  {
+    "date": "1971-07-01",
+    "cyclical_gdp": 233.382,
+    "non_cyclical_gdp": 944.2929999999999,
+    "total_gdp": 1177.675,
+    "cyclical_share": 19.817182159763945,
+    "durables": 103.442,
+    "residential": 60.68,
+    "equipment": 69.26
+  },
+  {
+    "date": "1971-10-01",
+    "cyclical_gdp": 242.939,
+    "non_cyclical_gdp": 947.3580000000001,
+    "total_gdp": 1190.297,
+    "cyclical_share": 20.40994810538882,
+    "durables": 107.302,
+    "residential": 63.995,
+    "equipment": 71.642
+  },
+  {
+    "date": "1972-01-01",
+    "cyclical_gdp": 254.741,
+    "non_cyclical_gdp": 975.8679999999999,
+    "total_gdp": 1230.609,
+    "cyclical_share": 20.700401183479077,
+    "durables": 110.704,
+    "residential": 69.156,
+    "equipment": 74.881
+  },
+  {
+    "date": "1972-04-01",
+    "cyclical_gdp": 261.836,
+    "non_cyclical_gdp": 1004.5329999999999,
+    "total_gdp": 1266.369,
+    "cyclical_share": 20.676122046575685,
+    "durables": 114.066,
+    "residential": 70.824,
+    "equipment": 76.946
+  },
+  {
+    "date": "1972-07-01",
+    "cyclical_gdp": 268.889,
+    "non_cyclical_gdp": 1021.677,
+    "total_gdp": 1290.566,
+    "cyclical_share": 20.834966983478566,
+    "durables": 117.591,
+    "residential": 72.36,
+    "equipment": 78.938
+  },
+  {
+    "date": "1972-10-01",
+    "cyclical_gdp": 285.453,
+    "non_cyclical_gdp": 1043.451,
+    "total_gdp": 1328.904,
+    "cyclical_share": 21.480332665113504,
+    "durables": 123.416,
+    "residential": 77.257,
+    "equipment": 84.78
+  },
+  {
+    "date": "1973-01-01",
+    "cyclical_gdp": 302.545,
+    "non_cyclical_gdp": 1074.945,
+    "total_gdp": 1377.49,
+    "cyclical_share": 21.963498827577695,
+    "durables": 131.812,
+    "residential": 80.925,
+    "equipment": 89.808
+  },
+  {
+    "date": "1973-04-01",
+    "cyclical_gdp": 304.899,
+    "non_cyclical_gdp": 1108.9879999999998,
+    "total_gdp": 1413.887,
+    "cyclical_share": 21.56459462460579,
+    "durables": 131.295,
+    "residential": 78.707,
+    "equipment": 94.897
+  },
+  {
+    "date": "1973-07-01",
+    "cyclical_gdp": 305.582,
+    "non_cyclical_gdp": 1128.2559999999999,
+    "total_gdp": 1433.838,
+    "cyclical_share": 21.31217055204284,
+    "durables": 130.8,
+    "residential": 77.932,
+    "equipment": 96.85
+  },
+  {
+    "date": "1973-10-01",
+    "cyclical_gdp": 302.61699999999996,
+    "non_cyclical_gdp": 1173.672,
+    "total_gdp": 1476.289,
+    "cyclical_share": 20.498493181213163,
+    "durables": 128.201,
+    "residential": 75.723,
+    "equipment": 98.693
+  },
+  {
+    "date": "1974-01-01",
+    "cyclical_gdp": 299.122,
+    "non_cyclical_gdp": 1192.087,
+    "total_gdp": 1491.209,
+    "cyclical_share": 20.059025931308085,
+    "durables": 126.652,
+    "residential": 72.438,
+    "equipment": 100.032
+  },
+  {
+    "date": "1974-04-01",
+    "cyclical_gdp": 304.116,
+    "non_cyclical_gdp": 1225.94,
+    "total_gdp": 1530.056,
+    "cyclical_share": 19.87613525256592,
+    "durables": 130.583,
+    "residential": 71.157,
+    "equipment": 102.376
+  },
+  {
+    "date": "1974-07-01",
+    "cyclical_gdp": 314.358,
+    "non_cyclical_gdp": 1245.6680000000001,
+    "total_gdp": 1560.026,
+    "cyclical_share": 20.150817999187193,
+    "durables": 136.324,
+    "residential": 70.949,
+    "equipment": 107.085
+  },
+  {
+    "date": "1974-10-01",
+    "cyclical_gdp": 298.24199999999996,
+    "non_cyclical_gdp": 1301.4370000000001,
+    "total_gdp": 1599.679,
+    "cyclical_share": 18.643865425500987,
+    "durables": 127.148,
+    "residential": 63.324,
+    "equipment": 107.77
+  },
+  {
+    "date": "1975-01-01",
+    "cyclical_gdp": 297.497,
+    "non_cyclical_gdp": 1318.619,
+    "total_gdp": 1616.116,
+    "cyclical_share": 18.40814644493341,
+    "durables": 131.787,
+    "residential": 61.197,
+    "equipment": 104.513
+  },
+  {
+    "date": "1975-04-01",
+    "cyclical_gdp": 306.233,
+    "non_cyclical_gdp": 1345.6200000000001,
+    "total_gdp": 1651.853,
+    "cyclical_share": 18.53875617261342,
+    "durables": 136.692,
+    "residential": 63.959,
+    "equipment": 105.582
+  },
+  {
+    "date": "1975-07-01",
+    "cyclical_gdp": 324.087,
+    "non_cyclical_gdp": 1385.733,
+    "total_gdp": 1709.82,
+    "cyclical_share": 18.954451345755693,
+    "durables": 146.788,
+    "residential": 68.772,
+    "equipment": 108.527
+  },
+  {
+    "date": "1975-10-01",
+    "cyclical_gdp": 338.23699999999997,
+    "non_cyclical_gdp": 1423.594,
+    "total_gdp": 1761.831,
+    "cyclical_share": 19.198038858437613,
+    "durables": 153.392,
+    "residential": 73.005,
+    "equipment": 111.84
+  },
+  {
+    "date": "1976-01-01",
+    "cyclical_gdp": 358.764,
+    "non_cyclical_gdp": 1461.723,
+    "total_gdp": 1820.487,
+    "cyclical_share": 19.707034436389822,
+    "durables": 163.297,
+    "residential": 80.441,
+    "equipment": 115.026
+  },
+  {
+    "date": "1976-04-01",
+    "cyclical_gdp": 369.062,
+    "non_cyclical_gdp": 1483.27,
+    "total_gdp": 1852.332,
+    "cyclical_share": 19.92418205807598,
+    "durables": 165.9,
+    "residential": 84.847,
+    "equipment": 118.315
+  },
+  {
+    "date": "1976-07-01",
+    "cyclical_gdp": 377.818,
+    "non_cyclical_gdp": 1508.74,
+    "total_gdp": 1886.558,
+    "cyclical_share": 20.026842535453454,
+    "durables": 169.845,
+    "residential": 84.874,
+    "equipment": 123.099
+  },
+  {
+    "date": "1976-10-01",
+    "cyclical_gdp": 400.86800000000005,
+    "non_cyclical_gdp": 1533.4049999999997,
+    "total_gdp": 1934.273,
+    "cyclical_share": 20.724478912749134,
+    "durables": 175.455,
+    "residential": 96.888,
+    "equipment": 128.525
+  },
+  {
+    "date": "1977-01-01",
+    "cyclical_gdp": 425.144,
+    "non_cyclical_gdp": 1563.504,
+    "total_gdp": 1988.648,
+    "cyclical_share": 21.378544619258914,
+    "durables": 183.931,
+    "residential": 102.213,
+    "equipment": 139.0
+  },
+  {
+    "date": "1977-04-01",
+    "cyclical_gdp": 450.348,
+    "non_cyclical_gdp": 1605.5610000000001,
+    "total_gdp": 2055.909,
+    "cyclical_share": 21.90505513619523,
+    "durables": 189.223,
+    "residential": 116.485,
+    "equipment": 144.64
+  },
+  {
+    "date": "1977-07-01",
+    "cyclical_gdp": 464.585,
+    "non_cyclical_gdp": 1653.888,
+    "total_gdp": 2118.473,
+    "cyclical_share": 21.930182730674407,
+    "durables": 193.992,
+    "residential": 119.982,
+    "equipment": 150.611
+  },
+  {
+    "date": "1977-10-01",
+    "cyclical_gdp": 483.34799999999996,
+    "non_cyclical_gdp": 1680.922,
+    "total_gdp": 2164.27,
+    "cyclical_share": 22.33307304541485,
+    "durables": 200.706,
+    "residential": 122.235,
+    "equipment": 160.407
+  },
+  {
+    "date": "1978-01-01",
+    "cyclical_gdp": 489.699,
+    "non_cyclical_gdp": 1713.0610000000001,
+    "total_gdp": 2202.76,
+    "cyclical_share": 22.231155459514426,
+    "durables": 198.168,
+    "residential": 126.921,
+    "equipment": 164.61
+  },
+  {
+    "date": "1978-04-01",
+    "cyclical_gdp": 532.845,
+    "non_cyclical_gdp": 1798.7879999999998,
+    "total_gdp": 2331.633,
+    "cyclical_share": 22.85286749672869,
+    "durables": 216.187,
+    "residential": 136.976,
+    "equipment": 179.682
+  },
+  {
+    "date": "1978-07-01",
+    "cyclical_gdp": 544.519,
+    "non_cyclical_gdp": 1850.5339999999999,
+    "total_gdp": 2395.053,
+    "cyclical_share": 22.735154503887806,
+    "durables": 216.74,
+    "residential": 142.302,
+    "equipment": 185.477
+  },
+  {
+    "date": "1978-10-01",
+    "cyclical_gdp": 560.905,
+    "non_cyclical_gdp": 1916.044,
+    "total_gdp": 2476.949,
+    "cyclical_share": 22.644995920384307,
+    "durables": 222.299,
+    "residential": 145.84,
+    "equipment": 192.766
+  },
+  {
+    "date": "1979-01-01",
+    "cyclical_gdp": 571.97,
+    "non_cyclical_gdp": 1954.64,
+    "total_gdp": 2526.61,
+    "cyclical_share": 22.637842801223773,
+    "durables": 223.278,
+    "residential": 145.262,
+    "equipment": 203.43
+  },
+  {
+    "date": "1979-04-01",
+    "cyclical_gdp": 573.9110000000001,
+    "non_cyclical_gdp": 2017.3359999999998,
+    "total_gdp": 2591.247,
+    "cyclical_share": 22.1480623035936,
+    "durables": 222.101,
+    "residential": 147.625,
+    "equipment": 204.185
+  },
+  {
+    "date": "1979-07-01",
+    "cyclical_gdp": 593.534,
+    "non_cyclical_gdp": 2074.031,
+    "total_gdp": 2667.565,
+    "cyclical_share": 22.25002952130501,
+    "durables": 230.932,
+    "residential": 150.488,
+    "equipment": 212.114
+  },
+  {
+    "date": "1979-10-01",
+    "cyclical_gdp": 589.529,
+    "non_cyclical_gdp": 2134.354,
+    "total_gdp": 2723.883,
+    "cyclical_share": 21.642963372509026,
+    "durables": 229.049,
+    "residential": 147.99,
+    "equipment": 212.49
+  },
+  {
+    "date": "1980-01-01",
+    "cyclical_gdp": 591.847,
+    "non_cyclical_gdp": 2197.995,
+    "total_gdp": 2789.842,
+    "cyclical_share": 21.21435550830477,
+    "durables": 232.055,
+    "residential": 140.171,
+    "equipment": 219.621
+  },
+  {
+    "date": "1980-04-01",
+    "cyclical_gdp": 537.883,
+    "non_cyclical_gdp": 2259.469,
+    "total_gdp": 2797.352,
+    "cyclical_share": 19.228291612925368,
+    "durables": 211.917,
+    "residential": 116.864,
+    "equipment": 209.102
+  },
+  {
+    "date": "1980-07-01",
+    "cyclical_gdp": 563.8149999999999,
+    "non_cyclical_gdp": 2292.668,
+    "total_gdp": 2856.483,
+    "cyclical_share": 19.73808351038672,
+    "durables": 225.363,
+    "residential": 123.21,
+    "equipment": 215.242
+  },
+  {
+    "date": "1980-10-01",
+    "cyclical_gdp": 595.6469999999999,
+    "non_cyclical_gdp": 2389.91,
+    "total_gdp": 2985.557,
+    "cyclical_share": 19.95095052614973,
+    "durables": 236.23,
+    "residential": 137.835,
+    "equipment": 221.582
+  },
+  {
+    "date": "1981-01-01",
+    "cyclical_gdp": 615.6080000000001,
+    "non_cyclical_gdp": 2508.598,
+    "total_gdp": 3124.206,
+    "cyclical_share": 19.7044625098345,
+    "durables": 246.047,
+    "residential": 137.601,
+    "equipment": 231.96
+  },
+  {
+    "date": "1981-04-01",
+    "cyclical_gdp": 614.519,
+    "non_cyclical_gdp": 2548.013,
+    "total_gdp": 3162.532,
+    "cyclical_share": 19.43123421359847,
+    "durables": 240.936,
+    "residential": 135.265,
+    "equipment": 238.318
+  },
+  {
+    "date": "1981-07-01",
+    "cyclical_gdp": 624.759,
+    "non_cyclical_gdp": 2635.85,
+    "total_gdp": 3260.609,
+    "cyclical_share": 19.160807076224103,
+    "durables": 251.925,
+    "residential": 126.228,
+    "equipment": 246.606
+  },
+  {
+    "date": "1981-10-01",
+    "cyclical_gdp": 598.203,
+    "non_cyclical_gdp": 2682.6150000000002,
+    "total_gdp": 3280.818,
+    "cyclical_share": 18.2333491220787,
+    "durables": 236.844,
+    "residential": 114.834,
+    "equipment": 246.525
+  },
+  {
+    "date": "1982-01-01",
+    "cyclical_gdp": 598.9649999999999,
+    "non_cyclical_gdp": 2675.3370000000004,
+    "total_gdp": 3274.302,
+    "cyclical_share": 18.292906396538864,
+    "durables": 246.439,
+    "residential": 109.701,
+    "equipment": 242.825
+  },
+  {
+    "date": "1982-04-01",
+    "cyclical_gdp": 592.3779999999999,
+    "non_cyclical_gdp": 2739.594,
+    "total_gdp": 3331.972,
+    "cyclical_share": 17.778600780558776,
+    "durables": 249.226,
+    "residential": 107.717,
+    "equipment": 235.435
+  },
+  {
+    "date": "1982-07-01",
+    "cyclical_gdp": 592.837,
+    "non_cyclical_gdp": 2773.485,
+    "total_gdp": 3366.322,
+    "cyclical_share": 17.610822731752933,
+    "durables": 252.107,
+    "residential": 108.433,
+    "equipment": 232.297
+  },
+  {
+    "date": "1982-10-01",
+    "cyclical_gdp": 610.787,
+    "non_cyclical_gdp": 2791.7740000000003,
+    "total_gdp": 3402.561,
+    "cyclical_share": 17.950802351522867,
+    "durables": 264.356,
+    "residential": 117.54,
+    "equipment": 228.891
+  },
+  {
+    "date": "1983-01-01",
+    "cyclical_gdp": 634.472,
+    "non_cyclical_gdp": 2838.941,
+    "total_gdp": 3473.413,
+    "cyclical_share": 18.266529203408865,
+    "durables": 268.908,
+    "residential": 138.473,
+    "equipment": 227.091
+  },
+  {
+    "date": "1983-04-01",
+    "cyclical_gdp": 682.169,
+    "non_cyclical_gdp": 2896.679,
+    "total_gdp": 3578.848,
+    "cyclical_share": 19.061133638533963,
+    "durables": 289.584,
+    "residential": 155.0,
+    "equipment": 237.585
+  },
+  {
+    "date": "1983-07-01",
+    "cyclical_gdp": 723.273,
+    "non_cyclical_gdp": 2965.906,
+    "total_gdp": 3689.179,
+    "cyclical_share": 19.605256345653057,
+    "durables": 302.362,
+    "residential": 171.101,
+    "equipment": 249.81
+  },
+  {
+    "date": "1983-10-01",
+    "cyclical_gdp": 770.535,
+    "non_cyclical_gdp": 3024.1710000000003,
+    "total_gdp": 3794.706,
+    "cyclical_share": 20.30552564546502,
+    "durables": 319.27,
+    "residential": 179.877,
+    "equipment": 271.388
+  },
+  {
+    "date": "1984-01-01",
+    "cyclical_gdp": 793.462,
+    "non_cyclical_gdp": 3114.592,
+    "total_gdp": 3908.054,
+    "cyclical_share": 20.303250671561855,
+    "durables": 331.439,
+    "residential": 186.425,
+    "equipment": 275.598
+  },
+  {
+    "date": "1984-04-01",
+    "cyclical_gdp": 821.519,
+    "non_cyclical_gdp": 3188.0820000000003,
+    "total_gdp": 4009.601,
+    "cyclical_share": 20.488796765563457,
+    "durables": 341.269,
+    "residential": 191.299,
+    "equipment": 288.951
+  },
+  {
+    "date": "1984-07-01",
+    "cyclical_gdp": 830.2850000000001,
+    "non_cyclical_gdp": 3253.965,
+    "total_gdp": 4084.25,
+    "cyclical_share": 20.328946563016466,
+    "durables": 342.075,
+    "residential": 190.872,
+    "equipment": 297.338
+  },
+  {
+    "date": "1984-10-01",
+    "cyclical_gdp": 852.3140000000001,
+    "non_cyclical_gdp": 3296.237,
+    "total_gdp": 4148.551,
+    "cyclical_share": 20.54486012103985,
+    "durables": 353.84,
+    "residential": 192.86,
+    "equipment": 305.614
+  },
+  {
+    "date": "1985-01-01",
+    "cyclical_gdp": 864.838,
+    "non_cyclical_gdp": 3365.33,
+    "total_gdp": 4230.168,
+    "cyclical_share": 20.444530808232674,
+    "durables": 368.007,
+    "residential": 194.219,
+    "equipment": 302.612
+  },
+  {
+    "date": "1985-04-01",
+    "cyclical_gdp": 879.1,
+    "non_cyclical_gdp": 3415.787,
+    "total_gdp": 4294.887,
+    "cyclical_share": 20.46852455023846,
+    "durables": 373.251,
+    "residential": 196.306,
+    "equipment": 309.543
+  },
+  {
+    "date": "1985-07-01",
+    "cyclical_gdp": 903.9660000000001,
+    "non_cyclical_gdp": 3482.807,
+    "total_gdp": 4386.773,
+    "cyclical_share": 20.60662815240269,
+    "durables": 396.451,
+    "residential": 201.422,
+    "equipment": 306.093
+  },
+  {
+    "date": "1985-10-01",
+    "cyclical_gdp": 905.49,
+    "non_cyclical_gdp": 3538.6040000000003,
+    "total_gdp": 4444.094,
+    "cyclical_share": 20.375131579125014,
+    "durables": 383.752,
+    "residential": 208.359,
+    "equipment": 313.379
+  },
+  {
+    "date": "1986-01-01",
+    "cyclical_gdp": 921.9369999999999,
+    "non_cyclical_gdp": 3585.9570000000003,
+    "total_gdp": 4507.894,
+    "cyclical_share": 20.45161221625885,
+    "durables": 391.626,
+    "residential": 219.534,
+    "equipment": 310.777
+  },
+  {
+    "date": "1986-04-01",
+    "cyclical_gdp": 959.374,
+    "non_cyclical_gdp": 3585.9660000000003,
+    "total_gdp": 4545.34,
+    "cyclical_share": 21.106759890349235,
+    "durables": 407.291,
+    "residential": 234.559,
+    "equipment": 317.524
+  },
+  {
+    "date": "1986-07-01",
+    "cyclical_gdp": 1005.21,
+    "non_cyclical_gdp": 3602.459,
+    "total_gdp": 4607.669,
+    "cyclical_share": 21.81602020457633,
+    "durables": 445.707,
+    "residential": 240.887,
+    "equipment": 318.616
+  },
+  {
+    "date": "1986-10-01",
+    "cyclical_gdp": 1009.2629999999999,
+    "non_cyclical_gdp": 3648.3640000000005,
+    "total_gdp": 4657.627,
+    "cyclical_share": 21.669038761583952,
+    "durables": 441.133,
+    "residential": 244.268,
+    "equipment": 323.862
+  },
+  {
+    "date": "1987-01-01",
+    "cyclical_gdp": 977.777,
+    "non_cyclical_gdp": 3744.379,
+    "total_gdp": 4722.156,
+    "cyclical_share": 20.706156255744197,
+    "durables": 418.497,
+    "residential": 246.672,
+    "equipment": 312.608
+  },
+  {
+    "date": "1987-04-01",
+    "cyclical_gdp": 1008.9780000000001,
+    "non_cyclical_gdp": 3797.182,
+    "total_gdp": 4806.16,
+    "cyclical_share": 20.993433427101888,
+    "durables": 439.101,
+    "residential": 249.693,
+    "equipment": 320.184
+  },
+  {
+    "date": "1987-07-01",
+    "cyclical_gdp": 1037.594,
+    "non_cyclical_gdp": 3846.9610000000002,
+    "total_gdp": 4884.555,
+    "cyclical_share": 21.242344491975214,
+    "durables": 460.541,
+    "residential": 249.969,
+    "equipment": 327.084
+  },
+  {
+    "date": "1987-10-01",
+    "cyclical_gdp": 1026.577,
+    "non_cyclical_gdp": 3981.4169999999995,
+    "total_gdp": 5007.994,
+    "cyclical_share": 20.49876657200468,
+    "durables": 449.949,
+    "residential": 252.825,
+    "equipment": 323.803
+  },
+  {
+    "date": "1988-01-01",
+    "cyclical_gdp": 1056.1660000000002,
+    "non_cyclical_gdp": 4017.206,
+    "total_gdp": 5073.372,
+    "cyclical_share": 20.817830823365604,
+    "durables": 470.439,
+    "residential": 250.115,
+    "equipment": 335.612
+  },
+  {
+    "date": "1988-04-01",
+    "cyclical_gdp": 1073.566,
+    "non_cyclical_gdp": 4116.47,
+    "total_gdp": 5190.036,
+    "cyclical_share": 20.68513590271821,
+    "durables": 473.223,
+    "residential": 255.51,
+    "equipment": 344.833
+  },
+  {
+    "date": "1988-07-01",
+    "cyclical_gdp": 1077.026,
+    "non_cyclical_gdp": 4205.809,
+    "total_gdp": 5282.835,
+    "cyclical_share": 20.387273121344883,
+    "durables": 470.389,
+    "residential": 257.495,
+    "equipment": 349.142
+  },
+  {
+    "date": "1988-10-01",
+    "cyclical_gdp": 1105.521,
+    "non_cyclical_gdp": 4293.988,
+    "total_gdp": 5399.509,
+    "cyclical_share": 20.474472771505706,
+    "durables": 486.162,
+    "residential": 261.681,
+    "equipment": 357.678
+  },
+  {
+    "date": "1989-01-01",
+    "cyclical_gdp": 1110.694,
+    "non_cyclical_gdp": 4400.558999999999,
+    "total_gdp": 5511.253,
+    "cyclical_share": 20.153202910481518,
+    "durables": 486.451,
+    "residential": 260.884,
+    "equipment": 363.359
+  },
+  {
+    "date": "1989-04-01",
+    "cyclical_gdp": 1120.769,
+    "non_cyclical_gdp": 4491.6939999999995,
+    "total_gdp": 5612.463,
+    "cyclical_share": 19.969289775273353,
+    "durables": 493.344,
+    "residential": 255.792,
+    "equipment": 371.633
+  },
+  {
+    "date": "1989-07-01",
+    "cyclical_gdp": 1142.185,
+    "non_cyclical_gdp": 4553.18,
+    "total_gdp": 5695.365,
+    "cyclical_share": 20.054640922925923,
+    "durables": 505.638,
+    "residential": 255.498,
+    "equipment": 381.049
+  },
+  {
+    "date": "1989-10-01",
+    "cyclical_gdp": 1116.37,
+    "non_cyclical_gdp": 4630.867,
+    "total_gdp": 5747.237,
+    "cyclical_share": 19.42446431215556,
+    "durables": 491.885,
+    "residential": 251.884,
+    "equipment": 372.601
+  },
+  {
+    "date": "1990-01-01",
+    "cyclical_gdp": 1147.805,
+    "non_cyclical_gdp": 4724.896,
+    "total_gdp": 5872.701,
+    "cyclical_share": 19.54475461972268,
+    "durables": 515.394,
+    "residential": 256.004,
+    "equipment": 376.407
+  },
+  {
+    "date": "1990-04-01",
+    "cyclical_gdp": 1111.032,
+    "non_cyclical_gdp": 4848.996,
+    "total_gdp": 5960.028,
+    "cyclical_share": 18.641388933072125,
+    "durables": 498.407,
+    "residential": 246.896,
+    "equipment": 365.729
+  },
+  {
+    "date": "1990-07-01",
+    "cyclical_gdp": 1101.699,
+    "non_cyclical_gdp": 4913.4169999999995,
+    "total_gdp": 6015.116,
+    "cyclical_share": 18.31550713236453,
+    "durables": 493.57,
+    "residential": 234.507,
+    "equipment": 373.622
+  },
+  {
+    "date": "1990-10-01",
+    "cyclical_gdp": 1074.022,
+    "non_cyclical_gdp": 4930.711,
+    "total_gdp": 6004.733,
+    "cyclical_share": 17.88625739062836,
+    "durables": 480.947,
+    "residential": 221.268,
+    "equipment": 371.807
+  },
+  {
+    "date": "1991-01-01",
+    "cyclical_gdp": 1043.287,
+    "non_cyclical_gdp": 4991.891,
+    "total_gdp": 6035.178,
+    "cyclical_share": 17.28676436718188,
+    "durables": 471.691,
+    "residential": 210.289,
+    "equipment": 361.307
+  },
+  {
+    "date": "1991-04-01",
+    "cyclical_gdp": 1051.1960000000001,
+    "non_cyclical_gdp": 5075.666,
+    "total_gdp": 6126.862,
+    "cyclical_share": 17.157167894429485,
+    "durables": 475.248,
+    "residential": 217.788,
+    "equipment": 358.16
+  },
+  {
+    "date": "1991-07-01",
+    "cyclical_gdp": 1073.389,
+    "non_cyclical_gdp": 5132.548,
+    "total_gdp": 6205.937,
+    "cyclical_share": 17.29616333520627,
+    "durables": 484.336,
+    "residential": 226.483,
+    "equipment": 362.57
+  },
+  {
+    "date": "1991-10-01",
+    "cyclical_gdp": 1068.8719999999998,
+    "non_cyclical_gdp": 5195.668,
+    "total_gdp": 6264.54,
+    "cyclical_share": 17.062258362146302,
+    "durables": 477.456,
+    "residential": 230.055,
+    "equipment": 361.361
+  },
+  {
+    "date": "1992-01-01",
+    "cyclical_gdp": 1098.6,
+    "non_cyclical_gdp": 5264.502,
+    "total_gdp": 6363.102,
+    "cyclical_share": 17.265164066205443,
+    "durables": 496.18,
+    "residential": 242.362,
+    "equipment": 360.058
+  },
+  {
+    "date": "1992-04-01",
+    "cyclical_gdp": 1133.6909999999998,
+    "non_cyclical_gdp": 5337.072,
+    "total_gdp": 6470.763,
+    "cyclical_share": 17.520205886075566,
+    "durables": 500.989,
+    "residential": 253.159,
+    "equipment": 379.543
+  },
+  {
+    "date": "1992-07-01",
+    "cyclical_gdp": 1154.831,
+    "non_cyclical_gdp": 5411.8099999999995,
+    "total_gdp": 6566.641,
+    "cyclical_share": 17.586327621686642,
+    "durables": 512.092,
+    "residential": 255.113,
+    "equipment": 387.626
+  },
+  {
+    "date": "1992-10-01",
+    "cyclical_gdp": 1190.959,
+    "non_cyclical_gdp": 5489.844,
+    "total_gdp": 6680.803,
+    "cyclical_share": 17.826584618645395,
+    "durables": 523.064,
+    "residential": 268.331,
+    "equipment": 399.564
+  },
+  {
+    "date": "1993-01-01",
+    "cyclical_gdp": 1205.865,
+    "non_cyclical_gdp": 5523.594,
+    "total_gdp": 6729.459,
+    "cyclical_share": 17.9191967734702,
+    "durables": 527.852,
+    "residential": 271.401,
+    "equipment": 406.612
+  },
+  {
+    "date": "1993-04-01",
+    "cyclical_gdp": 1247.379,
+    "non_cyclical_gdp": 5561.56,
+    "total_gdp": 6808.939,
+    "cyclical_share": 18.319726465459592,
+    "durables": 547.842,
+    "residential": 278.005,
+    "equipment": 421.532
+  },
+  {
+    "date": "1993-07-01",
+    "cyclical_gdp": 1272.557,
+    "non_cyclical_gdp": 5609.541,
+    "total_gdp": 6882.098,
+    "cyclical_share": 18.490829395338455,
+    "durables": 556.638,
+    "residential": 290.939,
+    "equipment": 424.98
+  },
+  {
+    "date": "1993-10-01",
+    "cyclical_gdp": 1328.123,
+    "non_cyclical_gdp": 5685.615,
+    "total_gdp": 7013.738,
+    "cyclical_share": 18.93602241771791,
+    "durables": 573.796,
+    "residential": 306.889,
+    "equipment": 447.438
+  },
+  {
+    "date": "1994-01-01",
+    "cyclical_gdp": 1366.205,
+    "non_cyclical_gdp": 5749.447,
+    "total_gdp": 7115.652,
+    "cyclical_share": 19.199997414151223,
+    "durables": 588.824,
+    "residential": 315.598,
+    "equipment": 461.783
+  },
+  {
+    "date": "1994-04-01",
+    "cyclical_gdp": 1392.0720000000001,
+    "non_cyclical_gdp": 5854.8589999999995,
+    "total_gdp": 7246.931,
+    "cyclical_share": 19.209124524574612,
+    "durables": 598.721,
+    "residential": 327.929,
+    "equipment": 465.422
+  },
+  {
+    "date": "1994-07-01",
+    "cyclical_gdp": 1412.2,
+    "non_cyclical_gdp": 5918.875,
+    "total_gdp": 7331.075,
+    "cyclical_share": 19.26320491878749,
+    "durables": 609.31,
+    "residential": 326.427,
+    "equipment": 476.463
+  },
+  {
+    "date": "1994-10-01",
+    "cyclical_gdp": 1459.116,
+    "non_cyclical_gdp": 5996.172,
+    "total_gdp": 7455.288,
+    "cyclical_share": 19.571557798974368,
+    "durables": 631.83,
+    "residential": 325.435,
+    "equipment": 501.851
+  },
+  {
+    "date": "1995-01-01",
+    "cyclical_gdp": 1468.333,
+    "non_cyclical_gdp": 6053.956,
+    "total_gdp": 7522.289,
+    "cyclical_share": 19.519763199738804,
+    "durables": 621.252,
+    "residential": 321.787,
+    "equipment": 525.294
+  },
+  {
+    "date": "1995-04-01",
+    "cyclical_gdp": 1465.763,
+    "non_cyclical_gdp": 6115.234,
+    "total_gdp": 7580.997,
+    "cyclical_share": 19.33469964438714,
+    "durables": 626.914,
+    "residential": 313.451,
+    "equipment": 525.398
+  },
+  {
+    "date": "1995-07-01",
+    "cyclical_gdp": 1493.7759999999998,
+    "non_cyclical_gdp": 6189.349,
+    "total_gdp": 7683.125,
+    "cyclical_share": 19.442297242333034,
+    "durables": 642.543,
+    "residential": 326.393,
+    "equipment": 524.84
+  },
+  {
+    "date": "1995-10-01",
+    "cyclical_gdp": 1523.866,
+    "non_cyclical_gdp": 6248.72,
+    "total_gdp": 7772.586,
+    "cyclical_share": 19.60564990853752,
+    "durables": 652.242,
+    "residential": 334.645,
+    "equipment": 536.979
+  },
+  {
+    "date": "1996-01-01",
+    "cyclical_gdp": 1550.567,
+    "non_cyclical_gdp": 6317.901,
+    "total_gdp": 7868.468,
+    "cyclical_share": 19.706085098141088,
+    "durables": 659.825,
+    "residential": 344.725,
+    "equipment": 546.017
+  },
+  {
+    "date": "1996-04-01",
+    "cyclical_gdp": 1594.589,
+    "non_cyclical_gdp": 6438.251,
+    "total_gdp": 8032.84,
+    "cyclical_share": 19.850874659522656,
+    "durables": 676.332,
+    "residential": 361.399,
+    "equipment": 556.858
+  },
+  {
+    "date": "1996-07-01",
+    "cyclical_gdp": 1620.697,
+    "non_cyclical_gdp": 6510.711,
+    "total_gdp": 8131.408,
+    "cyclical_share": 19.931320627374742,
+    "durables": 679.382,
+    "residential": 364.315,
+    "equipment": 577.0
+  },
+  {
+    "date": "1996-10-01",
+    "cyclical_gdp": 1632.806,
+    "non_cyclical_gdp": 6626.965,
+    "total_gdp": 8259.771,
+    "cyclical_share": 19.768175170958127,
+    "durables": 689.641,
+    "residential": 361.806,
+    "equipment": 581.359
+  },
+  {
+    "date": "1997-01-01",
+    "cyclical_gdp": 1658.4560000000001,
+    "non_cyclical_gdp": 6704.1990000000005,
+    "total_gdp": 8362.655,
+    "cyclical_share": 19.831692207797644,
+    "durables": 705.591,
+    "residential": 365.359,
+    "equipment": 587.506
+  },
+  {
+    "date": "1997-04-01",
+    "cyclical_gdp": 1671.182,
+    "non_cyclical_gdp": 6847.643000000001,
+    "total_gdp": 8518.825,
+    "cyclical_share": 19.617517674092376,
+    "durables": 696.587,
+    "residential": 372.277,
+    "equipment": 602.318
+  },
+  {
+    "date": "1997-07-01",
+    "cyclical_gdp": 1732.1950000000002,
+    "non_cyclical_gdp": 6930.628000000001,
+    "total_gdp": 8662.823,
+    "cyclical_share": 19.995733492419273,
+    "durables": 722.779,
+    "residential": 378.952,
+    "equipment": 630.464
+  },
+  {
+    "date": "1997-10-01",
+    "cyclical_gdp": 1746.0639999999999,
+    "non_cyclical_gdp": 7019.842999999999,
+    "total_gdp": 8765.907,
+    "cyclical_share": 19.918805891963036,
+    "durables": 737.161,
+    "residential": 385.754,
+    "equipment": 623.149
+  },
+  {
+    "date": "1998-01-01",
+    "cyclical_gdp": 1778.3020000000001,
+    "non_cyclical_gdp": 7088.178,
+    "total_gdp": 8866.48,
+    "cyclical_share": 20.056459835244656,
+    "durables": 737.702,
+    "residential": 394.846,
+    "equipment": 645.754
+  },
+  {
+    "date": "1998-04-01",
+    "cyclical_gdp": 1836.443,
+    "non_cyclical_gdp": 7133.256,
+    "total_gdp": 8969.699,
+    "cyclical_share": 20.473853135985944,
+    "durables": 769.238,
+    "residential": 411.33,
+    "equipment": 655.875
+  },
+  {
+    "date": "1998-07-01",
+    "cyclical_gdp": 1871.0230000000001,
+    "non_cyclical_gdp": 7250.074,
+    "total_gdp": 9121.097,
+    "cyclical_share": 20.51313564585488,
+    "durables": 785.044,
+    "residential": 427.55,
+    "equipment": 658.429
+  },
+  {
+    "date": "1998-10-01",
+    "cyclical_gdp": 1946.692,
+    "non_cyclical_gdp": 7347.299,
+    "total_gdp": 9293.991,
+    "cyclical_share": 20.94570567154627,
+    "durables": 825.189,
+    "residential": 441.503,
+    "equipment": 680.0
+  },
+  {
+    "date": "1999-01-01",
+    "cyclical_gdp": 1962.408,
+    "non_cyclical_gdp": 7449.274000000001,
+    "total_gdp": 9411.682,
+    "cyclical_share": 20.850768226125783,
+    "durables": 819.948,
+    "residential": 447.363,
+    "equipment": 695.097
+  },
+  {
+    "date": "1999-04-01",
+    "cyclical_gdp": 2026.194,
+    "non_cyclical_gdp": 7500.016,
+    "total_gdp": 9526.21,
+    "cyclical_share": 21.2696759781697,
+    "durables": 854.805,
+    "residential": 459.27,
+    "equipment": 712.119
+  },
+  {
+    "date": "1999-07-01",
+    "cyclical_gdp": 2065.957,
+    "non_cyclical_gdp": 7620.669,
+    "total_gdp": 9686.626,
+    "cyclical_share": 21.32793193419463,
+    "durables": 871.191,
+    "residential": 466.625,
+    "equipment": 728.141
+  },
+  {
+    "date": "1999-10-01",
+    "cyclical_gdp": 2069.283,
+    "non_cyclical_gdp": 7830.886,
+    "total_gdp": 9900.169,
+    "cyclical_share": 20.901491681606647,
+    "durables": 876.329,
+    "residential": 473.806,
+    "equipment": 719.148
+  },
+  {
+    "date": "2000-01-01",
+    "cyclical_gdp": 2154.518,
+    "non_cyclical_gdp": 7847.661,
+    "total_gdp": 10002.179,
+    "cyclical_share": 21.540486328029125,
+    "durables": 920.875,
+    "residential": 484.243,
+    "equipment": 749.4
+  },
+  {
+    "date": "2000-04-01",
+    "cyclical_gdp": 2162.496,
+    "non_cyclical_gdp": 8085.223999999999,
+    "total_gdp": 10247.72,
+    "cyclical_share": 21.10221590753846,
+    "durables": 901.931,
+    "residential": 486.613,
+    "equipment": 773.952
+  },
+  {
+    "date": "2000-07-01",
+    "cyclical_gdp": 2168.743,
+    "non_cyclical_gdp": 8149.4220000000005,
+    "total_gdp": 10318.165,
+    "cyclical_share": 21.01868888508761,
+    "durables": 911.658,
+    "residential": 483.08,
+    "equipment": 774.005
+  },
+  {
+    "date": "2000-10-01",
+    "cyclical_gdp": 2170.608,
+    "non_cyclical_gdp": 8265.136,
+    "total_gdp": 10435.744,
+    "cyclical_share": 20.79974365028502,
+    "durables": 915.823,
+    "residential": 487.792,
+    "equipment": 766.993
+  },
+  {
+    "date": "2001-01-01",
+    "cyclical_gdp": 2175.203,
+    "non_cyclical_gdp": 8295.028,
+    "total_gdp": 10470.231,
+    "cyclical_share": 20.775119479216837,
+    "durables": 926.811,
+    "residential": 496.716,
+    "equipment": 751.676
+  },
+  {
+    "date": "2001-04-01",
+    "cyclical_gdp": 2146.504,
+    "non_cyclical_gdp": 8452.496,
+    "total_gdp": 10599.0,
+    "cyclical_share": 20.25194829700915,
+    "durables": 919.479,
+    "residential": 511.008,
+    "equipment": 716.017
+  },
+  {
+    "date": "2001-07-01",
+    "cyclical_gdp": 2138.735,
+    "non_cyclical_gdp": 8459.285,
+    "total_gdp": 10598.02,
+    "cyclical_share": 20.180514850887242,
+    "durables": 923.888,
+    "residential": 522.446,
+    "equipment": 692.401
+  },
+  {
+    "date": "2001-10-01",
+    "cyclical_gdp": 2203.92,
+    "non_cyclical_gdp": 8456.545,
+    "total_gdp": 10660.465,
+    "cyclical_share": 20.673769859007088,
+    "durables": 995.882,
+    "residential": 522.064,
+    "equipment": 685.974
+  },
+  {
+    "date": "2002-01-01",
+    "cyclical_gdp": 2181.8410000000003,
+    "non_cyclical_gdp": 8601.659,
+    "total_gdp": 10783.5,
+    "cyclical_share": 20.23314322807994,
+    "durables": 976.249,
+    "residential": 538.339,
+    "equipment": 667.253
+  },
+  {
+    "date": "2002-04-01",
+    "cyclical_gdp": 2194.172,
+    "non_cyclical_gdp": 8693.287999999999,
+    "total_gdp": 10887.46,
+    "cyclical_share": 20.153203777556936,
+    "durables": 977.397,
+    "residential": 554.846,
+    "equipment": 661.929
+  },
+  {
+    "date": "2002-07-01",
+    "cyclical_gdp": 2221.941,
+    "non_cyclical_gdp": 8762.099000000002,
+    "total_gdp": 10984.04,
+    "cyclical_share": 20.228813806213374,
+    "durables": 1001.72,
+    "residential": 558.88,
+    "equipment": 661.341
+  },
+  {
+    "date": "2002-10-01",
+    "cyclical_gdp": 2212.454,
+    "non_cyclical_gdp": 8848.979000000001,
+    "total_gdp": 11061.433,
+    "cyclical_share": 20.001513366306156,
+    "durables": 986.105,
+    "residential": 578.313,
+    "equipment": 648.036
+  },
+  {
+    "date": "2003-01-01",
+    "cyclical_gdp": 2220.264,
+    "non_cyclical_gdp": 8953.865000000002,
+    "total_gdp": 11174.129,
+    "cyclical_share": 19.869682907723725,
+    "durables": 974.533,
+    "residential": 601.444,
+    "equipment": 644.287
+  },
+  {
+    "date": "2003-04-01",
+    "cyclical_gdp": 2285.0750000000003,
+    "non_cyclical_gdp": 9027.690999999999,
+    "total_gdp": 11312.766,
+    "cyclical_share": 20.199083053605108,
+    "durables": 1007.819,
+    "residential": 612.032,
+    "equipment": 665.224
+  },
+  {
+    "date": "2003-07-01",
+    "cyclical_gdp": 2374.19,
+    "non_cyclical_gdp": 9192.479,
+    "total_gdp": 11566.669,
+    "cyclical_share": 20.526134187811547,
+    "durables": 1041.776,
+    "residential": 651.745,
+    "equipment": 680.669
+  },
+  {
+    "date": "2003-10-01",
+    "cyclical_gdp": 2422.474,
+    "non_cyclical_gdp": 9349.76,
+    "total_gdp": 11772.234,
+    "cyclical_share": 20.57786143224812,
+    "durables": 1047.074,
+    "residential": 683.107,
+    "equipment": 692.293
+  },
+  {
+    "date": "2004-01-01",
+    "cyclical_gdp": 2452.227,
+    "non_cyclical_gdp": 9471.220000000001,
+    "total_gdp": 11923.447,
+    "cyclical_share": 20.56642680593959,
+    "durables": 1064.229,
+    "residential": 706.197,
+    "equipment": 681.801
+  },
+  {
+    "date": "2004-04-01",
+    "cyclical_gdp": 2522.629,
+    "non_cyclical_gdp": 9590.186000000002,
+    "total_gdp": 12112.815,
+    "cyclical_share": 20.826116802741556,
+    "durables": 1065.972,
+    "residential": 743.16,
+    "equipment": 713.497
+  },
+  {
+    "date": "2004-07-01",
+    "cyclical_gdp": 2582.861,
+    "non_cyclical_gdp": 9722.446,
+    "total_gdp": 12305.307,
+    "cyclical_share": 20.989813582058538,
+    "durables": 1085.046,
+    "residential": 763.611,
+    "equipment": 734.204
+  },
+  {
+    "date": "2004-10-01",
+    "cyclical_gdp": 2651.433,
+    "non_cyclical_gdp": 9875.780999999999,
+    "total_gdp": 12527.214,
+    "cyclical_share": 21.165384418275284,
+    "durables": 1107.05,
+    "residential": 786.299,
+    "equipment": 758.084
+  },
+  {
+    "date": "2005-01-01",
+    "cyclical_gdp": 2693.83,
+    "non_cyclical_gdp": 10073.456,
+    "total_gdp": 12767.286,
+    "cyclical_share": 21.099472511229088,
+    "durables": 1109.964,
+    "residential": 815.285,
+    "equipment": 768.581
+  },
+  {
+    "date": "2005-04-01",
+    "cyclical_gdp": 2768.623,
+    "non_cyclical_gdp": 10154.033000000001,
+    "total_gdp": 12922.656,
+    "cyclical_share": 21.42456628111125,
+    "durables": 1137.918,
+    "residential": 843.801,
+    "equipment": 786.904
+  },
+  {
+    "date": "2005-07-01",
+    "cyclical_gdp": 2835.7030000000004,
+    "non_cyclical_gdp": 10306.938999999998,
+    "total_gdp": 13142.642,
+    "cyclical_share": 21.576354282495107,
+    "durables": 1151.814,
+    "residential": 875.593,
+    "equipment": 808.296
+  },
+  {
+    "date": "2005-10-01",
+    "cyclical_gdp": 2820.744,
+    "non_cyclical_gdp": 10503.46,
+    "total_gdp": 13324.204,
+    "cyclical_share": 21.17007515045552,
+    "durables": 1114.745,
+    "residential": 890.206,
+    "equipment": 815.793
+  },
+  {
+    "date": "2006-01-01",
+    "cyclical_gdp": 2900.498,
+    "non_cyclical_gdp": 10698.662,
+    "total_gdp": 13599.16,
+    "cyclical_share": 21.328508525526576,
+    "durables": 1154.128,
+    "residential": 896.218,
+    "equipment": 850.152
+  },
+  {
+    "date": "2006-04-01",
+    "cyclical_gdp": 2866.228,
+    "non_cyclical_gdp": 10887.196,
+    "total_gdp": 13753.424,
+    "cyclical_share": 20.840104980403424,
+    "durables": 1149.249,
+    "residential": 859.339,
+    "equipment": 857.64
+  },
+  {
+    "date": "2006-07-01",
+    "cyclical_gdp": 2842.66,
+    "non_cyclical_gdp": 11027.528,
+    "total_gdp": 13870.188,
+    "cyclical_share": 20.494747439616535,
+    "durables": 1160.532,
+    "residential": 814.718,
+    "equipment": 867.41
+  },
+  {
+    "date": "2006-10-01",
+    "cyclical_gdp": 2825.732,
+    "non_cyclical_gdp": 11213.828,
+    "total_gdp": 14039.56,
+    "cyclical_share": 20.126927054694022,
+    "durables": 1169.422,
+    "residential": 782.381,
+    "equipment": 873.929
+  },
+  {
+    "date": "2007-01-01",
+    "cyclical_gdp": 2816.164,
+    "non_cyclical_gdp": 11399.487,
+    "total_gdp": 14215.651,
+    "cyclical_share": 19.810306260332364,
+    "durables": 1179.022,
+    "residential": 750.889,
+    "equipment": 886.253
+  },
+  {
+    "date": "2007-04-01",
+    "cyclical_gdp": 2802.8109999999997,
+    "non_cyclical_gdp": 11599.271,
+    "total_gdp": 14402.082,
+    "cyclical_share": 19.461151519620564,
+    "durables": 1185.692,
+    "residential": 719.274,
+    "equipment": 897.845
+  },
+  {
+    "date": "2007-07-01",
+    "cyclical_gdp": 2761.55,
+    "non_cyclical_gdp": 11802.567,
+    "total_gdp": 14564.117,
+    "cyclical_share": 18.96132803657098,
+    "durables": 1191.859,
+    "residential": 673.671,
+    "equipment": 896.02
+  },
+  {
+    "date": "2007-10-01",
+    "cyclical_gdp": 2707.3669999999997,
+    "non_cyclical_gdp": 12007.691,
+    "total_gdp": 14715.058,
+    "cyclical_share": 18.398615894004628,
+    "durables": 1195.599,
+    "residential": 618.156,
+    "equipment": 893.612
+  },
+  {
+    "date": "2008-01-01",
+    "cyclical_gdp": 2605.587,
+    "non_cyclical_gdp": 12100.951000000001,
+    "total_gdp": 14706.538,
+    "cyclical_share": 17.717201696279574,
+    "durables": 1153.509,
+    "residential": 566.675,
+    "equipment": 885.403
+  },
+  {
+    "date": "2008-04-01",
+    "cyclical_gdp": 2548.361,
+    "non_cyclical_gdp": 12317.34,
+    "total_gdp": 14865.701,
+    "cyclical_share": 17.142555201399517,
+    "durables": 1137.729,
+    "residential": 538.808,
+    "equipment": 871.824
+  },
+  {
+    "date": "2008-07-01",
+    "cyclical_gdp": 2454.989,
+    "non_cyclical_gdp": 12444.01,
+    "total_gdp": 14898.999,
+    "cyclical_share": 16.47754322287021,
+    "durables": 1095.819,
+    "residential": 507.06,
+    "equipment": 852.11
+  },
+  {
+    "date": "2008-10-01",
+    "cyclical_gdp": 2231.563,
+    "non_cyclical_gdp": 12376.646,
+    "total_gdp": 14608.209,
+    "cyclical_share": 15.276088944236765,
+    "durables": 1007.986,
+    "residential": 451.391,
+    "equipment": 772.186
+  },
+  {
+    "date": "2009-01-01",
+    "cyclical_gdp": 2092.49,
+    "non_cyclical_gdp": 12338.412,
+    "total_gdp": 14430.902,
+    "cyclical_share": 14.500063821374434,
+    "durables": 1004.48,
+    "residential": 404.473,
+    "equipment": 683.537
+  },
+  {
+    "date": "2009-04-01",
+    "cyclical_gdp": 2021.569,
+    "non_cyclical_gdp": 12359.667000000001,
+    "total_gdp": 14381.236,
+    "cyclical_share": 14.056990650873121,
+    "durables": 994.7,
+    "residential": 374.685,
+    "equipment": 652.184
+  },
+  {
+    "date": "2009-07-01",
+    "cyclical_gdp": 2086.527,
+    "non_cyclical_gdp": 12362.355,
+    "total_gdp": 14448.882,
+    "cyclical_share": 14.440750502357208,
+    "durables": 1035.104,
+    "residential": 389.385,
+    "equipment": 662.038
+  },
+  {
+    "date": "2009-10-01",
+    "cyclical_gdp": 2088.96,
+    "non_cyclical_gdp": 12562.289,
+    "total_gdp": 14651.249,
+    "cyclical_share": 14.257897057104143,
+    "durables": 1014.201,
+    "residential": 391.472,
+    "equipment": 683.287
+  },
+  {
+    "date": "2010-01-01",
+    "cyclical_gdp": 2120.327,
+    "non_cyclical_gdp": 12644.283,
+    "total_gdp": 14764.61,
+    "cyclical_share": 14.360873737944994,
+    "durables": 1021.085,
+    "residential": 379.435,
+    "equipment": 719.807
+  },
+  {
+    "date": "2010-04-01",
+    "cyclical_gdp": 2203.914,
+    "non_cyclical_gdp": 12776.278999999999,
+    "total_gdp": 14980.193,
+    "cyclical_share": 14.712186952464501,
+    "durables": 1043.901,
+    "residential": 396.341,
+    "equipment": 763.672
+  },
+  {
+    "date": "2010-07-01",
+    "cyclical_gdp": 2218.154,
+    "non_cyclical_gdp": 12923.453,
+    "total_gdp": 15141.607,
+    "cyclical_share": 14.649396196850176,
+    "durables": 1052.423,
+    "residential": 361.234,
+    "equipment": 804.497
+  },
+  {
+    "date": "2010-10-01",
+    "cyclical_gdp": 2267.8630000000003,
+    "non_cyclical_gdp": 13041.611,
+    "total_gdp": 15309.474,
+    "cyclical_share": 14.813461259348298,
+    "durables": 1078.441,
+    "residential": 369.289,
+    "equipment": 820.133
+  },
+  {
+    "date": "2011-01-01",
+    "cyclical_gdp": 2296.511,
+    "non_cyclical_gdp": 13054.937,
+    "total_gdp": 15351.448,
+    "cyclical_share": 14.959572543254552,
+    "durables": 1087.927,
+    "residential": 368.767,
+    "equipment": 839.817
+  },
+  {
+    "date": "2011-04-01",
+    "cyclical_gdp": 2311.471,
+    "non_cyclical_gdp": 13246.068000000001,
+    "total_gdp": 15557.539,
+    "cyclical_share": 14.857561983293117,
+    "durables": 1082.903,
+    "residential": 374.296,
+    "equipment": 854.272
+  },
+  {
+    "date": "2011-07-01",
+    "cyclical_gdp": 2376.405,
+    "non_cyclical_gdp": 13271.275,
+    "total_gdp": 15647.68,
+    "cyclical_share": 15.18694784146915,
+    "durables": 1090.755,
+    "residential": 381.117,
+    "equipment": 904.533
+  },
+  {
+    "date": "2011-10-01",
+    "cyclical_gdp": 2430.045,
+    "non_cyclical_gdp": 13412.214,
+    "total_gdp": 15842.259,
+    "cyclical_share": 15.339005630447023,
+    "durables": 1112.409,
+    "residential": 391.162,
+    "equipment": 926.474
+  },
+  {
+    "date": "2012-01-01",
+    "cyclical_gdp": 2510.035,
+    "non_cyclical_gdp": 13558.77,
+    "total_gdp": 16068.805,
+    "cyclical_share": 15.620545522831348,
+    "durables": 1138.093,
+    "residential": 414.107,
+    "equipment": 957.835
+  },
+  {
+    "date": "2012-04-01",
+    "cyclical_gdp": 2537.199,
+    "non_cyclical_gdp": 13669.916,
+    "total_gdp": 16207.115,
+    "cyclical_share": 15.654846652226507,
+    "durables": 1133.557,
+    "residential": 419.287,
+    "equipment": 984.355
+  },
+  {
+    "date": "2012-07-01",
+    "cyclical_gdp": 2559.707,
+    "non_cyclical_gdp": 13759.833999999999,
+    "total_gdp": 16319.541,
+    "cyclical_share": 15.684920305050246,
+    "durables": 1141.673,
+    "residential": 433.74,
+    "equipment": 984.294
+  },
+  {
+    "date": "2012-10-01",
+    "cyclical_gdp": 2631.605,
+    "non_cyclical_gdp": 13788.814000000002,
+    "total_gdp": 16420.419,
+    "cyclical_share": 16.026418083484955,
+    "durables": 1163.561,
+    "residential": 460.926,
+    "equipment": 1007.118
+  },
+  {
+    "date": "2013-01-01",
+    "cyclical_gdp": 2701.773,
+    "non_cyclical_gdp": 13946.415999999997,
+    "total_gdp": 16648.189,
+    "cyclical_share": 16.228630032972358,
+    "durables": 1189.742,
+    "residential": 485.878,
+    "equipment": 1026.153
+  },
+  {
+    "date": "2013-04-01",
+    "cyclical_gdp": 2721.6580000000004,
+    "non_cyclical_gdp": 14007.029000000002,
+    "total_gdp": 16728.687,
+    "cyclical_share": 16.269405961149253,
+    "durables": 1187.617,
+    "residential": 508.92,
+    "equipment": 1025.121
+  },
+  {
+    "date": "2013-07-01",
+    "cyclical_gdp": 2743.067,
+    "non_cyclical_gdp": 14210.771,
+    "total_gdp": 16953.838,
+    "cyclical_share": 16.179622572776736,
+    "durables": 1191.933,
+    "residential": 524.946,
+    "equipment": 1026.188
+  },
+  {
+    "date": "2013-10-01",
+    "cyclical_gdp": 2787.795,
+    "non_cyclical_gdp": 14404.224,
+    "total_gdp": 17192.019,
+    "cyclical_share": 16.215634708174765,
+    "durables": 1197.851,
+    "residential": 526.407,
+    "equipment": 1063.537
+  },
+  {
+    "date": "2014-01-01",
+    "cyclical_gdp": 2815.1130000000003,
+    "non_cyclical_gdp": 14382.625,
+    "total_gdp": 17197.738,
+    "cyclical_share": 16.369088772023392,
+    "durables": 1207.539,
+    "residential": 535.27,
+    "equipment": 1072.304
+  },
+  {
+    "date": "2014-04-01",
+    "cyclical_gdp": 2899.7529999999997,
+    "non_cyclical_gdp": 14618.755000000001,
+    "total_gdp": 17518.508,
+    "cyclical_share": 16.55251120700461,
+    "durables": 1244.233,
+    "residential": 554.134,
+    "equipment": 1101.386
+  },
+  {
+    "date": "2014-07-01",
+    "cyclical_gdp": 2967.934,
+    "non_cyclical_gdp": 14836.293999999998,
+    "total_gdp": 17804.228,
+    "cyclical_share": 16.669826964696252,
+    "durables": 1261.26,
+    "residential": 572.535,
+    "equipment": 1134.139
+  },
+  {
+    "date": "2014-10-01",
+    "cyclical_gdp": 2998.7200000000003,
+    "non_cyclical_gdp": 14913.359,
+    "total_gdp": 17912.079,
+    "cyclical_share": 16.741328574980045,
+    "durables": 1276.009,
+    "residential": 594.197,
+    "equipment": 1128.514
+  },
+  {
+    "date": "2015-01-01",
+    "cyclical_gdp": 3040.128,
+    "non_cyclical_gdp": 15023.400999999998,
+    "total_gdp": 18063.529,
+    "cyclical_share": 16.830199680250743,
+    "durables": 1291.044,
+    "residential": 609.87,
+    "equipment": 1139.214
+  },
+  {
+    "date": "2015-04-01",
+    "cyclical_gdp": 3088.6850000000004,
+    "non_cyclical_gdp": 15191.098999999998,
+    "total_gdp": 18279.784,
+    "cyclical_share": 16.89672591317272,
+    "durables": 1317.766,
+    "residential": 629.311,
+    "equipment": 1141.608
+  },
+  {
+    "date": "2015-07-01",
+    "cyclical_gdp": 3137.455,
+    "non_cyclical_gdp": 15264.171,
+    "total_gdp": 18401.626,
+    "cyclical_share": 17.049879179155145,
+    "durables": 1326.9,
+    "residential": 654.93,
+    "equipment": 1155.625
+  },
+  {
+    "date": "2015-10-01",
+    "cyclical_gdp": 3136.73,
+    "non_cyclical_gdp": 15298.407,
+    "total_gdp": 18435.137,
+    "cyclical_share": 17.014953563946936,
+    "durables": 1327.463,
+    "residential": 669.31,
+    "equipment": 1139.957
+  },
+  {
+    "date": "2016-01-01",
+    "cyclical_gdp": 3164.282,
+    "non_cyclical_gdp": 15361.651000000002,
+    "total_gdp": 18525.933,
+    "cyclical_share": 17.080284161666786,
+    "durables": 1338.655,
+    "residential": 693.163,
+    "equipment": 1132.464
+  },
+  {
+    "date": "2016-04-01",
+    "cyclical_gdp": 3167.026,
+    "non_cyclical_gdp": 15544.676000000001,
+    "total_gdp": 18711.702,
+    "cyclical_share": 16.92537643021463,
+    "durables": 1345.902,
+    "residential": 704.254,
+    "equipment": 1116.87
+  },
+  {
+    "date": "2016-07-01",
+    "cyclical_gdp": 3191.852,
+    "non_cyclical_gdp": 15700.787,
+    "total_gdp": 18892.639,
+    "cyclical_share": 16.89468580858397,
+    "durables": 1366.32,
+    "residential": 712.569,
+    "equipment": 1112.963
+  },
+  {
+    "date": "2016-10-01",
+    "cyclical_gdp": 3222.9159999999997,
+    "non_cyclical_gdp": 15866.463000000002,
+    "total_gdp": 19089.379,
+    "cyclical_share": 16.883294108205405,
+    "durables": 1375.105,
+    "residential": 730.983,
+    "equipment": 1116.828
+  },
+  {
+    "date": "2017-01-01",
+    "cyclical_gdp": 3265.04,
+    "non_cyclical_gdp": 16015.043999999998,
+    "total_gdp": 19280.084,
+    "cyclical_share": 16.93478098954341,
+    "durables": 1385.09,
+    "residential": 753.643,
+    "equipment": 1126.307
+  },
+  {
+    "date": "2017-04-01",
+    "cyclical_gdp": 3308.8300000000004,
+    "non_cyclical_gdp": 16129.813,
+    "total_gdp": 19438.643,
+    "cyclical_share": 17.021918659651295,
+    "durables": 1394.392,
+    "residential": 767.212,
+    "equipment": 1147.226
+  },
+  {
+    "date": "2017-07-01",
+    "cyclical_gdp": 3359.874,
+    "non_cyclical_gdp": 16332.721000000001,
+    "total_gdp": 19692.595,
+    "cyclical_share": 17.06161123000803,
+    "durables": 1417.806,
+    "residential": 776.428,
+    "equipment": 1165.64
+  },
+  {
+    "date": "2017-10-01",
+    "cyclical_gdp": 3465.2740000000003,
+    "non_cyclical_gdp": 16571.814,
+    "total_gdp": 20037.088,
+    "cyclical_share": 17.294299451097885,
+    "durables": 1466.355,
+    "residential": 798.28,
+    "equipment": 1200.639
+  },
+  {
+    "date": "2018-01-01",
+    "cyclical_gdp": 3504.1440000000002,
+    "non_cyclical_gdp": 16824.409,
+    "total_gdp": 20328.553,
+    "cyclical_share": 17.23754760114997,
+    "durables": 1483.333,
+    "residential": 800.265,
+    "equipment": 1220.546
+  },
+  {
+    "date": "2018-04-01",
+    "cyclical_gdp": 3529.763,
+    "non_cyclical_gdp": 17051.149,
+    "total_gdp": 20580.912,
+    "cyclical_share": 17.150663682931057,
+    "durables": 1488.127,
+    "residential": 819.613,
+    "equipment": 1222.023
+  },
+  {
+    "date": "2018-07-01",
+    "cyclical_gdp": 3538.383,
+    "non_cyclical_gdp": 17260.347,
+    "total_gdp": 20798.73,
+    "cyclical_share": 17.0124954744833,
+    "durables": 1491.615,
+    "residential": 819.662,
+    "equipment": 1227.106
+  },
+  {
+    "date": "2018-10-01",
+    "cyclical_gdp": 3541.081,
+    "non_cyclical_gdp": 17376.786,
+    "total_gdp": 20917.867,
+    "cyclical_share": 16.928499449776595,
+    "durables": 1492.248,
+    "residential": 808.027,
+    "equipment": 1240.806
+  },
+  {
+    "date": "2019-01-01",
+    "cyclical_gdp": 3535.88,
+    "non_cyclical_gdp": 17575.719999999998,
+    "total_gdp": 21111.6,
+    "cyclical_share": 16.748517402754885,
+    "durables": 1482.601,
+    "residential": 803.435,
+    "equipment": 1249.844
+  },
+  {
+    "date": "2019-04-01",
+    "cyclical_gdp": 3601.001,
+    "non_cyclical_gdp": 17796.936999999998,
+    "total_gdp": 21397.938,
+    "cyclical_share": 16.828729011178556,
+    "durables": 1517.861,
+    "residential": 820.007,
+    "equipment": 1263.133
+  },
+  {
+    "date": "2019-07-01",
+    "cyclical_gdp": 3624.217,
+    "non_cyclical_gdp": 18092.953999999998,
+    "total_gdp": 21717.171,
+    "cyclical_share": 16.688255574356347,
+    "durables": 1544.227,
+    "residential": 838.245,
+    "equipment": 1241.745
+  },
+  {
+    "date": "2019-10-01",
+    "cyclical_gdp": 3605.58,
+    "non_cyclical_gdp": 18327.637000000002,
+    "total_gdp": 21933.217,
+    "cyclical_share": 16.43890178080124,
+    "durables": 1549.885,
+    "residential": 846.813,
+    "equipment": 1208.882
+  },
+  {
+    "date": "2020-01-01",
+    "cyclical_gdp": 3511.21,
+    "non_cyclical_gdp": 18240.028000000002,
+    "total_gdp": 21751.238,
+    "cyclical_share": 16.14257542490225,
+    "durables": 1484.685,
+    "residential": 877.327,
+    "equipment": 1149.198
+  },
+  {
+    "date": "2020-04-01",
+    "cyclical_gdp": 3302.1400000000003,
+    "non_cyclical_gdp": 16656.151,
+    "total_gdp": 19958.291,
+    "cyclical_share": 16.545204196090737,
+    "durables": 1467.16,
+    "residential": 816.792,
+    "equipment": 1018.188
+  },
+  {
+    "date": "2020-07-01",
+    "cyclical_gdp": 3826.258,
+    "non_cyclical_gdp": 17878.179000000004,
+    "total_gdp": 21704.437,
+    "cyclical_share": 17.628920759382055,
+    "durables": 1754.408,
+    "residential": 950.812,
+    "equipment": 1121.038
+  },
+  {
+    "date": "2020-10-01",
+    "cyclical_gdp": 3979.366,
+    "non_cyclical_gdp": 18107.794,
+    "total_gdp": 22087.16,
+    "cyclical_share": 18.016648586780736,
+    "durables": 1780.548,
+    "residential": 1037.253,
+    "equipment": 1161.565
+  },
+  {
+    "date": "2021-01-01",
+    "cyclical_gdp": 4177.637,
+    "non_cyclical_gdp": 18503.056,
+    "total_gdp": 22680.693,
+    "cyclical_share": 18.419353412173077,
+    "durables": 1911.195,
+    "residential": 1082.366,
+    "equipment": 1184.076
+  },
+  {
+    "date": "2021-04-01",
+    "cyclical_gdp": 4373.48,
+    "non_cyclical_gdp": 19052.43,
+    "total_gdp": 23425.91,
+    "cyclical_share": 18.669413482763314,
+    "durables": 2053.483,
+    "residential": 1110.816,
+    "equipment": 1209.181
+  },
+  {
+    "date": "2021-07-01",
+    "cyclical_gdp": 4299.898999999999,
+    "non_cyclical_gdp": 19682.480000000003,
+    "total_gdp": 23982.379,
+    "cyclical_share": 17.929409755387486,
+    "durables": 1963.191,
+    "residential": 1147.576,
+    "equipment": 1189.132
+  },
+  {
+    "date": "2021-10-01",
+    "cyclical_gdp": 4431.441,
+    "non_cyclical_gdp": 20382.159,
+    "total_gdp": 24813.6,
+    "cyclical_share": 17.85892010832769,
+    "durables": 2039.587,
+    "residential": 1188.973,
+    "equipment": 1202.881
+  },
+  {
+    "date": "2022-01-01",
+    "cyclical_gdp": 4562.531,
+    "non_cyclical_gdp": 20687.816000000003,
+    "total_gdp": 25250.347,
+    "cyclical_share": 18.06918138590333,
+    "durables": 2083.703,
+    "residential": 1216.177,
+    "equipment": 1262.651
+  },
+  {
+    "date": "2022-04-01",
+    "cyclical_gdp": 4597.442999999999,
+    "non_cyclical_gdp": 21263.849000000002,
+    "total_gdp": 25861.292,
+    "cyclical_share": 17.777313677909053,
+    "durables": 2083.058,
+    "residential": 1222.2,
+    "equipment": 1292.185
+  },
+  {
+    "date": "2022-07-01",
+    "cyclical_gdp": 4574.487999999999,
+    "non_cyclical_gdp": 21761.816,
+    "total_gdp": 26336.304,
+    "cyclical_share": 17.369513960652945,
+    "durables": 2088.702,
+    "residential": 1165.137,
+    "equipment": 1320.649
+  },
+  {
+    "date": "2022-10-01",
+    "cyclical_gdp": 4514.457,
+    "non_cyclical_gdp": 22256.057,
+    "total_gdp": 26770.514,
+    "cyclical_share": 16.863542478116038,
+    "durables": 2056.255,
+    "residential": 1110.626,
+    "equipment": 1347.576
+  },
+  {
+    "date": "2023-01-01",
+    "cyclical_gdp": 4592.2880000000005,
+    "non_cyclical_gdp": 22624.157,
+    "total_gdp": 27216.445,
+    "cyclical_share": 16.873210296201435,
+    "durables": 2141.517,
+    "residential": 1081.351,
+    "equipment": 1369.42
+  },
+  {
+    "date": "2023-04-01",
+    "cyclical_gdp": 4641.624,
+    "non_cyclical_gdp": 22888.431,
+    "total_gdp": 27530.055,
+    "cyclical_share": 16.860206054800834,
+    "durables": 2140.8,
+    "residential": 1089.199,
+    "equipment": 1411.625
+  },
+  {
+    "date": "2023-07-01",
+    "cyclical_gdp": 4694.984,
+    "non_cyclical_gdp": 23379.862,
+    "total_gdp": 28074.846,
+    "cyclical_share": 16.72309796463354,
+    "durables": 2149.053,
+    "residential": 1134.69,
+    "equipment": 1411.241
+  },
+  {
+    "date": "2023-10-01",
+    "cyclical_gdp": 4710.094000000001,
+    "non_cyclical_gdp": 23714.628,
+    "total_gdp": 28424.722,
+    "cyclical_share": 16.570413599823425,
+    "durables": 2132.802,
+    "residential": 1150.941,
+    "equipment": 1426.351
+  },
+  {
+    "date": "2024-01-01",
+    "cyclical_gdp": 4742.738,
+    "non_cyclical_gdp": 23965.423,
+    "total_gdp": 28708.161,
+    "cyclical_share": 16.520521812595383,
+    "durables": 2126.327,
+    "residential": 1175.809,
+    "equipment": 1440.602
+  },
+  {
+    "date": "2024-04-01",
+    "cyclical_gdp": 4810.476000000001,
+    "non_cyclical_gdp": 24336.568,
+    "total_gdp": 29147.044,
+    "cyclical_share": 16.50416419586151,
+    "durables": 2151.86,
+    "residential": 1180.094,
+    "equipment": 1478.522
+  },
+  {
+    "date": "2024-07-01",
+    "cyclical_gdp": 4877.459,
+    "non_cyclical_gdp": 24634.205,
+    "total_gdp": 29511.664,
+    "cyclical_share": 16.52722462549045,
+    "durables": 2183.934,
+    "residential": 1177.802,
+    "equipment": 1515.723
+  },
+  {
+    "date": "2024-10-01",
+    "cyclical_gdp": 4950.0380000000005,
+    "non_cyclical_gdp": 24875.144,
+    "total_gdp": 29825.182,
+    "cyclical_share": 16.596840884323857,
+    "durables": 2250.218,
+    "residential": 1197.65,
+    "equipment": 1502.17
+  },
+  {
+    "date": "2025-01-01",
+    "cyclical_gdp": 5021.124,
+    "non_cyclical_gdp": 25020.989,
+    "total_gdp": 30042.113,
+    "cyclical_share": 16.713617980199995,
+    "durables": 2235.819,
+    "residential": 1206.197,
+    "equipment": 1579.108
+  },
+  {
+    "date": "2025-04-01",
+    "cyclical_gdp": 5087.674,
+    "non_cyclical_gdp": 25398.055,
+    "total_gdp": 30485.729,
+    "cyclical_share": 16.6887070340355,
+    "durables": 2265.729,
+    "residential": 1196.91,
+    "equipment": 1625.035
+  },
+  {
+    "date": "2025-07-01",
+    "cyclical_gdp": 5141.83,
+    "non_cyclical_gdp": 25953.259,
+    "total_gdp": 31095.089,
+    "cyclical_share": 16.535826605931245,
+    "durables": 2277.613,
+    "residential": 1194.361,
+    "equipment": 1669.856
+  }
+];
+
+const contractionStats = {
+  cyclical: 21.0,
+  nonCyclical: 3.8,
+  total: 4.2
+};

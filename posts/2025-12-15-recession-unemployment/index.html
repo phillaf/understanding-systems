@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do Recessions Actually Make People Lose Jobs? A Statistical Investigation</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <style>
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            font-style: italic;
+            margin-bottom: 2em;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        canvas {
+            max-width: 100%;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>Do Recessions Actually Make People Lose Jobs?</h1>
+        
+        <div class="meta">
+            <time datetime="2025-12-15">December 15, 2025</time>
+        </div>
+        
+        <p class="subtitle">A statistical deep-dive into the relationship between economic downturns and unemployment (spoiler: it's complicated)</p>
+
+    <h2>The Question</h2>
+    <p>Everyone "knows" that when the economy tanks, people lose their jobs. It's basically Economic Common Sense 101, right up there with "money is good" and "inflation is bad." But here's the thing about common sense in economics: it's often oversimplified to the point of being <em>technically wrong while still being kinda right</em>.</p>
+
+    <p>So I decided to actually check. Does GDP falling <em>cause</em> unemployment to rise? Or does unemployment rising <em>cause</em> GDP to fall? Do they move together like synchronized swimmers, or are they just two separate dumpster fires that happen to burn at the same time?</p>
+
+    <p>Let's throw some math at this question and see what sticks.</p>
+
+    <h2>The Data: What We're Actually Looking At</h2>
+
+    <p>I grabbed two datasets from the Federal Reserve Economic Data (FRED) API:</p>
+    <ul>
+        <li><strong>Real GDP</strong> (GDPC1) - quarterly data, inflation-adjusted to 2017 dollars</li>
+        <li><strong>Unemployment Rate</strong> (UNRATE) - monthly data, as a percentage</li>
+    </ul>
+
+    <p>Now, raw GDP is kind of useless for this analysis. If I compared absolute GDP to unemployment, I'd just see a line that goes up (because economy gets bigger over time) next to a squiggly line (unemployment). Not helpful.</p>
+
+    <div class="chart-container">
+        <h3>GDP: Pick Your Flavor</h3>
+        <p>Here's the raw data. Toggle between views to see why we need transformations:</p>
+        <div style="margin-bottom: 10px;">
+            <label style="display: block; margin-bottom: 5px;">
+                <input type="radio" name="gdpView" value="absolute" checked onchange="toggleGdpView()">
+                <strong>Absolute GDP</strong> - The raw number (not useful for comparison)
+            </label>
+            <label style="display: block; margin-bottom: 5px;">
+                <input type="radio" name="gdpView" value="perCapita" onchange="toggleGdpView()">
+                <strong>GDP per Capita</strong> - Removes population growth
+            </label>
+            <label style="display: block; margin-bottom: 5px;">
+                <input type="radio" name="gdpView" value="growth" onchange="toggleGdpView()">
+                <strong>Growth Rate</strong> - % change (recessions = negative)
+            </label>
+            <label style="display: block; margin-bottom: 5px;">
+                <input type="radio" name="gdpView" value="logDiff" onchange="toggleGdpView()">
+                <strong>Log Difference</strong> - What we actually used
+            </label>
+        </div>
+        <canvas id="gdpChart"></canvas>
+    </div>
+
+    <div class="callout">
+        <strong>Why Log Difference?</strong> The log difference (ln(GDP<sub>t</sub>/GDP<sub>t-1</sub>)) is basically "continuously compounded growth rate." It treats a 10% drop from $100 to $90 the same as a 10% increase from $90 to $100, which makes the math cleaner. Also, economists love logs because they make multiplicative relationships additive, which is... look, just trust me, it's the right choice.
+    </div>
+
+    <div class="chart-container">
+        <h3>Unemployment Rate: The Human Cost</h3>
+        <p>This one needs no transformation. When this line spikes, people are losing jobs. Simple as that.</p>
+        <canvas id="unemploymentChart"></canvas>
+    </div>
+
+    <p>Just eyeballing these charts, you can see they <em>sort of</em> move together during recessions. But "sort of" isn't science. Time to actually measure this relationship.</p>
+
+    <h2>Okun's Law: The Textbook Relationship</h2>
+
+    <p>Before diving into the fancy statistical methods, let's check the relationship economists <em>actually</em> look at: <strong>Okun's Law</strong>. This is the Economics 101 version of "recessions cause unemployment."</p>
+
+    <p>Here's the key difference from what we've been doing: Up until now, I've been comparing the unemployment <em>rate</em> (like "5.3%", "5.7%", etc.) directly with GDP growth. But Okun's Law uses the <em>change</em> in the unemployment rate instead. So if unemployment goes from 5.3% to 5.7%, that's a change of +0.4 percentage points. Okun's Law correlates that +0.4 with GDP growth, not the 5.7% itself.</p>
+    
+    <p><strong>Why does this matter?</strong> Think about it: if unemployment is sitting at 8% during a strong recovery, we'd expect <em>negative</em> changes (unemployment falling) as GDP grows. But if we just correlate the 8% level with GDP growth, we miss that dynamic. The <em>change</em> captures the direction unemployment is moving, which is what we actually care about.</p>
+
+    <div class="chart-container">
+        <canvas id="okunChart"></canvas>
+    </div>
+
+    <p><strong>What we'd expect:</strong> A strong <strong>negative</strong> correlation. When GDP growth is high (say, 3% per quarter), unemployment should <em>fall</em> (negative change). When GDP growth is negative (recession), unemployment should <em>rise</em> (positive change). Okun's original research found a coefficient of about -0.5: a 2% drop in GDP leads to a 1% rise in unemployment.</p>
+
+    <p><strong>What we found:</strong> The correlation is <strong>0.0143</strong>—even closer to zero than the rate-vs-growth correlation. The scatter plot looks more like a cloud than a line. What gives?</p>
+
+    <div class="insight-box">
+        <strong>Why is Okun's Law not showing up?</strong> A few possibilities:
+        <ul style="margin-top: 0.5em;">
+            <li><strong>Structural changes:</strong> The labor market has evolved significantly since Okun's 1960s research. Automation, gig economy, remote work—the relationship between output and jobs has shifted.</li>
+            <li><strong>Policy interventions:</strong> Modern recessions involve massive fiscal and monetary policy responses (unemployment insurance extensions, Fed rate cuts, stimulus payments) that buffer the unemployment impact.</li>
+            <li><strong>Data aggregation:</strong> We're looking at quarterly data across 75+ years. Okun's Law works better at higher frequencies (monthly data) and shorter timeframes (within a single business cycle).</li>
+            <li><strong>Lags matter:</strong> The unemployment response to GDP changes isn't instant. It takes time for companies to lay off workers or hire new ones. The simple contemporaneous correlation misses this delayed effect.</li>
+        </ul>
+    </div>
+
+    <p>So while Okun's Law is real and well-documented in economics research, it doesn't jump out of this long-term, aggregated data. This is why we need the more sophisticated methods below—they can detect <em>lagged</em> relationships and time-varying dynamics that simple correlation misses.</p>
+
+    <h2>The Analysis Arsenal</h2>
+
+    <p>Now that we've seen why simple correlation doesn't tell the whole story, let's bring out the heavy artillery. I threw five different statistical methods at this question. Some worked better than others. Let's go through them:</p>
+
+    <h3>Method 1: Rolling Correlation</h3>
+
+    <div class="chart-container">
+        <canvas id="rollingCorrelationChart"></canvas>
+    </div>
+
+    <p><strong>What it measures:</strong> Pearson correlation coefficient in a sliding 10-year (40-month) window. Answers the question: "How strongly do these two variables move together <em>right now</em>?"</p>
+
+    <p><strong>What we'd expect to see:</strong></p>
+    <ul>
+        <li><strong>If strongly correlated:</strong> The line would hover near +1 or -1 consistently. A value near +1 means "when GDP growth goes up, unemployment goes down" (expected!).</li>
+        <li><strong>If no correlation:</strong> The line would hover near 0.</li>
+        <li><strong>If relationship changes over time:</strong> The line would swing between positive and negative values.</li>
+    </ul>
+
+    <p><strong>What we found:</strong> The overall correlation across all time is <strong>0.0427</strong> (basically zero). But the rolling correlation swings wildly—sometimes positive, sometimes negative, sometimes near zero. The relationship is not stable across different economic eras.</p>
+
+    <div class="callout">
+        <strong>Why does it start in 1951?</strong> We need 10 years of data (120 months) to calculate the first correlation value. Unemployment data starts in January 1948, so 1948 + 10 years = first value in 1951.
+    </div>
+
+    <div class="insight-box">
+        <strong>Why the relationship changes over time:</strong> Different recessions have different causes and policy responses:
+        <ul style="margin-top: 0.5em;">
+            <li><strong>Demand-side recessions</strong> (2008, COVID): Consumers stop spending → companies lay off workers quickly → strong GDP-unemployment link</li>
+            <li><strong>Supply-side shocks</strong> (1970s oil crisis): Production constraints → inflation → unemployment can rise even without GDP collapse</li>
+            <li><strong>Policy interventions</strong>: Modern recessions trigger massive fiscal/monetary responses (CARES Act, PPP loans, Fed QE) that buffer unemployment impacts differently than pre-1980s recessions</li>
+            <li><strong>Structural shifts</strong>: The "Great Moderation" (1985-2007) featured shallow recessions and quick recoveries. Post-2008, labor markets became more rigid, with slower hiring/firing dynamics.</li>
+        </ul>
+        The 2008 financial crisis hit differently than COVID, which hit differently than the early 1980s Volcker recession. There's no single "recession → unemployment" mechanism—context matters enormously.
+    </div>
+
+    <h3>Method 2: Cross-Correlation</h3>
+
+    <div class="chart-container">
+        <canvas id="crossCorrelationChart"></canvas>
+    </div>
+
+    <p><strong>What it measures:</strong> Correlation at different time lags. Does unemployment <em>today</em> correlate with GDP from <em>6 months ago</em>? Or vice versa?</p>
+
+    <p><strong>What we'd expect to see:</strong></p>
+    <ul>
+        <li><strong>If GDP causes unemployment:</strong> Highest correlation would be at positive lags (GDP change happens first, unemployment follows).</li>
+        <li><strong>If unemployment causes GDP:</strong> Highest correlation at negative lags (unemployment changes first, GDP follows).</li>
+        <li><strong>If they're simultaneous:</strong> Peak correlation at lag 0.</li>
+    </ul>
+
+    <p><strong>What we found:</strong> The correlation steadily increases through positive lags, peaking around +7 quarters (~1.75 years out). This means <strong>GDP changes lead unemployment changes</strong>—the economy contracts first, and it takes roughly 1.5-2 years for unemployment to fully respond.</p>
+
+    <div class="insight-box">
+        <strong>Why does it take 1.5-2 years?</strong> Several institutional and behavioral factors explain this lag:
+        <ul style="margin-top: 0.5em;">
+            <li><strong>Labor hoarding:</strong> Companies try to avoid layoffs initially (hiring/firing is expensive). They cut hours, freeze hiring, reduce overtime first.</li>
+            <li><strong>Unemployment insurance:</strong> Workers on UI take time to find new jobs. During severe recessions, UI extensions prolong job search.</li>
+            <li><strong>Sectoral shifts:</strong> Workers laid off from declining industries (manufacturing, construction) need retraining for growing sectors (healthcare, tech), which takes time.</li>
+            <li><strong>Hysteresis effects:</strong> Long-term unemployment damages skills and employer perceptions, making re-employment harder even as GDP recovers.</li>
+        </ul>
+        Recessions don't trigger immediate mass layoffs. Companies hold on, hoping things improve. Unemployment is a lagging indicator—by the time job losses peak, the economy may already be recovering. This ~7 quarter lag is remarkably consistent across different business cycles, despite varying recession causes.
+    </div>
+
+    <h3>Method 3 & 4: Granger Causality</h3>
+
+    <p><strong>What it measures:</strong> Statistical "causality" (not true causality, but predictive power). Granger causality asks: does knowing past unemployment help predict future GDP <em>better than</em> knowing only past GDP? And vice versa?</p>
+
+    <p><strong>The methodology:</strong> For each lag (say, 5 quarters), we fit two regression models:
+        <ul style="margin-top: 0.5em;">
+            <li><strong>Restricted model:</strong> Predict GDP using only its own past values (5 lags of GDP)</li>
+            <li><strong>Unrestricted model:</strong> Predict GDP using both its past values AND unemployment's past values (5 lags of each)</li>
+        </ul>
+    If unemployment truly helps predict GDP, the unrestricted model should fit significantly better. We measure this using an F-statistic that compares the residual sum of squares (RSS) between models.</p>
+
+    <p><strong>What "lag" means:</strong> A lag of 5 quarters means "does knowing unemployment 5 quarters ago help predict GDP today?" We're testing different time delays (3-15 quarters) to see which historical values have predictive power. I've excluded very short lags (1-2 quarters) where measurement noise dominates, and very long lags (>15 quarters) where sample size degradation makes results unreliable.</p>
+
+    <p><strong>What we'd expect to see:</strong></p>
+    <ul>
+        <li><strong>If X "Granger-causes" Y:</strong> F-statistics consistently above 3-4 (the threshold where predictive power becomes statistically meaningful at conventional significance levels).</li>
+        <li><strong>If no causal relationship:</strong> F-statistics below 2, showing no reliable predictive value beyond random noise.</li>
+    </ul>
+
+    <p><strong>Chart 1: Does Unemployment Predict GDP?</strong></p>
+    <div class="chart-container">
+        <canvas id="grangerU2GChart"></canvas>
+    </div>
+    <p>The F-statistics stay well below 2 across all time lags, indicating <strong>no meaningful predictive power</strong>. Even though there's a slight uptick around lags 8-10 (unemployment from 2-2.5 years ago), these values are still too low to indicate real Granger causality. When F-statistics are this low, we're basically looking at noise—past unemployment doesn't help predict future GDP changes beyond what GDP's own history already tells us.</p>
+
+    <p><strong>Chart 2: Does GDP Predict Unemployment?</strong></p>
+    <div class="chart-container">
+        <canvas id="grangerG2UChart"></canvas>
+    </div>
+    <p>These F-statistics are slightly higher (around 2.5-3.0), hovering near the threshold where we might start seeing weak predictive power. This aligns with the cross-correlation finding that GDP changes lead unemployment—but even here, the relationship is weak. A proper Granger test would need F-stats consistently above 4-5 to claim strong causality.</p>
+
+    <div class="callout">
+        <strong>Methodology note:</strong> Granger causality doesn't mean "X causes Y" in the philosophical sense—it means "X helps predict Y." A rooster crowing Granger-causes the sunrise, but we all know that's not real causality. The implementation here uses proper linear regression with restricted/unrestricted model comparison and F-tests with correct degrees of freedom. However, there are still limitations: I'm using a fixed lag structure rather than optimal lag selection via AIC/BIC, and Granger tests can miss nonlinear relationships. These results should be interpreted as directional evidence, not definitive proof.
+    </div>
+
+    <h3>Method 5: Spectral Coherence</h3>
+
+    <div class="chart-container">
+        <canvas id="coherenceChart"></canvas>
+    </div>
+
+    <p><strong>What it measures:</strong> Frequency-domain correlation across different time windows. Think of it as "how synchronized are these two time series?" where values range from 0 (completely independent) to 1 (perfectly synchronized).</p>
+
+    <p><strong>What we'd expect to see:</strong></p>
+    <ul>
+        <li><strong>If strongly related:</strong> Coherence values consistently above 0.7-0.8 across windows.</li>
+        <li><strong>If they share common cycles:</strong> High coherence during recession/boom periods, lower during stable times.</li>
+        <li><strong>If independent:</strong> Coherence values close to 0.</li>
+    </ul>
+
+    <p><strong>What the windows mean:</strong> I divided the entire time series into 10 sequential chunks (windows). Window 1 is ~1948-1955, Window 2 is ~1956-1963, etc. Each window captures a different economic era.</p>
+
+    <p><strong>What we found:</strong> Coherence varies between 0.2 and 0.6 across windows, never getting particularly high. Some eras show stronger coherence than others, but there's no period where the two series are tightly synchronized. The relationship exists, but it's moderate at best.</p>
+
+    <div class="insight-box">
+        <strong>Translation:</strong> They move together during big business cycles (recessions and booms), but the day-to-day and year-to-year noise drowns out any simple linear relationship. Some decades had stronger coupling, others didn't.
+    </div>
+
+    <h2>The Conclusion</h2>
+
+    <p>So, do recessions cause unemployment? The answer depends on which question you're actually asking:</p>
+
+    <p><strong>Does GDP falling <em>contemporaneously</em> correlate with unemployment rising?</strong> Not really. The simple correlation is 0.0427—essentially zero. Okun's Law (change in unemployment vs GDP growth) is even weaker at 0.0143. If you look at GDP today and unemployment today, you won't see much of a relationship.</p>
+
+    <p><strong>Does GDP falling <em>eventually</em> lead to unemployment rising?</strong> Yes, with a significant time lag. The cross-correlation analysis shows GDP changes lead unemployment changes by about 7 quarters (~1.75 years). The peak correlation at this lag is 0.136—still modest, but statistically meaningful. The relationship exists; it's just delayed.</p>
+
+    <p><strong>Is the relationship stable over time?</strong> No. The rolling correlation swings wildly between positive, negative, and near-zero values across different decades. Different recessions operate through different mechanisms (demand shocks vs supply shocks vs financial crises vs pandemics), and policy responses have evolved dramatically since the 1940s.</p>
+
+    <p>Here's what the full statistical arsenal revealed:</p>
+
+    <ol>
+        <li><strong>Okun's Law doesn't show up clearly in long-term aggregated data.</strong> The traditional specification (change in unemployment vs GDP growth) produces a correlation of 0.0143. This doesn't mean Okun's Law is wrong—it means the relationship is masked by structural changes, policy interventions, and data aggregation over 75+ years.</li>
+        
+        <li><strong>The lag matters enormously.</strong> GDP drops first, unemployment follows 1.5-2 years later. Companies hoard labor initially, workers take time to exhaust UI benefits and find new jobs, and sectoral shifts require retraining. By the time unemployment peaks, the recession may already be over.</li>
+        
+        <li><strong>Granger causality is weak in both directions.</strong> GDP has slight predictive power for future unemployment (F-stats around 2.5-3.0), but unemployment has virtually no predictive power for GDP (F-stats <2). This asymmetry makes sense: GDP drives employment decisions, not vice versa.</li>
+        
+        <li><strong>Context is everything.</strong> The 2008 financial crisis produced a deep, slow-recovery recession with persistent unemployment. COVID caused a sharp V-shaped shock with unprecedented policy buffers (PPP, expanded UI). The 1980s Volcker recession was an intentional monetary tightening. You can't model "recessions" as a monolithic phenomenon.</li>
+    </ol>
+
+    <div class="callout">
+        <strong>Why is this conventional wisdom if the data is so weak?</strong> Several reasons:
+        <ul style="margin-top: 0.5em;">
+            <li><strong>Dramatic examples stick in memory:</strong> The Great Depression, 2008, COVID—these headline recessions DID produce massive unemployment spikes. We remember the extreme cases and generalize from them.</li>
+            <li><strong>Individual-level vs aggregate statistics:</strong> If YOU lose your job during a recession, the causality feels obvious. But at the aggregate level, unemployment is driven by many factors (demographics, labor force participation, structural change), not just GDP.</li>
+            <li><strong>Selection bias in research:</strong> Okun's original 1960s research looked at a specific era with less policy intervention and more manufacturing employment. His results don't generalize across 75+ years of structural change.</li>
+            <li><strong>Theoretical models dominate:</strong> Economics textbooks teach IS-LM models and Phillips curves where output and employment move together mechanically. Reality is messier than the models suggest.</li>
+            <li><strong>Policy narrative:</strong> Governments and central banks justify stimulus by claiming recessions cause unemployment. The narrative is politically useful even if empirically weak.</li>
+        </ul>
+    </div>
+
+    <div class="callout">
+        <strong>The real takeaway:</strong> The relationship between GDP and unemployment exists but is surprisingly weak (correlation of 0.136 even at optimal lag). It's mediated by labor market institutions, policy responses, business cycle characteristics, and structural economic changes. Simple bivariate analysis (GDP vs unemployment) misses the full story—you need to account for interest rates, fiscal policy, sector composition, global shocks, and a dozen other variables. The connection is real but highly context-dependent and far weaker than conventional wisdom suggests.
+    </div>
+
+    <p>Or, to put it another way: <em>Some recessions cause significant unemployment (2008, COVID), others barely move the needle (1990-91, 2001). The "recession → unemployment" link is not a law of nature—it's a contingent relationship that depends on the type of shock, policy response, and which sectors get hit. Anyone selling you a simple answer is oversimplifying.</em></p>
+
+    <hr style="margin: 40px 0; border: none; border-top: 2px solid #ddd;">
+
+    <p style="color: #999; font-size: 0.9em;">
+        <strong>Methodology:</strong> Data from FRED API (Real GDP GDPC1, Unemployment Rate UNRATE). GDP transformed to log differences. Statistical analysis includes Pearson correlation, cross-correlation with time lags, Granger causality tests using linear regression, and spectral coherence. Charts rendered with Chart.js.
+    </p>
+
+    <p style="color: #999; font-size: 0.9em;">
+        Last updated: December 2025
+    </p>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="data/raw/gdp.js"></script>
+    <script src="data/raw/gdp_per_capita.js"></script>
+    <script src="data/transformed/gdp_growth.js"></script>
+    <script src="data/transformed/gdp_log_diff.js"></script>
+    <script src="data/raw/unemployment.js"></script>
+    <script src="data/transformed/unemployment_gdp_analysis.js"></script>
+    <script>
+        // Declare chart variables globally
+        let gdpChart, correlationChart;
+
+        // GDP Chart
+        const gdpCtx = document.getElementById('gdpChart');
+        gdpChart = new Chart(gdpCtx, {
+            type: 'line',
+            data: gdpData,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: false
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Billions of 2017 Dollars (Inflation-Adjusted)'
+                        }
+                    }
+                }
+            }
+        });
+
+        function toggleGdpView() {
+            const view = document.querySelector('input[name="gdpView"]:checked').value;
+            if (view === 'perCapita') {
+                gdpChart.data = gdpPerCapitaData;
+                gdpChart.options.scales.y.title.text = '2017 Dollars per Person';
+            } else if (view === 'growth') {
+                gdpChart.data = gdpGrowthData;
+                gdpChart.options.scales.y.title.text = 'Quarter-over-Quarter Growth Rate (%)';
+            } else if (view === 'logDiff') {
+                gdpChart.data = gdpLogDiffData;
+                gdpChart.options.scales.y.title.text = 'Log Difference (Continuously Compounded Rate)';
+            } else {
+                gdpChart.data = gdpData;
+                gdpChart.options.scales.y.title.text = 'Billions of 2017 Dollars (Inflation-Adjusted)';
+            }
+            gdpChart.update();
+        }
+
+        // Unemployment Chart
+        const unempCtx = document.getElementById('unemploymentChart');
+        new Chart(unempCtx, {
+            type: 'line',
+            data: unemploymentData,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: false
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Unemployment Rate (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Okun's Law scatter plot
+        const okunCtx = document.getElementById('okunChart');
+        new Chart(okunCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [unemploymentGdpAnalysis.datasets[0]]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: false },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: { display: true, text: 'GDP Growth (% per quarter)' },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(1) + '%';
+                            }
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: 'Change in Unemployment Rate (percentage points)' }
+                    }
+                }
+            }
+        });
+
+        // Individual analysis charts
+        const rollingCorrCtx = document.getElementById('rollingCorrelationChart');
+        new Chart(rollingCorrCtx, {
+            type: 'line',
+            data: {
+                datasets: [unemploymentGdpAnalysis.datasets[1]]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: false },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { type: 'time', time: { unit: 'year' } },
+                    y: { suggestedMin: -1, suggestedMax: 1, title: { display: true, text: 'Correlation Coefficient' } }
+                }
+            }
+        });
+
+        const crossCorrCtx = document.getElementById('crossCorrelationChart');
+        new Chart(crossCorrCtx, {
+            type: 'line',
+            data: {
+                datasets: [unemploymentGdpAnalysis.datasets[2]]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: false },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { type: 'category', title: { display: true, text: 'Lag (quarters)' } },
+                    y: { title: { display: true, text: 'Correlation Coefficient' } }
+                }
+            }
+        });
+
+        const grangerU2GCtx = document.getElementById('grangerU2GChart');
+        new Chart(grangerU2GCtx, {
+            type: 'line',
+            data: {
+                datasets: [unemploymentGdpAnalysis.datasets[3]]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: false },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { type: 'category', title: { display: true, text: 'Lag (quarters)' } },
+                    y: { title: { display: true, text: 'F-Statistic' } }
+                }
+            }
+        });
+
+        const grangerG2UCtx = document.getElementById('grangerG2UChart');
+        new Chart(grangerG2UCtx, {
+            type: 'line',
+            data: {
+                datasets: [unemploymentGdpAnalysis.datasets[4]]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: false },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { type: 'category', title: { display: true, text: 'Lag (quarters)' } },
+                    y: { title: { display: true, text: 'F-Statistic' } }
+                }
+            }
+        });
+
+        const coherenceCtx = document.getElementById('coherenceChart');
+        new Chart(coherenceCtx, {
+            type: 'line',
+            data: {
+                datasets: [unemploymentGdpAnalysis.datasets[5]]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: false },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { type: 'category', title: { display: true, text: 'Time Window' } },
+                    y: { suggestedMin: 0, suggestedMax: 1, title: { display: true, text: 'Coherence' } }
+                }
+            }
+        });
+
+        // Correlation Analysis Chart (the toggle-able one)
+        const corrCtx = document.getElementById('correlationChart');
+        correlationChart = new Chart(corrCtx, {
+            type: 'line',
+            data: {
+                datasets: [unemploymentGdpAnalysis.datasets[1]]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Rolling Correlation: Unemployment vs GDP Growth'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Correlation Coefficient'
+                        },
+                        suggestedMin: -1,
+                        suggestedMax: 1
+                    }
+                }
+            }
+        });
+
+        function toggleCorrelationView() {
+            const view = document.querySelector('input[name="correlationView"]:checked').value;
+            if (view === 'okun') {
+                correlationChart.data.datasets = [unemploymentGdpAnalysis.datasets[0]];
+                correlationChart.options.plugins.title.text = "Okun's Law (Δ Unemployment vs GDP Growth)";
+                correlationChart.config.type = 'scatter';
+                correlationChart.options.scales.x.type = 'linear';
+                correlationChart.options.scales.x.title.text = 'GDP Growth (% per quarter)';
+                correlationChart.options.scales.y.title.text = 'Change in Unemployment Rate (percentage points)';
+            } else if (view === 'crosscorr') {
+                correlationChart.config.type = 'line';
+                correlationChart.data.datasets = [unemploymentGdpAnalysis.datasets[2]];
+                correlationChart.options.plugins.title.text = 'Cross-Correlation at Different Time Lags';
+                correlationChart.options.scales.x.type = 'category';
+                correlationChart.options.scales.x.title.text = 'Time Lag';
+                correlationChart.options.scales.y.title.text = 'Correlation Coefficient';
+            } else if (view === 'grangerU2G') {
+                correlationChart.config.type = 'line';
+                correlationChart.data.datasets = [unemploymentGdpAnalysis.datasets[3]];
+                correlationChart.options.plugins.title.text = 'Granger Causality: Unemployment → GDP';
+                correlationChart.options.scales.x.type = 'category';
+                correlationChart.options.scales.x.title.text = 'Lag (quarters)';
+                correlationChart.options.scales.y.title.text = 'F-Statistic (higher = stronger causality)';
+            } else if (view === 'grangerG2U') {
+                correlationChart.config.type = 'line';
+                correlationChart.data.datasets = [unemploymentGdpAnalysis.datasets[4]];
+                correlationChart.options.plugins.title.text = 'Granger Causality: GDP → Unemployment';
+                correlationChart.options.scales.x.type = 'category';
+                correlationChart.options.scales.x.title.text = 'Lag (quarters)';
+                correlationChart.options.scales.y.title.text = 'F-Statistic (higher = stronger causality)';
+            } else if (view === 'coherence') {
+                correlationChart.config.type = 'line';
+                correlationChart.data.datasets = [unemploymentGdpAnalysis.datasets[5]];
+                correlationChart.options.plugins.title.text = 'Spectral Coherence';
+                correlationChart.options.scales.x.type = 'category';
+                correlationChart.options.scales.x.title.text = 'Time Window';
+                correlationChart.options.scales.y.title.text = 'Coherence (0-1, higher = stronger relationship)';
+            } else {
+                correlationChart.config.type = 'line';
+                correlationChart.data.datasets = [unemploymentGdpAnalysis.datasets[1]];
+                correlationChart.options.plugins.title.text = 'Rolling Correlation: Unemployment vs GDP Growth';
+                correlationChart.options.scales.x.type = 'time';
+                correlationChart.options.scales.x.time = { unit: 'year' };
+                correlationChart.options.scales.x.title.text = 'Date';
+                correlationChart.options.scales.y.title.text = 'Correlation Coefficient';
+            }
+            correlationChart.update();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Investment Sectors: Where Your Money Actually Goes</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <style>
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .intro {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #0066cc;
+        }
+
+        .sector-card {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+
+        .sector-card h3 {
+            margin-top: 0;
+            color: #28a745;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sector-icon {
+            font-size: 1.5em;
+        }
+
+        .characteristics {
+            background: #fff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .characteristics h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+
+        .characteristic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .characteristic-item {
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 3px;
+            font-size: 0.95em;
+        }
+
+        .characteristic-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }
+
+        .characteristic-value {
+            color: #333;
+            margin-top: 2px;
+        }
+
+        .key-companies {
+            background: #e7f3ff;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .key-companies strong {
+            color: #0066cc;
+        }
+
+        .performance-note {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .cycle-behavior {
+            background: #f0f0f0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .cycle-behavior h4 {
+            margin-top: 0;
+            color: #dc3545;
+        }
+
+        ul {
+            margin: 10px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95em;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .comparison-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .key-insight {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .key-insight h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+
+        .reference {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .reference a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .reference a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .characteristic-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>Understanding Investment Sectors: Where Your Money Actually Goes</h1>
+        
+        <div class="meta">
+            <time datetime="2025-12-30">December 30, 2025</time>
+        </div>
+        
+        <div class="intro">
+            When you invest in the stock market, you're not just buying abstract ticker symbols—you're buying pieces of actual businesses. These businesses are grouped into sectors based on what they do. Understanding sectors is crucial because they behave differently in different economic conditions. A portfolio that's 80% technology might do great in a boom but crater in a recession. Let's break down what these sectors actually are.
+        </div>
+
+        <h2>The Standard Classification: GICS</h2>
+
+        <p>The Global Industry Classification Standard (GICS), created by MSCI and S&P Dow Jones Indices, is the most widely used sector classification system. It divides the economy into <strong>11 sectors</strong>, which are further subdivided into 25 industry groups, 74 industries, and 163 sub-industries. We'll focus on the 11 main sectors.</p>
+
+        <div class="key-insight">
+            <h4>Why Sectors Matter</h4>
+            <p>Different sectors have different risk profiles, growth rates, and sensitivities to economic conditions. A diversified portfolio isn't just owning lots of stocks—it's owning stocks across different sectors. During 2022's bear market, Energy was up 65% while Technology was down 28%. That's why diversification matters.</p>
+        </div>
+
+        <h2>The 11 Sectors Explained</h2>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">🏭</span> 1. Industrials</h3>
+            
+            <p><strong>What they do:</strong> Produce capital goods, provide commercial services, and manufacture construction equipment, aerospace, defense, machinery, and transportation.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Cyclical</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">15-20x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">1-2%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~8-10%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> Boeing, Caterpillar, General Electric, Union Pacific, 3M, Honeywell, Lockheed Martin
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Early Expansion:</strong> Strong performer as businesses invest in equipment</li>
+                    <li><strong>Late Expansion:</strong> Peaks as capacity reaches limits</li>
+                    <li><strong>Recession:</strong> Underperforms as business spending drops</li>
+                    <li><strong>Recovery:</strong> Begins to recover as sentiment improves</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Play on economic growth and business investment. Defense contractors provide stability. Vulnerable to trade wars and supply chain disruptions.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">💳</span> 2. Financials</h3>
+            
+            <p><strong>What they do:</strong> Banks, insurance companies, investment firms, real estate companies, and financial services.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Highly Cyclical</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">10-15x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">2-4%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~11-13%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> JPMorgan Chase, Bank of America, Berkshire Hathaway, Visa, Mastercard, Goldman Sachs, Morgan Stanley
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Expansion:</strong> Benefits from increased lending and lower defaults</li>
+                    <li><strong>Rising Rates:</strong> Banks benefit from wider interest margins (initially)</li>
+                    <li><strong>Recession:</strong> Suffers from loan defaults and credit losses</li>
+                    <li><strong>Crisis:</strong> Can face existential threats (see 2008)</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Highly sensitive to interest rates and economic health. Payment processors (Visa/Mastercard) are more stable than banks. Heavily regulated, making them vulnerable to policy changes.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">💻</span> 3. Information Technology</h3>
+            
+            <p><strong>What they do:</strong> Software, hardware, semiconductors, IT services, and internet companies.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Growth (less cyclical)</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">25-35x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">0.5-1.5%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~28-30%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> Apple, Microsoft, NVIDIA, Broadcom, Oracle, Adobe, Salesforce, Intel, Cisco
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Bull Markets:</strong> Outperforms due to growth expectations</li>
+                    <li><strong>Innovation Cycles:</strong> Surges during tech adoption waves</li>
+                    <li><strong>Rising Rates:</strong> Vulnerable as high valuations compress</li>
+                    <li><strong>Recession:</strong> Moderately defensive (software subscriptions are sticky)</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Largest sector by market cap. High growth but expensive valuations. Software has better margins than hardware. Vulnerable to regulatory scrutiny and geopolitical tech wars.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">💊</span> 4. Health Care</h3>
+            
+            <p><strong>What they do:</strong> Pharmaceuticals, biotech, medical devices, health insurers, hospitals, and health services.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Defensive</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">18-25x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">1-2%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~12-14%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> UnitedHealth, Johnson & Johnson, Eli Lilly, Pfizer, Abbott Laboratories, Merck, Thermo Fisher
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Recession:</strong> Outperforms (people still get sick)</li>
+                    <li><strong>Expansion:</strong> Stable but may underperform growth sectors</li>
+                    <li><strong>Aging Demographics:</strong> Long-term tailwind</li>
+                    <li><strong>Drug Approval Cycles:</strong> Individual stock volatility</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Defensive sector with inelastic demand. Vulnerable to drug pricing regulations and patent cliffs. Biotech is higher risk/reward than established pharma.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">🛒</span> 5. Consumer Discretionary</h3>
+            
+            <p><strong>What they do:</strong> Non-essential goods and services—retail, restaurants, hotels, entertainment, automobiles, luxury goods.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Highly Cyclical</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">20-30x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">0.5-1.5%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~10-12%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> Amazon, Tesla, Home Depot, McDonald's, Nike, Starbucks, Booking Holdings, Lowe's
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Expansion:</strong> Strong performer as consumers spend freely</li>
+                    <li><strong>Peak:</strong> Outperforms as confidence peaks</li>
+                    <li><strong>Recession:</strong> Underperforms sharply as spending cuts hit first</li>
+                    <li><strong>Recovery:</strong> Rebounds quickly if consumer confidence returns</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Play on consumer spending and economic growth. Amazon dominates retail. Automotive industry is highly cyclical. E-commerce continues disrupting traditional retail.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">🥫</span> 6. Consumer Staples</h3>
+            
+            <p><strong>What they do:</strong> Essential products—food, beverages, household goods, tobacco, personal products.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Defensive</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">18-24x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">2-3%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~6-7%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> Procter & Gamble, Costco, Coca-Cola, PepsiCo, Walmart, Philip Morris, Mondelez
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Recession:</strong> Outperforms (people still need toothpaste)</li>
+                    <li><strong>Expansion:</strong> Underperforms growth sectors</li>
+                    <li><strong>Inflation:</strong> Can struggle with input costs but has pricing power</li>
+                    <li><strong>All Conditions:</strong> Stable, predictable cash flows</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Ultimate defensive sector. Low growth but stable. Strong brands have pricing power. Good dividend payers. Boring but reliable.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">⚡</span> 7. Energy</h3>
+            
+            <p><strong>What they do:</strong> Oil & gas exploration, production, refining, equipment, and services.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Commodity Cyclical</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">8-15x (volatile)</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">3-5%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~4-5%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> ExxonMobil, Chevron, ConocoPhillips, EOG Resources, Schlumberger, Marathon Petroleum
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Economic Boom:</strong> Strong as energy demand rises</li>
+                    <li><strong>Inflation:</strong> Benefits from rising commodity prices</li>
+                    <li><strong>Recession:</strong> Underperforms as oil demand drops</li>
+                    <li><strong>Geopolitics:</strong> Highly sensitive to OPEC, wars, sanctions</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Moves with oil prices, not just the economy. ESG concerns reduce capital flow. Producers benefit from high prices, refiners from wide crack spreads. Highly volatile.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">⚙️</span> 8. Materials</h3>
+            
+            <p><strong>What they do:</strong> Chemicals, construction materials, metals & mining, paper, packaging.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Cyclical</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">12-18x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">2-3%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~2-3%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> Linde, Sherwin-Williams, Freeport-McMoRan, Newmont, Air Products, Nucor
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Early Expansion:</strong> Strong as construction and manufacturing ramp up</li>
+                    <li><strong>Inflation:</strong> Benefits from commodity price increases</li>
+                    <li><strong>Recession:</strong> Underperforms as building stops</li>
+                    <li><strong>China Demand:</strong> Heavily influenced by Chinese construction</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Play on industrial activity and construction. Miners benefit from commodity supercycles. Chemical companies more stable. Vulnerable to China slowdown.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">⚡</span> 9. Utilities</h3>
+            
+            <p><strong>What they do:</strong> Electric, gas, and water utilities—regulated monopolies providing essential services.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Defensive</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">15-20x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">3-5%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~2-3%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> NextEra Energy, Duke Energy, Southern Company, Dominion Energy, American Electric Power
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>All Conditions:</strong> Stable, predictable revenues (regulated rates)</li>
+                    <li><strong>Rising Rates:</strong> Underperforms (bond alternative loses appeal)</li>
+                    <li><strong>Recession:</strong> Defensive play, outperforms</li>
+                    <li><strong>Low Volatility:</strong> Boring but steady</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Bond substitute—high dividends, low growth. Interest rate sensitive. Renewable energy transition creates opportunities. Regulated, predictable, boring.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">🏠</span> 10. Real Estate</h3>
+            
+            <p><strong>What they do:</strong> REITs (Real Estate Investment Trusts) owning offices, apartments, malls, warehouses, data centers.</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Cyclical (rate sensitive)</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">N/A (use FFO)</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">3-5%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~2-3%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> Prologis (warehouses), American Tower (cell towers), Equinix (data centers), Public Storage, Realty Income
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Low Rates:</strong> Outperforms (cheap financing, high yield attractive)</li>
+                    <li><strong>Rising Rates:</strong> Underperforms significantly</li>
+                    <li><strong>Recession:</strong> Mixed (depends on property type)</li>
+                    <li><strong>Inflation:</strong> Can pass through rent increases</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Highly interest rate sensitive. Different property types behave differently (data centers strong, malls weak). REITs must distribute 90% of income as dividends.
+            </div>
+        </div>
+
+        <div class="sector-card">
+            <h3><span class="sector-icon">📡</span> 11. Communication Services</h3>
+            
+            <p><strong>What they do:</strong> Telecom, media, entertainment, internet platforms (Google, Facebook).</p>
+
+            <div class="characteristics">
+                <h4>Key Characteristics</h4>
+                <div class="characteristic-grid">
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Economic Sensitivity</div>
+                        <div class="characteristic-value">Mixed</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Typical P/E Ratio</div>
+                        <div class="characteristic-value">15-25x</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Dividend Yield</div>
+                        <div class="characteristic-value">0.5-3%</div>
+                    </div>
+                    <div class="characteristic-item">
+                        <div class="characteristic-label">Market Cap Weight</div>
+                        <div class="characteristic-value">~8-9%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-companies">
+                <strong>Major Companies:</strong> Alphabet (Google), Meta (Facebook), Netflix, Comcast, Disney, T-Mobile, Verizon
+            </div>
+
+            <div class="cycle-behavior">
+                <h4>Economic Cycle Behavior</h4>
+                <ul>
+                    <li><strong>Telecom:</strong> Defensive, stable, high dividends</li>
+                    <li><strong>Internet Platforms:</strong> Growth-oriented, advertising sensitive</li>
+                    <li><strong>Recession:</strong> Advertising spending drops, subscriptions stable</li>
+                    <li><strong>Regulation Risk:</strong> Vulnerable to antitrust action</li>
+                </ul>
+            </div>
+
+            <div class="performance-note">
+                <strong>Investment Thesis:</strong> Hybrid sector—defensive telecom plus growth internet. Ad revenue cyclical, subscription revenue stable. Streaming wars creating pressure. Regulatory scrutiny increasing.
+            </div>
+        </div>
+
+        <h2>How Sectors Perform Across Economic Cycles</h2>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Economic Phase</th>
+                    <th>Outperformers</th>
+                    <th>Underperformers</th>
+                    <th>Why</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Early Expansion</strong></td>
+                    <td>Industrials, Materials, Financials</td>
+                    <td>Utilities, Consumer Staples</td>
+                    <td>Business spending recovers, risk appetite returns</td>
+                </tr>
+                <tr>
+                    <td><strong>Mid Expansion</strong></td>
+                    <td>Technology, Consumer Discretionary</td>
+                    <td>Energy, Materials</td>
+                    <td>Growth accelerates, consumers spend freely</td>
+                </tr>
+                <tr>
+                    <td><strong>Late Expansion</strong></td>
+                    <td>Energy, Materials</td>
+                    <td>Technology, Real Estate</td>
+                    <td>Inflation pressures build, rates rise</td>
+                </tr>
+                <tr>
+                    <td><strong>Early Recession</strong></td>
+                    <td>Health Care, Consumer Staples, Utilities</td>
+                    <td>Financials, Industrials, Consumer Discretionary</td>
+                    <td>Flight to safety, defensive positioning</td>
+                </tr>
+                <tr>
+                    <td><strong>Deep Recession</strong></td>
+                    <td>Consumer Staples, Health Care</td>
+                    <td>Financials, Energy, Real Estate</td>
+                    <td>Only essentials hold up, credit stress emerges</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="key-insight">
+            <h4>Sector Rotation Strategy</h4>
+            <p>Professional investors practice "sector rotation"—shifting portfolio weights based on where we are in the economic cycle. This is hard to time perfectly, but understanding the pattern helps explain market movements. When you see Energy soaring while Technology tanks, you're likely in late-cycle inflation. When defensive sectors lead, recession fears are rising.</p>
+        </div>
+
+        <h2>Key Metrics by Sector</h2>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Sector</th>
+                    <th>Avg P/E</th>
+                    <th>Avg Dividend Yield</th>
+                    <th>10-Year Return (Annualized)</th>
+                    <th>Volatility</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Technology</td>
+                    <td>28x</td>
+                    <td>0.8%</td>
+                    <td>+18.2%</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td>Health Care</td>
+                    <td>22x</td>
+                    <td>1.5%</td>
+                    <td>+12.1%</td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td>Financials</td>
+                    <td>12x</td>
+                    <td>2.8%</td>
+                    <td>+11.3%</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td>Consumer Discretionary</td>
+                    <td>24x</td>
+                    <td>1.2%</td>
+                    <td>+14.5%</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td>Industrials</td>
+                    <td>18x</td>
+                    <td>1.9%</td>
+                    <td>+10.8%</td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td>Consumer Staples</td>
+                    <td>21x</td>
+                    <td>2.7%</td>
+                    <td>+8.2%</td>
+                    <td>Low</td>
+                </tr>
+                <tr>
+                    <td>Energy</td>
+                    <td>11x</td>
+                    <td>4.2%</td>
+                    <td>+3.1%</td>
+                    <td>Very High</td>
+                </tr>
+                <tr>
+                    <td>Utilities</td>
+                    <td>17x</td>
+                    <td>3.9%</td>
+                    <td>+7.4%</td>
+                    <td>Low</td>
+                </tr>
+                <tr>
+                    <td>Materials</td>
+                    <td>15x</td>
+                    <td>2.4%</td>
+                    <td>+7.9%</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td>Real Estate</td>
+                    <td>N/A</td>
+                    <td>3.8%</td>
+                    <td>+6.5%</td>
+                    <td>Medium-High</td>
+                </tr>
+                <tr>
+                    <td>Communication Services</td>
+                    <td>19x</td>
+                    <td>1.1%</td>
+                    <td>+9.2%</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="font-size: 0.9em; color: #666; margin-top: 10px;"><em>Note: Data represents approximate averages for 2014-2024 period. Past performance doesn't predict future results.</em></p>
+
+        <h2>Practical Implications for Investors</h2>
+
+        <div class="key-insight">
+            <h4>1. Diversification Means Sector Diversification</h4>
+            <p>Owning 50 tech stocks isn't diversified—they'll all tank together when tech crashes. True diversification requires exposure across sectors. A simple approach: match market weights or deliberately overweight sectors you believe in.</p>
+        </div>
+
+        <div class="key-insight">
+            <h4>2. Understand What You're Buying</h4>
+            <p>When you buy an S&P 500 index fund, you're getting ~28% Technology, 13% Financials, 12% Health Care. If tech crashes, your "diversified" index gets hammered. Know your exposures.</p>
+        </div>
+
+        <div class="key-insight">
+            <h4>3. Sector Concentration Has Exploded</h4>
+            <p>In 2024, the top 7 technology stocks (Apple, Microsoft, NVIDIA, Alphabet, Amazon, Meta, Tesla) represented over 30% of the S&P 500. This is unprecedented concentration. If AI hype fades, the entire index suffers.</p>
+        </div>
+
+        <div class="key-insight">
+            <h4>4. Cyclical vs. Defensive Positioning</h4>
+            <p>If you believe recession is coming, overweight Health Care, Consumer Staples, Utilities. If you believe boom times ahead, overweight Technology, Consumer Discretionary, Financials. Most investors should just hold both.</p>
+        </div>
+
+        <h2>The Bottom Line</h2>
+
+        <p>Sectors are the building blocks of the market. Understanding them helps you:</p>
+        <ul>
+            <li><strong>Understand market movements:</strong> Why did the market drop when your tech stocks soared? Energy and Financials crashed.</li>
+            <li><strong>Build better portfolios:</strong> Intentional sector exposure instead of accidental concentration</li>
+            <li><strong>Interpret economic signals:</strong> Sector rotation often predicts turns in the cycle</li>
+            <li><strong>Manage risk:</strong> Different sectors have different risk profiles and correlations</li>
+        </ul>
+
+        <p>The classification system isn't perfect—is Amazon retail (Consumer Discretionary) or technology? Is Tesla automotive (Discretionary) or tech? But it provides a useful framework for thinking about how businesses behave and how portfolios should be constructed.</p>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This article is for educational purposes only and does not constitute investment advice. Sector performance data is historical and does not guarantee future results. All investments carry risk. Past performance is not indicative of future returns.
+        </div>
+
+        <div class="reference">
+            <strong>References:</strong><br>
+            <a href="https://www.msci.com/gics" target="_blank">MSCI GICS Methodology</a> | 
+            <a href="https://www.spglobal.com/spdji/en/landing/topic/gics/" target="_blank">S&P Dow Jones GICS</a> |
+            <a href="https://www.sec.gov/edgar/searchedgar/companysearch.html" target="_blank">SEC EDGAR Database</a> |
+            <a href="https://site.financialmodelingprep.com/developer/docs/sectors-pe-ratio" target="_blank">Sector Valuation Data</a>
+        </div>
+
+        <footer>
+            <p><strong>Methodology:</strong> Sector characteristics and performance data compiled from MSCI, S&P Dow Jones Indices, and financial data providers. Metrics represent approximate market averages and vary over time.</p>
+            <p>Last updated: December 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

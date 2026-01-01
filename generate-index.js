@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const POSTS_DIR = path.join(__dirname, 'posts');
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 6; // Client-side pagination
 
 // Read all post directories
 function getAllPosts() {
@@ -38,11 +38,11 @@ function generatePostCard(post) {
         month: 'long'
     });
 
-    return `        <a href="posts/${post.slug}/" class="post-card">
+    return `        <a href="posts/${post.slug}/" class="post-card" data-post>
             <div class="post-title">${post.title}</div>
             <div class="post-date">${formattedDate}</div>
             <div class="post-excerpt">
-                ${post.excerpt}
+                ${post.description || post.excerpt || ''}
             </div>
             <span class="read-more">Read more →</span>
         </a>`;
@@ -199,19 +199,14 @@ ${paginationHtml}
 
 // Main execution
 function main() {
-    console.log('Generating blog index pages...\n');
+    console.log('Generating blog index page...\n');
     
     const posts = getAllPosts();
     console.log(`Found ${posts.length} posts`);
     
-    const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
-    
-    for (let page = 1; page <= totalPages; page++) {
-        const html = generateIndexPage(posts, page);
-        const filename = page === 1 ? 'index.html' : `index-${page}.html`;
-        fs.writeFileSync(path.join(__dirname, filename), html);
-        console.log(`✓ Generated ${filename}`);
-    }
+    const html = generateIndexPage(posts);
+    fs.writeFileSync(path.join(__dirname, 'index.html'), html);
+    console.log('✓ Generated index.html with client-side pagination');
     
     console.log('\nDone!');
 }

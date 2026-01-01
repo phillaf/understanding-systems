@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const POSTS_DIR = path.join(__dirname, 'posts');
-const POSTS_PER_PAGE = 6; // Client-side pagination
+const POSTS_PER_PAGE = 10; // Client-side pagination
 
 // Read all post directories
 function getAllPosts() {
@@ -48,35 +48,17 @@ function generatePostCard(post) {
         </a>`;
 }
 
-// Generate index.html
-function generateIndexPage(posts, page = 1) {
-    const start = (page - 1) * POSTS_PER_PAGE;
-    const end = start + POSTS_PER_PAGE;
-    const pagePosts = posts.slice(start, end);
+// Generate index.html (single page with all posts, JS pagination)
+function generateIndexPage(posts) {
+    const postCardsHtml = posts.map(generatePostCard).join('\n\n');
     const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
-
-    const postCardsHtml = pagePosts.map(generatePostCard).join('\n\n');
-
-    let paginationHtml = '';
-    if (totalPages > 1) {
-        const prevDisabled = page === 1 ? 'disabled' : '';
-        const nextDisabled = page === totalPages ? 'disabled' : '';
-        const prevPage = page > 1 ? `index${page - 1 > 1 ? '-' + (page - 1) : ''}.html` : '#';
-        const nextPage = page < totalPages ? `index-${page + 1}.html` : '#';
-
-        paginationHtml = `
-    <div class="pagination">
-        <a href="${prevPage}" class="page-link ${prevDisabled}">← Newer</a>
-        <span class="page-info">Page ${page} of ${totalPages}</span>
-        <a href="${nextPage}" class="page-link ${nextDisabled}">Older →</a>
-    </div>`;
-    }
 
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Data-driven analysis of economic indicators, financial systems, and power structures. Testing recession prediction frameworks, analyzing central bank policy, mapping global influence networks, and reverse-engineering economic models using real-world data.">
     <title>Understanding Systems - Data-Driven Analysis</title>
     <style>
         body {
@@ -118,11 +100,14 @@ function generateIndexPage(posts, page = 1) {
         .post-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
+        .post-card.hidden {
+            display: none;
+        }
         .post-title {
             color: #1a1a1a;
             font-size: 1.6em;
             font-weight: 600;
-            margin-bottom: 0.5em;
+            margin-bottom: 0.3em;
         }
         .post-date {
             color: #999;
@@ -131,12 +116,10 @@ function generateIndexPage(posts, page = 1) {
         }
         .post-excerpt {
             color: #555;
-            font-size: 1em;
             line-height: 1.6;
-            margin-bottom: 1em;
         }
         .read-more {
-            color: #333;
+            color: #0066cc;
             font-weight: 500;
             margin-top: 15px;
             display: inline-block;
@@ -158,13 +141,15 @@ function generateIndexPage(posts, page = 1) {
             padding: 10px 20px;
             border: 1px solid #e5e5e5;
             border-radius: 4px;
+            cursor: pointer;
+            background: none;
         }
         .page-link:hover:not(.disabled) {
             background: #f5f5f5;
         }
         .page-link.disabled {
             color: #ccc;
-            pointer-events: none;
+            cursor: not-allowed;
         }
         .page-info {
             color: #666;
@@ -185,11 +170,68 @@ function generateIndexPage(posts, page = 1) {
     <div class="posts">
 ${postCardsHtml}
     </div>
-${paginationHtml}
+
+    <div class="pagination">
+        <button class="page-link" id="prevPage">← Newer</button>
+        <span class="page-info" id="pageInfo">Page 1 of ${totalPages}</span>
+        <button class="page-link" id="nextPage">Older →</button>
+    </div>
+
     <footer>
         <p><a href="about.html">About this blog</a></p>
         <p>Last updated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
     </footer>
+
+    <script>
+        const POSTS_PER_PAGE = ${POSTS_PER_PAGE};
+        const posts = Array.from(document.querySelectorAll('[data-post]'));
+        const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+        let currentPage = 1;
+
+        function showPage(page) {
+            currentPage = page;
+            const start = (page - 1) * POSTS_PER_PAGE;
+            const end = start + POSTS_PER_PAGE;
+
+            posts.forEach((post, index) => {
+                if (index >= start && index < end) {
+                    post.classList.remove('hidden');
+                } else {
+                    post.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('pageInfo').textContent = \`Page \${page} of \${totalPages}\`;
+            
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+            
+            if (page === 1) {
+                prevBtn.classList.add('disabled');
+            } else {
+                prevBtn.classList.remove('disabled');
+            }
+
+            if (page === totalPages) {
+                nextBtn.classList.add('disabled');
+            } else {
+                nextBtn.classList.remove('disabled');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) showPage(currentPage - 1);
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < totalPages) showPage(currentPage + 1);
+        });
+
+        // Initialize
+        showPage(1);
+    </script>
 </body>
 </html>
 `;

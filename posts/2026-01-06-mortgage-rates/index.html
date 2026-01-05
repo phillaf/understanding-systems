@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Drives Mortgage Rates? - Understanding Systems</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+</head>
+<body>
+    <article>
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>What Drives Mortgage Rates?</h1>
+        
+        <div class="meta">
+            <time datetime="2026-01-06">January 6, 2026</time>
+        </div>
+        
+        <p class="subtitle">Understanding the Building Blocks of Housing Market Dynamics</p>
+
+        <section class="intro">
+            <p>If you're trying to understand the housing market, mortgage rates are where you start. They determine affordability, influence buyer behavior, and drive transaction volumes. But what actually controls these rates?</p>
+            
+            <p>The answer lies in a chain reaction: <strong>The Fed sets short-term interest rates → This affects Treasury bond yields → Which determines mortgage rates.</strong> At each step, investors make decisions about where to put their money. Understanding this chain explains why mortgage rates move the way they do—and why the Fed can't simply "control" them directly.</p>
+            
+            <p>This article walks through the mechanism step-by-step using 50+ years of data, with concrete examples of how banks and investors make these allocation decisions.</p>
+        </section>
+
+        <section>
+            <h2>The Chain Reaction: How Monetary Policy Reaches Mortgage Rates</h2>
+            
+            <h3>Step 1: The Fed Sets the Risk-Free Rate</h3>
+            <p>The Federal Reserve controls one thing directly: the Federal Funds Rate—the overnight lending rate between banks. This becomes the "risk-free rate" or "floor" for all other interest rates in the economy. No rational investor will accept less return than what they can get risk-free.</p>
+            
+            <p><strong>Example: You're a bank in 2022.</strong> The Fed just raised rates from 0% to 5%. You can now:</p>
+            <ul>
+                <li><strong>Option A:</strong> Lend overnight to other banks at 5% (completely safe, get your money back tomorrow)</li>
+                <li><strong>Option B:</strong> Buy a 10-year Treasury bond yielding 4.5%</li>
+                <li><strong>Option C:</strong> Originate a 30-year mortgage at 7%</li>
+            </ul>
+            
+            <p>Option A sets the baseline. Options B and C must offer higher returns to compensate for additional risks—duration risk, credit risk, prepayment risk.</p>
+            
+            <h3>Step 2: Bond Prices Adjust to Compete</h3>
+            <p>When the Fed raises the risk-free rate, existing bonds become less attractive. Here's why:</p>
+            
+            <p><strong>Bond Pricing Rule #1:</strong> Bond yields move inverse to prices. When demand falls, prices fall, yields rise.</p>
+            
+            <p><strong>Example: You're deciding between bonds.</strong> There's an existing 10-year Treasury bond paying a 3% coupon ($30/year on a $1,000 bond). But the Fed just raised rates to 5%. Why would you buy that bond at $1,000 when you can get 5% risk-free overnight?</p>
+            
+            <p>Answer: You wouldn't. The bond's price must fall until its yield becomes competitive. If the price drops to $750, that same $30 annual payment now represents a 4% yield ($30/$750). Better than the 3% coupon, though still below the risk-free rate—you'd need extra compensation for locking up money for 10 years.</p>
+            
+            <p><strong>Bond Pricing Rule #2:</strong> When risk-free rates rise, bond prices fall (and yields rise) until they offer enough premium above the risk-free rate to compensate for duration risk.</p>
+            
+            <h3>Step 3: Mortgage Rates Must Compete With Bonds</h3>
+            <p>Now imagine you're a bank with $1 billion to invest. You can:</p>
+            <ul>
+                <li><strong>Buy 10-year Treasuries at 4.5%</strong> (no credit risk, high liquidity)</li>
+                <li><strong>Buy mortgage-backed securities at 6.5%</strong> (credit risk, prepayment risk, lower liquidity)</li>
+            </ul>
+            
+            <p>The mortgage must offer a 2% premium over Treasuries to compensate for these additional risks. This is the "mortgage spread." When Treasury yields rise from 3% to 4.5%, mortgage rates must rise from 5% to 6.5% to maintain that spread—unless the risks change.</p>
+            
+            <p><strong>This explains the chain:</strong> Fed raises overnight rates → Treasury yields rise → Mortgage rates rise. But each link has variables that can break or amplify the transmission.</p>
+        </section>
+
+        <section>
+            <h2>Test 1: Do Mortgage Rates Follow Treasury Yields?</h2>
+            <p>Let's verify this relationship empirically. If the theory holds, we should see mortgage rates tracking Treasury yields with a persistent spread.</p>
+            
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="mortgageTreasuryChart"></canvas>
+                </div>
+            </div>
+            <p class="chart-note">30-year mortgage rates (red) closely track 10-year Treasury yields (blue) with a persistent spread.</p>
+            
+            <p><strong>The relationship is strong but not perfect.</strong> Mortgage rates consistently stay above Treasury yields—this difference is the "mortgage spread," which compensates lenders for credit risk, prepayment risk (borrowers refinancing when rates fall), and operational costs.</p>
+            
+            <p>The spread isn't constant. During financial crises like 2008, it widened significantly as credit risk increased. During calm periods, it compresses as lenders compete for borrowers.</p>
+        </section>
+
+        <section>
+            <h2>Test 2: What Determines the Mortgage Spread?</h2>
+            <p>The mortgage spread (30-year mortgage rate minus 10-year Treasury yield) reveals how much extra yield investors demand to hold mortgage debt versus risk-free government bonds. This is where banks make their investment decision: is the extra yield worth the extra risk?</p>
+            
+            <p><strong>Example: You're a bank portfolio manager in 2024.</strong> You have $100 million to invest and three options:</p>
+            <ul>
+                <li><strong>10-year Treasury at 4.2%:</strong> Zero credit risk, fully liquid</li>
+                <li><strong>30-year mortgage-backed securities at 6.5%:</strong> Spread = 2.3%</li>
+                <li><strong>Corporate bonds (BBB-rated) at 5.8%:</strong> Credit risk but higher liquidity than MBS</li>
+            </ul>
+            
+            <p>The 2.3% spread must compensate for:</p>
+            <ul>
+                <li><strong>Credit risk:</strong> Borrowers might default (~2% of mortgages historically)</li>
+                <li><strong>Prepayment risk:</strong> If rates fall to 3%, borrowers refinance and you lose your 6.5% yield</li>
+                <li><strong>Duration risk:</strong> 30-year loans tie up capital longer than 10-year bonds</li>
+                <li><strong>Liquidity risk:</strong> MBS are harder to sell quickly than Treasuries</li>
+            </ul>
+            
+            <p>If that 2.3% spread feels insufficient for these risks, you'll buy Treasuries instead. Money flows out of mortgages, demand drops, and mortgage rates must rise until the spread widens enough to attract investors again.</p>
+            
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="mortgageSpreadChart"></canvas>
+                </div>
+            </div>
+            <p class="chart-note">The mortgage spread widens during crises (2008 financial crisis, 2020 pandemic) as credit risk increases, then compresses during stable periods.</p>
+            
+            <p><strong>Key observations:</strong></p>
+            <ul>
+                <li><strong>Normal range:</strong> 1.5% to 2.5% spread in stable markets</li>
+                <li><strong>Crisis spikes:</strong> Spread hit 3%+ during 2008 financial crisis and early 2020 pandemic</li>
+                <li><strong>Post-2020 compression:</strong> Fed's MBS purchases kept spreads unusually tight</li>
+                <li><strong>2022-2024 widening:</strong> Fed quantitative tightening (selling MBS) pushed spreads back up</li>
+            </ul>
+            
+            <p>When the spread widens, it means mortgage rates aren't falling as fast as Treasury yields—or they're rising faster. This makes housing less affordable even if the Fed is cutting rates.</p>
+        </section>
+
+        <section>
+            <h2>Test 3: How Does Fed Policy Transmit to Mortgage Rates?</h2>
+            <p>The Federal Reserve sets the Federal Funds Rate (overnight lending rate for banks). This is the first domino. Let's walk through how it reaches mortgages with concrete scenarios.</p>
+            
+            <p><strong>Scenario 1: Fed Raises Rates (2022)</strong></p>
+            <p>You're a bank in early 2022. The Fed just announced rate hikes from 0% to eventually 5%.</p>
+            
+            <p><strong>What happens to your investment options?</strong></p>
+            <ul>
+                <li><strong>Before:</strong> Fed Funds 0%, 10Y Treasury 1.5%, 30Y Mortgage 3.0%</li>
+                <li><strong>Your decision:</strong> That 3.0% mortgage looks good compared to 0% overnight</li>
+                <li><strong>After rate hikes:</strong> Fed Funds 5%, 10Y Treasury 4.5%, 30Y Mortgage needs to be...?</li>
+            </ul>
+            
+            <p>Here's the problem: You can now get 5% risk-free overnight. Why lock money into a 10-year Treasury at 4.5%? You won't, unless you expect rates to fall later. Bond prices must drop (yields rise) until 10-year Treasuries offer enough premium over the Fed Funds Rate to compensate for the duration risk.</p>
+            
+            <p>Similarly, mortgages must offer a premium over Treasuries. If Treasuries jump from 1.5% to 4.5% (+3%), mortgages must jump roughly the same amount to maintain their spread. Result: mortgages went from 3.0% to 7.5%.</p>
+            
+            <p><strong>Scenario 2: Fed Cuts Rates But Inflation Persists (Hypothetical 2026)</strong></p>
+            <p>The Fed cuts from 5% to 3% to support the economy. What happens to mortgages?</p>
+            
+            <p><strong>It depends on why bonds are priced where they are:</strong></p>
+            <ul>
+                <li><strong>If inflation expectations stay at 2%:</strong> Treasury yields fall from 4.5% to 3.5%. Mortgages fall from 7% to 6%. Homebuyers benefit.</li>
+                <li><strong>If inflation expectations rise to 4%:</strong> Treasury yields might STAY at 4.5% or even rise despite Fed cuts. Why? Investors demand compensation for inflation eating away returns. Mortgages stay at 7% or rise. Fed cuts achieve nothing for housing.</li>
+            </ul>
+            
+            <p>This is why the Fed can't simply "control" mortgage rates—they're fighting market expectations, not just setting a number.</p>
+            
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="fedRatesChart"></canvas>
+                </div>
+            </div>
+            <p class="chart-note">Fed Funds Rate (green) vs mortgage rates (red). The gap reflects the term premium—compensation for lending long-term versus overnight. Notice how the gap varies: narrow in 1980s (high inflation made duration risk huge), wider in 2000s (stable inflation).</p>
+            
+            <p><strong>The Fed has two tools:</strong></p>
+            <ul>
+                <li><strong>Interest rate policy (indirect):</strong> Changes overnight rate, which influences Treasury yields, which influences mortgage rates. Multiple steps, multiple variables.</li>
+                <li><strong>MBS purchases (direct):</strong> Fed directly buys mortgage-backed securities, increasing demand, pushing up MBS prices (pushing down yields). This compressed spreads after 2008 and 2020. When Fed stopped buying (2022+), spreads widened again.</li>
+            </ul>
+            
+            <p>The 1980s shows this dramatically: Fed Funds Rate hit 19%+ (to fight inflation), but mortgage rates "only" reached 18%—meaning the mortgage spread actually went <em>negative</em> temporarily as Treasuries yielded more than mortgages. This was unsustainable and corrected quickly.</p>
+        </section>
+
+        <section>
+            <h2>Test 4: Do Inflation Expectations Drive Mortgage Rates?</h2>
+            <p>If inflation is expected to rise, lenders demand higher rates to compensate for the declining real value of future payments. We can test this using the 10-year breakeven inflation rate—the market's implied expectation of average inflation over the next decade.</p>
+            
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="inflationExpectationChart"></canvas>
+                </div>
+            </div>
+            <p class="chart-note">Mortgage rates (red) tend to move with inflation expectations (purple), though the relationship weakened after 2008 due to Fed intervention.</p>
+            
+            <p><strong>Why inflation expectations matter—from an investor's perspective:</strong></p>
+            
+            <p><strong>Example: You're buying a 10-year Treasury bond at 4%.</strong> Over the next decade, you'll receive $40/year. But what if inflation runs at 3% per year? Your real return is only 1%. If you expect 5% inflation, you're losing 1% per year in real terms.</p>
+            
+            <p>Rational investors demand nominal yields high enough to preserve purchasing power. If inflation expectations rise from 2% to 4%, investors will only buy bonds if yields rise by ~2% to compensate. This forces bond prices down, yields up.</p>
+            
+            <p><strong>For mortgages, the same logic applies with even more force:</strong> A 30-year mortgage locks in a payment stream for three decades. If inflation expectations shift from 2% to 4%, the real value of those payments erodes faster. Investors demand higher nominal rates, or they won't buy MBS.</p>
+            
+            <p><strong>Historical examples:</strong></p>
+            <ul>
+                <li><strong>1970s-1982:</strong> Inflation expectations soared to 8-10%. Treasury yields hit 15%. Mortgage rates hit 18%. Investors demanded huge premiums to lend long-term.</li>
+                <li><strong>2008-2020:</strong> Fed's QE suppressed rates despite 2-3% inflation expectations. The Fed became the buyer of last resort, distorting normal pricing.</li>
+                <li><strong>2021-2023:</strong> When inflation spiked to 9% and expectations rose to 3%, mortgage rates jumped from 3% to 7.5%—the relationship reasserted itself as Fed stopped buying.</li>
+                <li><strong>Current state (late 2025):</strong> Inflation expectations around 2.3%, but mortgage rates still 6-7%. Why? The spread widened—investors demand more compensation now that the Fed isn't propping up MBS prices.</li>
+            </ul>
+            
+            <p>This explains why the Fed can't simply "control" mortgage rates: if the market expects inflation, mortgage rates will stay elevated even if the Fed cuts short-term rates. Bond investors will demand compensation regardless of what the Fed wants.</p>
+        </section>
+
+        <section>
+            <h2>Test 5: How Have Mortgage Rate Drivers Changed Over Time?</h2>
+            <p>To understand how these factors work together, let's look at different historical periods and what was driving mortgage rates in each era.</p>
+            
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="allRatesChart"></canvas>
+                </div>
+            </div>
+            <p class="chart-note">All rates together: Fed Funds (green), 10Y Treasury (blue), 30Y Mortgage (red), Inflation Expectations (purple). Different eras show different dominant factors.</p>
+            
+            <p><strong>Era-by-Era Analysis:</strong></p>
+            
+            <h3>1971-1982: The Inflation Era</h3>
+            <p>Inflation expectations dominated everything. As inflation soared from 1970s oil shocks, mortgage rates climbed to 18%. The Fed eventually crushed inflation with extreme rate hikes (20% Fed Funds), but mortgage rates were driven more by inflation fears than Fed policy directly.</p>
+            
+            <h3>1982-2007: The Great Moderation</h3>
+            <p>Stable inflation expectations (around 2-3%) meant mortgage rates tracked Treasury yields predictably. The mortgage spread stayed in a tight range (1.5-2%). Fed policy worked smoothly because inflation was anchored.</p>
+            
+            <h3>2008-2020: The QE Era</h3>
+            <p>Normal relationships broke down. Treasury yields fell to near-zero, but mortgage rates only fell to 3-4% because spreads widened initially (financial crisis), then compressed (Fed MBS purchases). The Fed became the dominant buyer of MBS, artificially suppressing rates.</p>
+            
+            <h3>2020-Present: The Post-QE Normalization</h3>
+            <p>Massive stimulus drove inflation to 9%, forcing the Fed to hike rates rapidly. Mortgage rates jumped from 3% to 7%+ in just 18 months—the fastest rise in history. The spread widened as the Fed stopped buying MBS and started selling. We're now seeing which factors dominate in a higher-rate environment.</p>
+        </section>
+
+        <section>
+            <h2>Test 6: What About 15-Year Mortgages?</h2>
+            <p>15-year mortgages consistently price 0.5-0.8% below 30-year mortgages because of lower duration risk (lenders get their money back sooner) and lower prepayment risk (borrowers refinancing out is less likely with already-low rates). Let's verify this pattern holds.</p>
+            
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="mortgage15vs30Chart"></canvas>
+                </div>
+            </div>
+            <p class="chart-note">15-year mortgage rates (orange) consistently run below 30-year rates (red), with a stable spread except during crisis periods.</p>
+            
+            <p><strong>The 15-year discount is remarkably stable:</strong> Typically 0.5-0.8 percentage points below 30-year rates. This spread widened slightly during crises (2008, 2020) as uncertainty increased the value of shorter duration, then normalized again.</p>
+            
+            <p>For buyers, this means 15-year mortgages are consistently cheaper if you can afford the higher monthly payments. The interest savings compound over time—a 0.7% rate difference on a $400K mortgage saves ~$100K over the life of the loan.</p>
+        </section>
+
+        <section>
+            <h2>Test 7: What About Adjustable-Rate Mortgages (ARMs)?</h2>
+            <p>Adjustable-rate mortgages offer a lower initial "teaser" rate that resets periodically based on market conditions. A 5/1 ARM, for example, has a fixed rate for 5 years, then adjusts annually. These track short-term rates more closely than fixed-rate mortgages.</p>
+            
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="armChart"></canvas>
+                </div>
+            </div>
+            <p class="chart-note">5/1 ARM rates (green) consistently run below 30-year fixed rates (red), sometimes by 1-2%. But ARMs carry rate reset risk—borrowers bet rates will stay low or they'll refinance before the reset.</p>
+            
+            <p><strong>ARMs behave differently from fixed-rate mortgages:</strong></p>
+            <ul>
+                <li><strong>Much cheaper initially:</strong> 5/1 ARMs typically run 0.5-1.5% below 30-year fixed rates. During 2004-2006, the discount reached 2%—making ARMs very attractive and fueling housing speculation.</li>
+                <li><strong>Short-term rate sensitivity:</strong> ARM rates track Fed policy more directly than fixed rates. When the Fed cuts rates, ARMs drop faster. When the Fed hikes, ARMs jump faster.</li>
+                <li><strong>Reset risk:</strong> After the fixed period, rates adjust based on an index (historically LIBOR, now SOFR) plus a margin. Borrowers who can't refinance when rates rise face payment shock.</li>
+                <li><strong>2008 catalyst:</strong> Many subprime borrowers took ARMs at low teaser rates expecting to refinance before reset. When home prices fell and credit froze, they couldn't refinance. Payment resets triggered defaults.</li>
+                <li><strong>Current environment:</strong> ARMs are less popular now (~3% of mortgages vs. 35% in 2005) because: (1) fixed rates were so low for so long (2020-2021), (2) stricter underwriting post-2008, (3) borrowers remember the reset pain.</li>
+            </ul>
+            
+            <p>For housing market analysis, ARM popularity is a risk indicator: high ARM share signals borrowers stretching to afford payments by taking rate risk. Low ARM share (like today) signals borrowers locking in fixed rates, creating the "lock-in effect" when rates rise.</p>
+        </section>
+
+        <section>
+            <h2>Key Takeaways</h2>
+            <div class="key-point">
+                <p><strong>1. Treasury yields are the foundation.</strong> Mortgage rates track 10-year Treasury yields closely, but with a persistent spread that fluctuates based on market conditions.</p>
+                
+                <p><strong>2. The mortgage spread is the critical variable.</strong> It widens during crises (credit risk) and compresses during Fed MBS purchases. Currently elevated due to Fed quantitative tightening.</p>
+                
+                <p><strong>3. The Fed's influence is indirect.</strong> Fed rate policy affects mortgage rates through Treasury yields and inflation expectations, but Fed MBS buying/selling has a more direct impact on spreads.</p>
+                
+                <p><strong>4. Inflation expectations matter enormously.</strong> When markets expect sustained inflation, mortgage rates stay elevated even if short-term rates fall. This is why the Fed can't simply "fix" high mortgage rates by cutting rates—if inflation expectations don't fall, mortgage rates won't either.</p>
+                
+                <p><strong>5. Historical context reveals regime changes.</strong> The post-2008 QE era suppressed normal relationships. We're currently in a transition period where the Fed is stepping back, and market forces are reasserting themselves.</p>
+                
+                <p><strong>6. ARMs are cheaper but riskier.</strong> Adjustable-rate mortgages track short-term rates and offer lower initial payments, but carry reset risk. High ARM popularity signals stretched affordability and increased financial system fragility.</p>
+                
+                <p><strong>7. Current outlook (early 2026):</strong> Mortgage rates around 6-7% reflect: 10-year Treasury ~4.5%, mortgage spread ~2% (wider than historical average), and inflation expectations ~2.3%. For rates to fall meaningfully, we need either Treasury yields to drop (requiring Fed cuts + low inflation expectations) or spreads to compress (requiring Fed to resume MBS purchases or significant competition among lenders).</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>What This Means for Housing Market Analysis</h2>
+            <p>Understanding what drives mortgage rates is foundational for analyzing housing markets. When rates rise from 3% to 7%, monthly payments on a $400K mortgage jump from $1,686 to $2,661—a 58% increase. This affordability shock ripples through the entire market:</p>
+            
+            <ul>
+                <li><strong>Demand destruction:</strong> Fewer buyers qualify at higher rates</li>
+                <li><strong>Lock-in effect:</strong> Existing homeowners with low rates refuse to sell</li>
+                <li><strong>Inventory shortage:</strong> Supply drops as lock-in effect dominates</li>
+                <li><strong>Price stickiness:</strong> Sellers resist lowering prices even as demand falls</li>
+            </ul>
+            
+        </section>
+
+        <footer>
+            <p>Data sources: Federal Reserve Economic Data (FRED) — MORTGAGE30US, MORTGAGE15US, DGS10, DFF, T10YIE</p>
+        </footer>
+    </article>
+
+    <script src="data/raw/mortgage_rates.js"></script>
+    <script>
+        // Prepare data for charts
+        const chartData = mortgageRatesData.map(d => ({
+            date: d.date,
+            mortgage30: d.mortgage_30y,
+            mortgage15: d.mortgage_15y,
+            mortgage51arm: d.mortgage_5_1_arm,
+            treasury10: d.treasury_10y,
+            fedFunds: d.fed_funds,
+            inflationExp: d.inflation_expectation,
+            spread: d.mortgage_spread
+        })).filter(d => d.mortgage30 !== null);
+
+        // Chart 1: Mortgage vs Treasury
+        const ctx1 = document.getElementById('mortgageTreasuryChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: chartData.map(d => d.date),
+                datasets: [
+                    {
+                        label: '30Y Mortgage Rate',
+                        data: chartData.map(d => d.mortgage30),
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    },
+                    {
+                        label: '10Y Treasury Yield',
+                        data: chartData.map(d => d.treasury10),
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Rate (%)'
+                        },
+                        min: 0,
+                        max: 20
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Mortgage Spread
+        const ctx2 = document.getElementById('mortgageSpreadChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: chartData.map(d => d.date),
+                datasets: [
+                    {
+                        label: 'Mortgage Spread (30Y Mortgage - 10Y Treasury)',
+                        data: chartData.map(d => d.spread),
+                        borderColor: 'rgb(168, 85, 247)',
+                        backgroundColor: 'rgba(168, 85, 247, 0.2)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Spread (percentage points)'
+                        },
+                        min: -1,
+                        max: 4
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                yMin: 1.5,
+                                yMax: 1.5,
+                                borderColor: 'rgba(0, 0, 0, 0.3)',
+                                borderWidth: 1,
+                                borderDash: [5, 5]
+                            },
+                            line2: {
+                                type: 'line',
+                                yMin: 2.5,
+                                yMax: 2.5,
+                                borderColor: 'rgba(0, 0, 0, 0.3)',
+                                borderWidth: 1,
+                                borderDash: [5, 5]
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Spread: ' + context.parsed.y.toFixed(2) + ' pp';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 3: Fed Rates Comparison
+        const ctx3 = document.getElementById('fedRatesChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: chartData.map(d => d.date),
+                datasets: [
+                    {
+                        label: '30Y Mortgage Rate',
+                        data: chartData.map(d => d.mortgage30),
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Fed Funds Rate',
+                        data: chartData.map(d => d.fedFunds),
+                        borderColor: 'rgb(34, 197, 94)',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Rate (%)'
+                        },
+                        min: 0,
+                        max: 20
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 4: Inflation Expectations
+        const ctx4 = document.getElementById('inflationExpectationChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: chartData.map(d => d.date),
+                datasets: [
+                    {
+                        label: '30Y Mortgage Rate',
+                        data: chartData.map(d => d.mortgage30),
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: '10Y Breakeven Inflation Expectation',
+                        data: chartData.map(d => d.inflationExp),
+                        borderColor: 'rgb(168, 85, 247)',
+                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1,
+                        yAxisID: 'y1',
+                        spanGaps: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Mortgage Rate (%)'
+                        },
+                        min: 0,
+                        max: 20
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Inflation Expectation (%)'
+                        },
+                        min: -2,
+                        max: 10,
+                        grid: {
+                            drawOnChartArea: false,
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 5: All Rates Together
+        const ctx5 = document.getElementById('allRatesChart').getContext('2d');
+        new Chart(ctx5, {
+            type: 'line',
+            data: {
+                labels: chartData.map(d => d.date),
+                datasets: [
+                    {
+                        label: '30Y Mortgage',
+                        data: chartData.map(d => d.mortgage30),
+                        borderColor: 'rgb(239, 68, 68)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    },
+                    {
+                        label: '10Y Treasury',
+                        data: chartData.map(d => d.treasury10),
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Fed Funds',
+                        data: chartData.map(d => d.fedFunds),
+                        borderColor: 'rgb(34, 197, 94)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Inflation Exp (10Y)',
+                        data: chartData.map(d => d.inflationExp),
+                        borderColor: 'rgb(168, 85, 247)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Rate (%)'
+                        },
+                        min: 0,
+                        max: 20
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    annotation: {
+                        annotations: {
+                            box1: {
+                                type: 'box',
+                                xMin: '1971-01-01',
+                                xMax: '1982-12-31',
+                                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                                borderWidth: 0,
+                                label: {
+                                    content: 'Inflation Era',
+                                    display: true,
+                                    position: 'start'
+                                }
+                            },
+                            box2: {
+                                type: 'box',
+                                xMin: '1983-01-01',
+                                xMax: '2007-12-31',
+                                backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                                borderWidth: 0,
+                                label: {
+                                    content: 'Great Moderation',
+                                    display: true,
+                                    position: 'start'
+                                }
+                            },
+                            box3: {
+                                type: 'box',
+                                xMin: '2008-01-01',
+                                xMax: '2020-12-31',
+                                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                                borderWidth: 0,
+                                label: {
+                                    content: 'QE Era',
+                                    display: true,
+                                    position: 'start'
+                                }
+                            },
+                            box4: {
+                                type: 'box',
+                                xMin: '2021-01-01',
+                                xMax: '2026-01-01',
+                                backgroundColor: 'rgba(255, 206, 86, 0.1)',
+                                borderWidth: 0,
+                                label: {
+                                    content: 'Post-QE',
+                                    display: true,
+                                    position: 'start'
+                                }
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                if (context.parsed.y !== null) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                                }
+                                return '';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 6: 15Y vs 30Y Mortgage
+        const ctx6 = document.getElementById('mortgage15vs30Chart').getContext('2d');
+        const mortgage15Data = chartData.filter(d => d.mortgage15 !== null);
+        new Chart(ctx6, {
+            type: 'line',
+            data: {
+                labels: mortgage15Data.map(d => d.date),
+                datasets: [
+                    {
+                        label: '30Y Mortgage Rate',
+                        data: mortgage15Data.map(d => d.mortgage30),
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    },
+                    {
+                        label: '15Y Mortgage Rate',
+                        data: mortgage15Data.map(d => d.mortgage15),
+                        borderColor: 'rgb(249, 115, 22)',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Rate (%)'
+                        },
+                        min: 2,
+                        max: 12
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 7: ARM vs Fixed Rate
+        const ctx7 = document.getElementById('armChart').getContext('2d');
+        const armData = chartData.filter(d => d.mortgage51arm !== null);
+        new Chart(ctx7, {
+            type: 'line',
+            data: {
+                labels: armData.map(d => d.date),
+                datasets: [
+                    {
+                        label: '30Y Fixed Mortgage Rate',
+                        data: armData.map(d => d.mortgage30),
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    },
+                    {
+                        label: '5/1 ARM Rate',
+                        data: armData.map(d => d.mortgage51arm),
+                        borderColor: 'rgb(34, 197, 94)',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Rate (%)'
+                        },
+                        min: 2,
+                        max: 10
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

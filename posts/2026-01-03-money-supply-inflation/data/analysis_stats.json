@@ -1,0 +1,38 @@
+{
+  "total_quarters": 791,
+  "correlation_m2_cpi": -0.06043982061672434,
+  "correlation_m2_pce": 0.0,
+  "avg_m2_growth": 2.2261147376780017,
+  "avg_cpi_inflation": 1.2325823542539005,
+  "avg_pce_inflation": 1.0819363499144705,
+  "periods": {
+    "great_moderation": {
+      "start": "1980-01-01",
+      "end": "2007-12-31",
+      "m2_growth": 0.0,
+      "cpi_inflation": 0.0,
+      "description": "Great Moderation: Stable inflation"
+    },
+    "covid_inflation": {
+      "start": "2020-01-01",
+      "end": "2024-12-31",
+      "m2_growth": 0.0,
+      "cpi_inflation": 0.0,
+      "description": "COVID Era: Money printing WITH inflation"
+    },
+    "qe_era": {
+      "start": "2008-01-01",
+      "end": "2019-12-31",
+      "m2_growth": 0.0,
+      "cpi_inflation": 0.0,
+      "description": "QE Era: Money printing without inflation"
+    },
+    "pre_volcker": {
+      "start": "1960-01-01",
+      "end": "1979-12-31",
+      "m2_growth": 0.0,
+      "cpi_inflation": 0.0,
+      "description": "Pre-Volcker: High inflation era"
+    }
+  }
+}

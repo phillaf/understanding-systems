@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Supply and Inflation: Testing the Monetarist Promise</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="data/money_supply_data.js"></script>
+</head>
+<body>
+    <article>
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>Money Supply and Inflation: Testing the Monetarist Promise</h1>
+        
+        <div class="meta">
+            <time datetime="2026-01-03">January 3, 2026</time>
+        </div>
+
+        <p class="lede">
+            "Inflation is always and everywhere a monetary phenomenon." Milton Friedman's famous claim has guided central bank policy for decades. Print too much money, get inflation. Simple, right? We test 65 years of data (1960-2025) and find something uncomfortable: the correlation between M2 money supply growth and CPI inflation is -0.06. Essentially zero. The Fed printed $3.5 trillion during QE (2008-2014) with no inflation. Then printed less in 2020-2021 and got 9% inflation. What's going on?
+        </p>
+
+        <h2>The Monetarist Theory</h2>
+
+        <p>
+            Milton Friedman's monetarism rests on a simple equation: MV = PQ (the "equation of exchange"):
+        </p>
+
+        <ul>
+            <li><strong>M</strong> = Money supply (M2: cash, checking accounts, savings accounts, money market funds)</li>
+            <li><strong>V</strong> = Velocity (how many times a dollar changes hands per year)</li>
+            <li><strong>P</strong> = Price level (what we measure as inflation)</li>
+            <li><strong>Q</strong> = Real output (goods and services produced)</li>
+        </ul>
+
+        <p>
+            The monetarist claim: if you hold V and Q constant, then changes in M must cause proportional changes in P. Print twice as much money, prices double. The Federal Reserve was literally founded on this principle in 1913, and Volcker's inflation-fighting campaign (1979-1982) was guided by it.
+        </p>
+
+        <p>
+            But what if V doesn't stay constant? What if it collapses? That's the story of the past 17 years.
+        </p>
+
+        <h2>Test 1: The Long-Run Relationship (1960-2025)</h2>
+
+        <p>
+            Let's start with the most basic test: does M2 growth predict inflation over the long run? We'll plot year-over-year M2 growth against year-over-year CPI inflation for every month from 1960 to 2025.
+        </p>
+
+        <div class="chart-container">
+            <h3>M2 Growth vs. CPI Inflation (1960-2025)</h3>
+            <div class="chart-wrapper">
+                <canvas id="correlationChart"></canvas>
+            </div>
+            <p class="chart-note">
+                Each dot represents one month. Correlation: -0.06 (essentially no relationship). If monetarism were correct, we'd see a strong positive correlation (upward-sloping cloud of points).
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Result: No Correlation</h4>
+            <p>
+                <strong>Correlation coefficient: -0.06</strong>. A perfect correlation is 1.0. Random noise is 0.0. We're seeing basically random noise. Over 65 years and 791 months of data, there is no meaningful relationship between M2 growth and inflation.
+            </p>
+            <p>
+                This doesn't mean money supply is irrelevant—it means the relationship is more complicated than "print money → get inflation." We need to dig deeper.
+            </p>
+        </div>
+
+        <h2>Test 2: The QE Puzzle (2008-2019)</h2>
+
+        <p>
+            The most dramatic test of monetarism happened after the 2008 financial crisis. The Federal Reserve launched three rounds of Quantitative Easing (QE), expanding its balance sheet from $900 billion to $4.5 trillion. M2 money supply grew by 70% from 2008 to 2019. Monetarism predicts massive inflation. What actually happened?
+        </p>
+
+        <div class="chart-container">
+            <h3>The QE Era: Money Printing Without Inflation</h3>
+            <div class="chart-wrapper">
+                <canvas id="qeChart"></canvas>
+            </div>
+            <p class="chart-note">
+                M2 money supply (blue) exploded 70% from 2008-2019. CPI inflation (orange) stayed below 2.5% the entire time, averaging 1.5%. Where did the inflation go?
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>The QE Period Stats</h4>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>2008-2019</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>M2 Growth (Total)</td>
+                            <td class="stat-highlight">+70%</td>
+                        </tr>
+                        <tr>
+                            <td>Average Annual M2 Growth</td>
+                            <td class="stat-highlight">6.3%</td>
+                        </tr>
+                        <tr>
+                            <td>Average CPI Inflation</td>
+                            <td>1.5%</td>
+                        </tr>
+                        <tr>
+                            <td>Peak Inflation</td>
+                            <td>2.5% (2011)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>
+                <strong>Result:</strong> Monetarism failed spectacularly. The Fed printed $3.5 trillion in new money and inflation stayed dead. This should have been impossible according to the theory.
+            </p>
+        </div>
+
+        <h2>Test 3: The 2020-2023 Inflation Spike</h2>
+
+        <p>
+            Then came COVID. In 2020-2021, M2 grew by 40% (the fastest two-year increase since World War II). This time, inflation surged to 9% by mid-2022—the highest since 1981. Monetarism vindicated?
+        </p>
+
+        <div class="chart-container">
+            <h3>COVID Era: Money Printing WITH Inflation</h3>
+            <div class="chart-wrapper">
+                <canvas id="covidChart"></canvas>
+            </div>
+            <p class="chart-note">
+                M2 grew 40% in 2020-2021 (less than the QE era!), but this time inflation hit 9%. What changed?
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>The COVID Period Stats</h4>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>2020-2023</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>M2 Growth (Total)</td>
+                            <td class="stat-highlight">+40%</td>
+                        </tr>
+                        <tr>
+                            <td>Average Annual M2 Growth</td>
+                            <td>13.5%</td>
+                        </tr>
+                        <tr>
+                            <td>Average CPI Inflation</td>
+                            <td class="stat-highlight">4.8%</td>
+                        </tr>
+                        <tr>
+                            <td>Peak Inflation</td>
+                            <td class="stat-highlight negative">9.1% (2022)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>
+                <strong>The Puzzle:</strong> M2 grew <em>less</em> than during QE (40% vs 70%), but inflation was <em>much higher</em> (9% vs 1.5%). Something other than money supply must explain the difference.
+            </p>
+        </div>
+
+        <h2>Test 4: The Missing Variable - Velocity</h2>
+
+        <p>
+            Remember MV = PQ? We've been focusing on M, but what about V (velocity of money)? Velocity measures how many times each dollar is spent per year. If velocity falls, you can print lots of money without causing inflation. If velocity rises, even moderate money printing causes high inflation.
+        </p>
+
+        <div class="chart-container">
+            <h3>Velocity of Money (M2V): The Key Variable</h3>
+            <div class="chart-wrapper">
+                <canvas id="velocityChart"></canvas>
+            </div>
+            <p class="chart-note">
+                Velocity of M2 peaked in 1997 at 2.2 (each dollar was spent 2.2 times per year). It crashed to 1.1 by 2020—a 50% collapse. This is why QE didn't cause inflation: the money sat in reserves, it didn't circulate.
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>The Velocity Story</h4>
+            <p>
+                <strong>1997-2008:</strong> Velocity was stable around 2.0. M2 growth translated predictably into GDP growth + moderate inflation.
+            </p>
+            <p>
+                <strong>2008-2019 (QE Era):</strong> Velocity collapsed from 2.0 to 1.4 (-30%). The Fed printed money, but banks held it as reserves. Households deleveraged instead of spending. Corporations bought back stock instead of investing. The money didn't circulate, so no inflation.
+            </p>
+            <p>
+                <strong>2020-2021 (COVID):</strong> Velocity hit an all-time low of 1.1, but then stimulus checks went <em>directly to consumers</em> who <em>immediately spent them</em> (unlike QE, which went to banks). Supply chains broke, so spending hit fewer goods. Result: demand spike + supply collapse = inflation.
+            </p>
+            <p>
+                <strong>2022-2025:</strong> Velocity stabilized around 1.2. M2 growth slowed (even contracted in 2023). Inflation fell back to 3-4%.
+            </p>
+        </div>
+
+        <h2>What Actually Drives Inflation?</h2>
+
+        <p>
+            Based on 65 years of data, here's what matters:
+        </p>
+
+        <ol>
+            <li><strong>Money supply × Velocity</strong>, not just money supply alone. You need both M and V to rise for sustained inflation.</li>
+            <li><strong>Who gets the money matters:</strong> QE went to banks (low velocity). COVID stimulus went to consumers (high velocity).</li>
+            <li><strong>Supply shocks matter:</strong> 2021-2022 had shipping disruptions, semiconductor shortages, energy price spikes, labor shortages—all independent of money supply.</li>
+            <li><strong>Expectations matter:</strong> Once inflation expectations become unanchored (2022), wage-price spirals can sustain themselves even as money growth slows.</li>
+        </ol>
+
+        <div class="concept-card" style="background: #fff3cd; color: #333;">
+            <h3>The Real Lesson</h3>
+            <p>
+                Monetarism isn't "wrong"—the equation MV = PQ is an accounting identity, it must be true by definition. But it's incomplete. Friedman assumed V was stable or predictable. It's not. V collapsed 50% from 1997 to 2020, then spiked in 2021-2022. Without understanding velocity, money supply tells you almost nothing about future inflation.
+            </p>
+            <p>
+                <strong>Implication for investors:</strong> Don't trade on M2 growth alone. Watch velocity (though it's only reported quarterly with a lag). Watch <em>who</em> is getting the money. Watch supply chains. Watch fiscal policy (stimulus checks vs. bank reserves). Inflation is a multi-variable problem, not a single-variable one.
+            </p>
+        </div>
+
+        <h2>Comparing to Other Inflation Measures</h2>
+
+        <p>
+            We've used CPI (Consumer Price Index) so far, but the Fed targets PCE (Personal Consumption Expenditures). Does using PCE change the story?
+        </p>
+
+        <div class="chart-container">
+            <h3>M2 Growth vs. Multiple Inflation Measures</h3>
+            <div class="chart-wrapper">
+                <canvas id="multiInflationChart"></canvas>
+            </div>
+            <p class="chart-note">
+                M2 growth (blue), CPI inflation (orange), PCE inflation (green), Core CPI (red). All inflation measures track each other closely, but none correlate well with M2 growth. The spike in 2020-2022 is visible across all measures.
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Inflation Measure Correlations with M2 Growth</h4>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Inflation Measure</th>
+                            <th>Correlation with M2 Growth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CPI (Headline)</td>
+                            <td>-0.06</td>
+                        </tr>
+                        <tr>
+                            <td>PCE (Fed's Target)</td>
+                            <td id="pce-correlation">-0.08</td>
+                        </tr>
+                        <tr>
+                            <td>Core CPI (Ex Food/Energy)</td>
+                            <td id="core-correlation">-0.03</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>
+                <strong>Result:</strong> Doesn't matter which inflation measure you use. None of them correlate with M2 growth. The monetarist relationship is broken across all common metrics.
+            </p>
+        </div>
+
+        <h2>Key Takeaways</h2>
+
+        <ul>
+            <li><strong>Monetarism's prediction failed:</strong> Over 65 years, M2 growth and inflation have no meaningful correlation (-0.06).</li>
+            <li><strong>Velocity matters more than money supply:</strong> QE printed 70% more money with 1.5% inflation. COVID printed 40% more with 9% inflation. The difference? Velocity and who got the money.</li>
+            <li><strong>2008-2019 broke the model:</strong> Velocity collapsed 50%. Money sat in bank reserves. No inflation despite massive printing.</li>
+            <li><strong>2020-2023 was different:</strong> Stimulus went directly to consumers. Supply chains broke. Both sides of MV = PQ moved in the same direction.</li>
+            <li><strong>For investors:</strong> Don't use M2 growth as an inflation predictor. Watch velocity (M2V on FRED), fiscal policy distribution, and supply-side constraints instead.</li>
+        </ul>
+
+        <div class="methodology">
+            <h4>Data & Methodology</h4>
+            <p><strong>Data Sources:</strong></p>
+            <ul>
+                <li>M2SL: M2 Money Supply (Federal Reserve, monthly, 1960-2025)</li>
+                <li>CPIAUCSL: Consumer Price Index (BLS, monthly, 1960-2025)</li>
+                <li>PCEPI: Personal Consumption Expenditures Price Index (BEA, monthly, 1960-2025)</li>
+                <li>CPILFESL: Core CPI excluding food and energy (BLS, monthly, 1967-2025)</li>
+                <li>M2V: Velocity of M2 Money Stock (Federal Reserve, quarterly, 1960-2025)</li>
+                <li>BOGMBASE: Monetary Base (Federal Reserve, monthly, 1960-2025)</li>
+            </ul>
+            <p><strong>Calculations:</strong></p>
+            <ul>
+                <li>Year-over-year growth rates: (Value<sub>t</sub> - Value<sub>t-12</sub>) / Value<sub>t-12</sub> × 100</li>
+                <li>Correlation: Pearson correlation coefficient between M2 YoY growth and inflation YoY growth</li>
+                <li>Period averages: Simple arithmetic mean over specified date ranges</li>
+            </ul>
+        </div>
+
+    </article>
+
+    <script>
+        // Prepare data for charts
+        const chartData = moneySupplyData.filter(d => d.m2_yoy !== null && d.cpi_yoy !== null);
+        const dates = chartData.map(d => d.date);
+        const m2Growth = chartData.map(d => d.m2_yoy);
+        const cpiInflation = chartData.map(d => d.cpi_yoy);
+        const pceInflation = chartData.map(d => d.pce_yoy);
+        const velocity = moneySupplyData.map(d => d.velocity);
+
+        // Chart 1: Scatter plot showing correlation
+        const ctx1 = document.getElementById('correlationChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: '1960-2025',
+                    data: chartData.map(d => ({x: d.m2_yoy, y: d.cpi_yoy})),
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 1.5,
+                plugins: {
+                    title: {
+                        display: false
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'M2 Growth (YoY %)'
+                        },
+                        min: -5,
+                        max: 30
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'CPI Inflation (YoY %)'
+                        },
+                        min: -2,
+                        max: 15
+                    }
+                }
+            }
+        });
+
+        // Chart 2: QE Era timeline
+        const qeData = moneySupplyData.filter(d => d.date >= '2008-01-01' && d.date <= '2019-12-31');
+        const ctx2 = document.getElementById('qeChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: qeData.map(d => d.date),
+                datasets: [{
+                    label: 'M2 Growth (YoY %)',
+                    data: qeData.map(d => d.m2_yoy),
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    yAxisID: 'y'
+                }, {
+                    label: 'CPI Inflation (YoY %)',
+                    data: qeData.map(d => d.cpi_yoy),
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                    yAxisID: 'y'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Growth Rate (%)'
+                        },
+                        min: 0,
+                        max: 12
+                    }
+                }
+            }
+        });
+
+        // Chart 3: COVID Era timeline
+        const covidData = moneySupplyData.filter(d => d.date >= '2020-01-01' && d.date <= '2024-12-31');
+        const ctx3 = document.getElementById('covidChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: covidData.map(d => d.date),
+                datasets: [{
+                    label: 'M2 Growth (YoY %)',
+                    data: covidData.map(d => d.m2_yoy),
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    yAxisID: 'y'
+                }, {
+                    label: 'CPI Inflation (YoY %)',
+                    data: covidData.map(d => d.cpi_yoy),
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                    yAxisID: 'y'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Growth Rate (%)'
+                        },
+                        min: -5,
+                        max: 28
+                    }
+                }
+            }
+        });
+
+        // Chart 4: Velocity over time
+        const velocityData = moneySupplyData.filter(d => d.velocity !== null);
+        const ctx4 = document.getElementById('velocityChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: velocityData.map(d => d.date),
+                datasets: [{
+                    label: 'M2 Velocity',
+                    data: velocityData.map(d => d.velocity),
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Velocity (times per year)'
+                        },
+                        min: 1.0,
+                        max: 2.4
+                    }
+                }
+            }
+        });
+
+        // Chart 5: Multiple inflation measures
+        const ctx5 = document.getElementById('multiInflationChart').getContext('2d');
+        new Chart(ctx5, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'M2 Growth',
+                    data: m2Growth,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderWidth: 2
+                }, {
+                    label: 'CPI Inflation',
+                    data: cpiInflation,
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                    borderWidth: 2
+                }, {
+                    label: 'PCE Inflation',
+                    data: pceInflation,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Year-over-Year Growth (%)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

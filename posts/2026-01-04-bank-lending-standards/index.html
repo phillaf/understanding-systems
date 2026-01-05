@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Lending Standards: The Recession Indicator Nobody Watches</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="data/lending_standards_data.js"></script>
+</head>
+<body>
+    <article>
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>Bank Lending Standards: The Recession Indicator Nobody Watches</h1>
+        
+        <div class="meta">
+            <time datetime="2026-01-04">January 4, 2026</time>
+        </div>
+
+        <p class="lede">
+            Every quarter since 1990, the Federal Reserve has surveyed senior loan officers at dozens of banks with one question: "Are you tightening or easing lending standards?" The answers predict recessions with remarkable accuracy—an average lead time of 4 months. Yet almost nobody watches this data. We test 35 years of the Senior Loan Officer Opinion Survey (SLOOS) and find it outperforms the yield curve on timing. But there's a catch: 2 major false signal episodes since 1990, including a massive tightening in 2022-2023 that produced no recession.
+        </p>
+
+        <h2>What is SLOOS?</h2>
+
+        <p>
+            The Senior Loan Officer Opinion Survey on Bank Lending Practices (SLOOS) is a quarterly survey conducted by the Federal Reserve. They ask roughly 80 large domestic banks and 24 branches of foreign banks about:
+        </p>
+
+        <ul>
+            <li><strong>Commercial & Industrial (C&I) loans:</strong> Loans to businesses</li>
+            <li><strong>Consumer loans:</strong> Credit cards, auto loans, personal loans</li>
+            <li><strong>Real estate loans:</strong> Mortgages, commercial real estate</li>
+        </ul>
+
+        <p>
+            The key questions:
+        </p>
+
+        <ol>
+            <li>Are you tightening or easing standards for approving loans?</li>
+            <li>Is demand for loans increasing or decreasing?</li>
+            <li>Why are you making these changes? (economy weakening, capital requirements, competition, etc.)</li>
+        </ol>
+
+        <p>
+            The Fed reports results as net percentages: (% tightening) - (% easing). A positive number means more banks are tightening than easing. A number above 20% typically signals significant credit contraction.
+        </p>
+
+        <div class="concept-card">
+            <h3>Why This Matters</h3>
+            <p>
+                Banks are forward-looking. When they tighten standards, they're saying: "We think economic conditions are deteriorating, so we're getting more selective about who we lend to." This happens <em>before</em> the economy actually weakens, because banks have access to real-time data on their borrowers' finances and payment histories.
+            </p>
+            <p>
+                Once standards tighten, credit growth slows. Businesses can't invest. Consumers can't spend. The economy contracts. It's a self-fulfilling prophecy, but one that's highly predictable.
+            </p>
+        </div>
+
+        <h2>Test 1: Does SLOOS Predict Recessions?</h2>
+
+        <p>
+            Let's look at the full history: net percentage of banks tightening C&I lending standards from 1990 to 2025, with NBER recession periods shaded.
+        </p>
+
+        <div class="chart-container">
+            <h3>Bank Lending Standards vs. Recessions (1990-2025)</h3>
+            <div class="chart-wrapper">
+                <canvas id="mainChart"></canvas>
+            </div>
+            <p class="chart-note">
+                Net percentage of banks tightening C&I lending standards (blue line). Gray shaded areas are NBER recessions. Notice how the blue line spikes <em>before</em> each gray bar. Average lead time: 4 months.
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Recession Lead Times</h4>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Recession</th>
+                            <th>Peak Tightening</th>
+                            <th>Tightening %</th>
+                            <th>Lead Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recession-timing-table">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <p>
+                <strong>Result:</strong> SLOOS has predicted all 4 recessions since 1990 with an average lead time of 4 months. Much shorter than the yield curve (12-18 months), but shorter leads are actually better for actionable signals.
+            </p>
+        </div>
+
+        <h2>Test 2: SLOOS vs. Yield Curve</h2>
+
+        <p>
+            We've <a href="../2025-12-30-bond-markets-yield-curve/">previously tested</a> the yield curve as a recession predictor. It works, but with long and variable lags (6-24 months). How does SLOOS compare?
+        </p>
+
+        <div class="chart-container">
+            <h3>Comparing Two Leading Indicators</h3>
+            <div class="chart-wrapper">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+            <p class="chart-note">
+                Red: SLOOS tightening %. Blue: 10Y-2Y yield curve spread (negative = inverted = recession signal). Yield curve inversions typically lead recessions by 12-18 months. SLOOS spikes appear 4 months before recessions.
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Indicator Comparison</h4>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Indicator</th>
+                            <th>Avg Lead Time</th>
+                            <th>False Signals (1990-2025)</th>
+                            <th>True Signals</th>
+                            <th>Signal Accuracy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SLOOS Tightening >20%</strong></td>
+                            <td class="stat-highlight">4 months</td>
+                            <td class="stat-highlight negative">2 episodes (1998, 2022-23)</td>
+                            <td>4 recessions predicted</td>
+                            <td>67% (4 of 6 signals)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Yield Curve Inversion</strong></td>
+                            <td>12-18 months</td>
+                            <td>2 episodes (1998, 2022-25)</td>
+                            <td>2 recessions predicted (2001, 2008)</td>
+                            <td>50% (2 of 4 signals)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>
+                <strong>The Key Difference:</strong> SLOOS leads by only 4 months (more actionable timing) and predicted all 4 recessions since 1990, giving 67% signal accuracy (4 true, 2 false). The yield curve leads by 12-18 months (harder to time) and only predicted 2 of 4 recessions, with 50% accuracy (2 true, 2 false). SLOOS missed COVID-2020 briefly but caught it during, while yield curve failed completely on the short COVID recession and hasn't been followed by recession in 2022-2025 despite inversion.
+            </p>
+        </div>
+
+        <h2>Test 3: The False Signal Problem</h2>
+
+        <p>
+            Here's the uncomfortable reality: since 1990, there have been multiple distinct tightening episodes where SLOOS crossed above 20%. Of these episodes, only the ones that actually led recessions were useful signals. The rest were false alarms where you'd have gone defensive for nothing.
+        </p>
+
+        <div class="chart-container">
+            <h3>False Signals: When Tightening Didn't Lead to Recession</h3>
+            <div class="chart-wrapper">
+                <canvas id="falseSignalsChart"></canvas>
+            </div>
+            <p class="chart-note">
+                Red shaded areas show tightening episodes above 20% that did NOT predict a recession (no recession within 6 months before or 12 months after the peak). Two major false signals visible: late 1990s and 2022-2023.
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Notable False Signal Episodes</h4>
+            <ul>
+                <li><strong>Late 1990s (1998):</strong> Tightening during LTCM crisis and Asian financial contagion. Fed cut rates and economy recovered without recession.</li>
+                <li><strong>2022-2023:</strong> Massive tightening (>60%!) after aggressive Fed rate hikes and regional bank failures (Silicon Valley Bank). Despite record-breaking tightening levels exceeding 2008, no recession materialized by late 2025.</li>
+            </ul>
+            <p>
+                <strong>Why These False Signals?</strong>
+            </p>
+            <ol>
+                <li><strong>1998:</strong> Fed acted quickly with rate cuts to stabilize markets before credit crunch spread to real economy</li>
+                <li><strong>2022-2023:</strong> Strong labor market, excess consumer savings from COVID stimulus, and low corporate refinancing needs created resilience despite tight credit</li>
+            </ol>
+            </ol>
+        </div>
+
+        <h2>Test 4: Does Loan Growth Actually Decline?</h2>
+
+        <p>
+            When banks say they're tightening standards, does credit actually contract? Let's check by comparing SLOOS to year-over-year growth in commercial & industrial (C&I) loans outstanding.
+        </p>
+        
+        <p>
+            <strong>"Loans outstanding"</strong> is the total dollar amount of C&I loans on bank balance sheets. When this number grows year-over-year, banks are extending more credit to businesses. When it shrinks, credit is contracting. We expect a strong correlation: tighter standards → fewer loan approvals → slower loan growth → possible credit crunch.
+        </p>
+
+        <div class="chart-container">
+            <h3>Lending Standards vs. Actual Loan Growth</h3>
+            <div class="chart-wrapper">
+                <canvas id="loanGrowthChart"></canvas>
+            </div>
+            <p class="chart-note">
+                Blue: SLOOS tightening % (left axis). Orange: C&I loan growth year-over-year (right axis). When standards tighten, loan growth slows with a lag of 1-2 quarters. But not all tightening produces negative loan growth.
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>The Lag Structure</h4>
+            <p>
+                <strong>Quarter 0 (Survey):</strong> Banks report tightening standards<br>
+                <strong>Quarter 1-2:</strong> Loan growth begins to slow as new applications get rejected<br>
+                <strong>Quarter 2-3:</strong> If severe, loan growth turns negative<br>
+                <strong>Quarter 3-4:</strong> Recession begins (if credit contraction is deep enough)
+            </p>
+            <p>
+                <strong>Key Insight:</strong> The severity matters. Tightening from 10% to 30% might slow loan growth from 8% to 4% (no recession). Tightening from 10% to 70% might turn loan growth negative (recession likely).
+            </p>
+        </div>
+
+        <h2>Test 5: What About Consumer Credit?</h2>
+
+        <p>
+            We've focused on C&I (business) lending, but what about consumer lending standards? Do they predict recessions independently?
+        </p>
+
+        <div class="chart-container">
+            <h3>Consumer vs. Business Lending Standards</h3>
+            <div class="chart-wrapper">
+                <canvas id="consumerChart"></canvas>
+            </div>
+            <p class="chart-note">
+                Blue: C&I lending standards (1990-present). Orange: Consumer lending standards (starts mid-1990s - FRED data not available earlier). Both tend to move together, but consumer standards lag slightly and are less volatile.
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Consumer vs. Business Standards</h4>
+            <p>
+                <strong>C&I standards lead:</strong> Banks tighten business lending first because business loans are riskier and more sensitive to economic conditions.
+            </p>
+            <p>
+                <strong>Consumer standards follow:</strong> 1-2 quarters later, banks tighten consumer credit as unemployment rises and household finances weaken.
+            </p>
+            <p>
+                <strong>Exception - 2022:</strong> Consumer standards tightened MORE than C&I standards, possibly due to rising credit card delinquencies and auto loan defaults. This unusual pattern may explain why recession didn't materialize—businesses stayed healthy even as consumers struggled.
+            </p>
+        </div>
+
+        <h2>Test 6: The 2022-2023 Mystery</h2>
+
+        <p>
+            The most important test: what happened in 2022-2023? SLOOS showed the most extreme tightening since the 2008 financial crisis—over 60% net tightening in Q2 2023. Yet no recession came. What went wrong?
+        </p>
+
+        <div class="chart-container">
+            <h3>2022-2023: Record Tightening, No Recession</h3>
+            <div class="chart-wrapper">
+                <canvas id="recentChart"></canvas>
+            </div>
+            <p class="chart-note">
+                SLOOS tightening exceeded 60% in Q2 2023 following Silicon Valley Bank collapse and Fed rate hikes to 5.25%. Historical rule: anything above 40% predicts recession. This time: no recession through end of 2025.
+            </p>
+        </div>
+
+        <div class="result-box">
+            <h4>Why 2022-2023 Was Different</h4>
+            <ol>
+                <li><strong>Fiscal support still flowing:</strong> Unlike past cycles, government transfer payments to households remained elevated through 2023. Consumers had cushion.</li>
+                <li><strong>Strong labor market:</strong> Unemployment stayed below 4%. Hard to have recession when everyone's employed.</li>
+                <li><strong>Sector-specific crisis:</strong> Banking stress was concentrated in regional banks exposed to commercial real estate and tech deposits. Money center banks stayed healthy.</li>
+                <li><strong>Pandemic excess savings:</strong> Households entered 2022 with record savings. Even as credit tightened, they could draw down cash.</li>
+                <li><strong>Corporate borrowing front-loaded:</strong> Many companies refinanced at low rates in 2020-2021. They didn't need new loans in 2022-2023 even as standards tightened.</li>
+            </ol>
+            <p>
+                <strong>The Lesson:</strong> SLOOS measures <em>supply</em> of credit (banks willing to lend). But recessions require both supply contraction AND demand for credit. If businesses/consumers don't need to borrow (because they're flush with cash or already locked in low rates), tight standards don't bite.
+            </p>
+        </div>
+
+        <h2>Key Takeaways</h2>
+
+        <ul>
+            <li><strong>SLOOS works for recession prediction:</strong> 4 of 4 recessions predicted since 1990, 4-month average lead time.</li>
+            <li><strong>But 67% signal accuracy:</strong> 2 false episodes (late 1990s, 2022-2023) out of 6 total tightening episodes.</li>
+            <li><strong>Beats the yield curve on timing:</strong> 4 months vs 12-18 months lead time. Yield curve has similar false signal rate (50% accuracy).</li>
+            <li><strong>2022-2023 was the biggest false signal ever:</strong> 60%+ tightening with no recession. Combination of strong labor market, fiscal support, and low refinancing needs.</li>
+            <li><strong>Supply ≠ Demand:</strong> Tight lending standards only cause recession if businesses/consumers actually need credit. When they're flush with cash, standards don't matter.</li>
+            <li><strong>Use as confirmation, not standalone:</strong> SLOOS works best combined with other indicators like unemployment, yield curve, credit spreads, and actual loan growth data.</li>
+        </ul>
+
+        <div class="concept-card" style="background: #e7f3ff; color: #333;">
+            <h3>For Your Toolkit</h3>
+            <p>
+                SLOOS is worth monitoring as a <strong>confirmation signal</strong>:
+            </p>
+            <ol>
+                <li>If yield curve inverts AND SLOOS tightens >30% → high recession probability</li>
+                <li>If yield curve inverts but SLOOS stays loose → wait (like 2022-2025)</li>
+                <li>If SLOOS tightens but yield curve is positive → probably false signal (like 2016)</li>
+            </ol>
+            <p>
+                <strong>Where to find it:</strong> Federal Reserve Board publishes SLOOS quarterly. FRED database has series DRTSCILM (C&I standards) and DRTSCLCC (consumer standards). Reports come out ~30 days after quarter end.
+            </p>
+        </div>
+
+        <div class="methodology">
+            <h4>Data & Methodology</h4>
+            <p><strong>Data Sources:</strong></p>
+            <ul>
+                <li>DRTSCILM: Net % of banks tightening C&I lending standards (Federal Reserve SLOOS, quarterly, 1990-2025)</li>
+                <li>DRTSCLCC: Net % of banks tightening consumer lending standards (Federal Reserve SLOOS, quarterly, 1991-2025)</li>
+                <li>BUSLOANS: Commercial and industrial loans outstanding (Federal Reserve H.8, monthly, 1990-2025)</li>
+                <li>TOTALSL: Total consumer credit (Federal Reserve G.19, monthly, 1990-2025)</li>
+                <li>USREC: NBER recession indicator (FRED, monthly, 1990-2025)</li>
+            </ul>
+            <p><strong>Calculations:</strong></p>
+            <ul>
+                <li>Lead time: Months between peak SLOOS tightening (before recession) and official recession start</li>
+                <li>False signal: SLOOS >20% tightening with no recession within 12 months</li>
+                <li>Loan growth: Year-over-year % change in loans outstanding</li>
+                <li>All data accessed via Federal Reserve FRED database using authenticated API</li>
+            </ul>
+        </div>
+
+    </article>
+
+    <script>
+        // Prepare data
+        const chartData = lendingStandardsData.filter(d => d.ci_standards !== null);
+        const dates = chartData.map(d => d.date);
+        const ciStandards = chartData.map(d => d.ci_standards);
+        const consumerStandards = chartData.map(d => d.consumer_standards);
+        const recessions = chartData.map(d => d.recession);
+
+        // Calculate loan growth year-over-year (quarterly data, so 4 quarters back)
+        const loanGrowth = chartData.map((d, i) => {
+            if (i < 4 || !d.ci_loans || !chartData[i-4].ci_loans) return null;
+            return ((d.ci_loans - chartData[i-4].ci_loans) / chartData[i-4].ci_loans) * 100;
+        });
+
+        // Find recession periods for shading
+        const recessionPeriods = [];
+        let inRecession = false;
+        let recessionStart = null;
+        
+        chartData.forEach((d, i) => {
+            if (d.recession && !inRecession) {
+                inRecession = true;
+                recessionStart = d.date;
+            } else if (!d.recession && inRecession) {
+                inRecession = false;
+                recessionPeriods.push({
+                    xMin: recessionStart,
+                    xMax: d.date,
+                    backgroundColor: 'rgba(200, 200, 200, 0.3)',
+                    borderWidth: 0
+                });
+            }
+        });
+
+        // Populate recession timing table
+        const tableBody = document.getElementById('recession-timing-table');
+        analysisStats.recessions_analyzed.forEach(rec => {
+            const row = tableBody.insertRow();
+            row.innerHTML = `
+                <td>${rec.recession_start}</td>
+                <td>${rec.peak_tightening || 'N/A'}</td>
+                <td class="stat-highlight">${rec.peak_tightening_value ? rec.peak_tightening_value.toFixed(1) + '%' : 'N/A'}</td>
+                <td>${rec.lead_time_months ? rec.lead_time_months + ' months' : 'N/A'}</td>
+            `;
+        });
+
+        // Chart 1: Main SLOOS timeline with recessions
+        const ctx1 = document.getElementById('mainChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'C&I Lending Standards (Net % Tightening)',
+                    data: ciStandards,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2.5,
+                plugins: {
+                    annotation: {
+                        annotations: recessionPeriods.reduce((acc, period, i) => {
+                            acc['recession' + i] = {
+                                type: 'box',
+                                ...period
+                            };
+                            return acc;
+                        }, {})
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Net % Tightening'
+                        },
+                        min: -20,
+                        max: 90
+                    }
+                }
+            }
+        });
+
+        // Prepare recession boxes for annotations
+        const recessionBoxes = recessionPeriods.reduce((acc, period, i) => {
+            acc['recession' + i] = {
+                type: 'box',
+                ...period
+            };
+            return acc;
+        }, {});
+
+        // Chart 2: Comparison with yield curve
+        const ctx2 = document.getElementById('comparisonChart').getContext('2d');
+        
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Lending Standards (% tightening)',
+                    data: chartData.map(d => d.ci_standards),
+                    borderColor: 'rgb(220, 38, 38)',
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                    yAxisID: 'y',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false
+                }, {
+                    label: 'SLOOS Warning Zone (>20%)',
+                    data: chartData.map(d => d.ci_standards > 20 ? d.ci_standards : 20),
+                    borderColor: 'transparent',
+                    backgroundColor: 'rgba(220, 38, 38, 0.3)',
+                    yAxisID: 'y',
+                    fill: {
+                        target: {value: 20},
+                        above: 'rgba(220, 38, 38, 0.3)',
+                        below: 'transparent'
+                    },
+                    pointRadius: 0
+                }, {
+                    label: 'Yield Curve (10Y-2Y, %)',
+                    data: chartData.map(d => d.yield_curve),
+                    borderColor: 'rgb(37, 99, 235)',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    yAxisID: 'y1',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false
+                }, {
+                    label: 'Yield Curve Inversion (<0%)',
+                    data: chartData.map(d => d.yield_curve != null && d.yield_curve < 0 ? d.yield_curve : 0),
+                    borderColor: 'transparent',
+                    backgroundColor: 'rgba(37, 99, 235, 0.3)',
+                    yAxisID: 'y1',
+                    fill: {
+                        target: {value: 0},
+                        below: 'rgba(37, 99, 235, 0.3)',
+                        above: 'transparent'
+                    },
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2.5,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'SLOOS vs Yield Curve: Which Leads?'
+                    },
+                    legend: {
+                        display: true
+                    },
+                    annotation: {
+                        annotations: recessionBoxes
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Lending Standards (% tightening)'
+                        },
+                        min: -20,
+                        max: 90
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Yield Curve (10Y-2Y, %)'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                        min: -2,
+                        max: 3.5
+                    }
+                }
+            }
+        });
+
+        // Chart 3: False signals highlighted
+        const ctx3 = document.getElementById('falseSignalsChart').getContext('2d');
+        
+        // Find distinct tightening episodes (periods above 20% separated by drops below 10%)
+        const tighteningEpisodes = [];
+        let inEpisode = false;
+        let episodeStart = null;
+        let episodePeak = 0;
+        
+        chartData.forEach((d, i) => {
+            const isAbove20 = d.ci_standards && d.ci_standards > 20;
+            const isBelow10 = d.ci_standards && d.ci_standards < 10;
+            
+            if (isAbove20 && !inEpisode) {
+                // Start new episode
+                inEpisode = true;
+                episodeStart = i;
+                episodePeak = d.ci_standards;
+            } else if (inEpisode && d.ci_standards) {
+                // Track peak during episode
+                if (d.ci_standards > episodePeak) {
+                    episodePeak = d.ci_standards;
+                }
+                
+                // End episode when we drop below 10%
+                if (isBelow10) {
+                    tighteningEpisodes.push({
+                        start: episodeStart,
+                        end: i,
+                        peak: episodePeak
+                    });
+                    inEpisode = false;
+                }
+            }
+        });
+        
+        // Add final episode if still in one
+        if (inEpisode) {
+            tighteningEpisodes.push({
+                start: episodeStart,
+                end: chartData.length - 1,
+                peak: episodePeak
+            });
+        }
+        
+        // For each episode, check if recession occurred within 12 months after the peak
+        const warningZones = [];
+        tighteningEpisodes.forEach(episode => {
+            // Find when the peak occurred
+            let peakIndex = episode.start;
+            for (let i = episode.start; i <= episode.end && i < chartData.length; i++) {
+                if (chartData[i].ci_standards === episode.peak) {
+                    peakIndex = i;
+                    break;
+                }
+            }
+            
+            // Check if recession occurs within window around peak (2 quarters before to 4 quarters after)
+            const windowStart = Math.max(0, peakIndex - 2);
+            const windowEnd = Math.min(peakIndex + 5, chartData.length);
+            const hasRecessionNearPeak = chartData.slice(windowStart, windowEnd)
+                .some(p => p.recession);
+            
+            // If no recession near this peak, mark the whole episode as false signal
+            if (!hasRecessionNearPeak && peakIndex < chartData.length - 5) {
+                warningZones.push({
+                    xMin: chartData[episode.start].date,
+                    xMax: chartData[episode.end].date,
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                    borderColor: 'rgb(239, 68, 68)',
+                    borderWidth: 0
+                });
+            }
+        });
+
+        new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'C&I Lending Standards',
+                    data: ciStandards,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false
+                }, {
+                    label: 'Warning Zone (>20%)',
+                    data: chartData.map(d => d.ci_standards > 20 ? d.ci_standards : 20),
+                    borderColor: 'transparent',
+                    backgroundColor: 'rgba(54, 162, 235, 0.3)',
+                    fill: {
+                        target: {value: 20},
+                        above: 'rgba(54, 162, 235, 0.3)',
+                        below: 'transparent'
+                    },
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2.5,
+                plugins: {
+                    annotation: {
+                        annotations: recessionPeriods.reduce((acc, period, i) => {
+                            acc['recession' + i] = {
+                                type: 'box',
+                                ...period
+                            };
+                            return acc;
+                        }, {})
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Net % Tightening'
+                        },
+                        min: -20,
+                        max: 90
+                    }
+                }
+            }
+        });
+
+        // Chart 4: Loan growth vs standards
+        const ctx4 = document.getElementById('loanGrowthChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Lending Standards (Net % Tightening)',
+                    data: ciStandards,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderWidth: 2,
+                    yAxisID: 'y',
+                    pointRadius: 0
+                }, {
+                    label: 'C&I Loan Growth (YoY %)',
+                    data: loanGrowth,
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                    borderWidth: 2,
+                    yAxisID: 'y1',
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2.5,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Lending Standards (%)'
+                        },
+                        min: -20,
+                        max: 90
+                    },
+                    y1: {
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Loan Growth (%)'
+                        },
+                        min: -30,
+                        max: 80,
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 5: Consumer vs Business standards
+        const ctx5 = document.getElementById('consumerChart').getContext('2d');
+        new Chart(ctx5, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'C&I Standards',
+                    data: ciStandards,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderWidth: 2,
+                    pointRadius: 0
+                }, {
+                    label: 'Consumer Standards',
+                    data: consumerStandards,
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                    borderWidth: 2,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2.5,
+                plugins: {
+                    annotation: {
+                        annotations: recessionPeriods.reduce((acc, period, i) => {
+                            acc['recession' + i] = {
+                                type: 'box',
+                                ...period
+                            };
+                            return acc;
+                        }, {})
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Net % Tightening'
+                        },
+                        min: -20,
+                        max: 90
+                    }
+                }
+            }
+        });
+
+        // Chart 6: Recent 2020-2025 detail
+        const recentData = chartData.filter(d => d.date >= '2020-01-01');
+        const ctx6 = document.getElementById('recentChart').getContext('2d');
+        new Chart(ctx6, {
+            type: 'line',
+            data: {
+                labels: recentData.map(d => d.date),
+                datasets: [{
+                    label: 'C&I Lending Standards',
+                    data: recentData.map(d => d.ci_standards),
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderWidth: 3,
+                    fill: false,
+                    pointRadius: 0
+                }, {
+                    label: 'Warning Zone (>20%)',
+                    data: recentData.map(d => d.ci_standards),
+                    borderColor: 'transparent',
+                    backgroundColor: 'rgba(54, 162, 235, 0.3)',
+                    fill: {
+                        target: {value: 20},
+                        above: 'rgba(54, 162, 235, 0.3)',
+                        below: 'transparent'
+                    },
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'quarter'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Net % Tightening'
+                        },
+                        min: -10,
+                        max: 80
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

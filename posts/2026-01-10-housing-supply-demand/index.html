@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Housing Market Supply and Demand: What Today's Data Tells Us</title>
+    <link rel="stylesheet" href="../../common-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+</head>
+<body>
+    <article>
+        <a href="../../index.html" class="back-link">&larr; Back to home</a>
+        
+        <h1>Housing Market Supply and Demand: What Today's Data Tells Us</h1>
+        
+        <div class="meta">
+            <time datetime="2026-01-10">January 10, 2026</time>
+        </div>
+        
+        <p class="subtitle">Reading Current Market Conditions to Predict What Comes Next</p>
+
+        <section class="intro">
+            <p>You understand mortgage rates now—they're at 6-7%, up from 3% just three years ago. But what's actually happening in the housing market? Are buyers still buying? Are sellers listing? Is inventory building or shrinking?</p>
+            
+            <p>This article analyzes current supply and demand dynamics using real-time data to answer the critical question: <strong>Where is this market heading?</strong></p>
+            
+            <p>We'll test whether we're seeing: (1) demand destruction, (2) inventory accumulation, (3) price adjustments, or (4) a frozen market where nobody moves.</p>
+        </section>
+
+        <section>
+            <h2>Test 1: What's Happening to Housing Inventory?</h2>
+            <p>The most direct measure of supply is "months of supply"—how many months it would take to sell all current inventory at the current sales pace. This tells us if we're in a buyer's market (high supply) or seller's market (low supply).</p>
+            
+            <p><strong>Key thresholds:</strong></p>
+            <ul>
+                <li><strong>&lt;4 months:</strong> Seller's market (bidding wars, prices rise)</li>
+                <li><strong>4-6 months:</strong> Balanced market</li>
+                <li><strong>&gt;6 months:</strong> Buyer's market (price cuts, slow sales)</li>
+            </ul>
+            
+            <div class="chart-container">
+                <h3>Months of Housing Supply (1990-Present)</h3>
+                <div class="chart-wrapper">
+                    <canvas id="supplyChart"></canvas>
+                </div>
+                <p class="chart-note">Months of supply peaked at 11+ during the 2008 crisis, bottomed below 2 months during the 2020-2021 frenzy. Latest data (May 2025) shows 9.6 months—a clear buyer's market.</p>
+            </div>
+            
+            <p><strong>What the data shows:</strong></p>
+            <ul>
+                <li><strong>2008-2011:</strong> Supply surged to 11 months (massive oversupply, foreclosures flooding market)</li>
+                <li><strong>2020-2021:</strong> Supply crashed to 1.6 months (extreme seller's market, everything sold in days)</li>
+                <li><strong>Current state (May 2025):</strong> Supply has climbed to 9.6 months—solidly in buyer's market territory (above the 6-month threshold)</li>
+            </ul>
+            
+            <p><strong>What this predicts:</strong> The shift from 1.6 months (extreme seller's market) to 9.6 months (buyer's market) is significant. Buyers now have negotiating power. However, this still isn't 2008-level oversupply (11+ months). Without forced selling, prices will soften but likely won't crash. The extreme seller's market is definitively over.</p>
+        </section>
+
+        <section>
+            <h2>Test 2: Are Prices Finally Falling?</h2>
+            <p>With lower sales and normalizing inventory, are prices adjusting? Median sales price tells us what buyers are actually paying.</p>
+            
+            <div class="chart-container">
+                <h3>Median Home Sales Price</h3>
+                <div class="chart-wrapper">
+                    <canvas id="priceChart"></canvas>
+                </div>
+                <p class="chart-note">Median sales price (quarterly data). Notice the resilience—prices rarely fall nationally, even when sales collapse.</p>
+            </div>
+            
+            <p><strong>What the data shows:</strong></p>
+            <ul>
+                <li><strong>2008 crisis:</strong> Prices fell 30% peak-to-trough (foreclosures forced sellers to accept any price)</li>
+                <li><strong>2020-2022:</strong> Prices surged 40% (low rates + limited supply + stimulus)</li>
+                <li><strong>2023-2024:</strong> Prices are FLAT, not falling (down maybe 5% from peak in some markets)</li>
+            </ul>
+            
+            <p><strong>Why aren't prices crashing despite the shift to a buyer's market?</strong></p>
+            <ul>
+                <li><strong>Lock-in effect limits sellers:</strong> Homeowners with 3% mortgages are reluctant to sell and accept 7% rates—only those who MUST move are listing</li>
+                <li><strong>No forced selling:</strong> Unlike 2008, there's no wave of foreclosures. Owners can afford to wait for better conditions.</li>
+                <li><strong>Selective selling:</strong> The inventory increase comes from people forced to move (relocations, life changes), not panic selling—they price realistically but not desperately</li>
+            </ul>
+            
+            <p><strong>What this predicts:</strong> Without forced selling (recession, unemployment spike, foreclosure wave), prices will stay sticky despite inventory rising. The market is softening (small declines likely), but no crash. The adjustment is happening through VOLUME (fewer sales) and TIME (slower sales) rather than dramatic PRICE cuts.</p>
+        </section>
+
+        <section>
+            <h2>Test 3: How Does This Compare to Past Cycles?</h2>
+            <p>Let's see the full picture: supply and mortgage rates together.</p>
+            
+            <div class="chart-container">
+                <h3>Supply vs Mortgage Rates</h3>
+                <div class="chart-wrapper">
+                    <canvas id="combinedChart"></canvas>
+                </div>
+                <p class="chart-note">Months of supply (purple) and mortgage rates (red) show how rate changes affect market balance. Gray bars are recessions.</p>
+            </div>
+            
+            <p><strong>Pattern recognition across cycles:</strong></p>
+            
+            <p><strong>2008 Cycle:</strong></p>
+            <ul>
+                <li>Inventory surged to 11 months supply as rates dropped from 6% to 4.5%</li>
+                <li>Why? Foreclosures flooded market despite falling rates</li>
+                <li>Result: 30% price crash (forced selling overwhelmed rate cuts)</li>
+            </ul>
+            
+            <p><strong>2020-2022 Cycle:</strong></p>
+            <ul>
+                <li>Inventory crashed to 1.6 months as rates hit 3%</li>
+                <li>Why? Low rates created bidding wars + limited building during pandemic</li>
+                <li>Result: 40% price surge (demand overwhelmed supply)</li>
+            </ul>
+            
+            <p><strong>Current Cycle (2022-2025):</strong></p>
+            <ul>
+                <li>Rates jumped from 3% to 7%, and inventory rose from 1.6 to 9.6 months (as of May 2025)</li>
+                <li>Why? High rates destroyed demand, and some lock-in holders were forced to sell (relocations, divorces, estate sales)</li>
+                <li>Result: Buyer's market emerging—prices flat or down slightly (5-10% in some markets)</li>
+            </ul>
+            
+            <p><strong>Key insight:</strong> Mortgage rates DON'T determine inventory alone. In 2008, rates fell but inventory surged (forced selling). In 2022-2025, rates rose AND inventory rose (demand destruction + some forced moves). But the inventory increase happened gradually—not a sudden flood like 2008. This is why prices are sticky rather than crashing.</p>
+        </section>
+
+        <section>
+            <h2>Test 4: What About New Home Construction?</h2>
+            <p>Builders respond to market signals. New home sales reveal whether supply is expanding (more construction) or contracting (builders waiting).</p>
+            
+            <div class="chart-container">
+                <h3>New Home Sales</h3>
+                <div class="chart-wrapper">
+                    <canvas id="newHomesChart"></canvas>
+                </div>
+                <p class="chart-note">New home sales show builder confidence and supply response. Low sales signal builders are pulling back.</p>
+            </div>
+            
+            <p><strong>What the data shows:</strong></p>
+            <ul>
+                <li><strong>2020-2021:</strong> New home sales hit 1M+ (builders couldn't build fast enough)</li>
+                <li><strong>2022-2024:</strong> Sales fell to 600K (rates killed demand, builders slowed construction)</li>
+                <li><strong>Builder advantage:</strong> Unlike existing homeowners, builders can offer rate buydowns and incentives</li>
+            </ul>
+            
+            <p><strong>What this predicts:</strong> Builders are reducing supply by building less. This prevents inventory from surging. When rates fall, builders will ramp up—but there's a 12-18 month lag from permit to completion. Supply response is slow.</p>
+        </section>
+
+        <section>
+            <h2>Key Takeaways</h2>
+            <div class="key-point">
+                <p><strong>1. The market is adjusting through volume, not price.</strong> Sales fell 33%, but prices are only down 5%. This is the lock-in effect in action—owners with 3% mortgages won't sell to get 7% mortgages.</p>
+                
+                <p><strong>2. No supply wave is coming.</strong> Unlike 2008 (foreclosure tsunami), today has no forced selling. Inventory is normalizing, not surging. Without forced sales, prices won't crash.</p>
+                
+                <p><strong>3. The freeze creates opportunity—eventually.</strong> Pent-up demand is building. When rates fall (even to 5-5.5%), sales will surge. But if supply stays tight, prices will rise again.</p>
+                
+                <p><strong>4. First-time buyers face a dilemma.</strong> Wait for lower rates → face more competition. Buy now at high rates → at least you're in the market (can refinance later if rates fall).</p>
+                
+                <p><strong>5. Watch for cracks in the lock-in effect.</strong> Job losses, divorces, baby boomer downsizing—these force people to sell regardless of rates. If forced selling accelerates, inventory surges and prices fall.</p>
+                
+                <p><strong>6. Regional variation matters enormously.</strong> Markets with job growth and limited land (coastal cities) will stay tight. Markets with exodus trends (expensive cities losing population) will see sharper price declines.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>What to Watch Next</h2>
+            <p>To predict where this market goes, track these indicators monthly:</p>
+            
+            <ul>
+                <li><strong>Months of supply:</strong> If it rises above 6 months, buyer's market emerges and prices will soften</li>
+                <li><strong>Sales volume:</strong> If it drops below 3.5M/year, recession signal—expect forced selling soon</li>
+                <li><strong>Price trends by region:</strong> National median hides huge regional differences</li>
+                <li><strong>Mortgage rate direction:</strong> Every 1% drop in rates adds ~10% to buying power</li>
+                <li><strong>Unemployment rate:</strong> If it spikes above 5%, forced selling begins and lock-in breaks</li>
+            </ul>
+            
+            <p>The data tells a clear story: This isn't 2008. It's a rate-induced freeze where sellers refuse to sell and buyers can't afford to buy. The outcome depends entirely on what the Fed does next—and whether the economy can handle staying frozen this long.</p>
+        </section>
+
+        <footer>
+            <p>Data sources: <a href="https://fred.stlouisfed.org/series/MSACSR" target="_blank">MSACSR</a> (Months Supply), <a href="https://fred.stlouisfed.org/series/EXHOSLUSM495S" target="_blank">EXHOSLUSM495S</a> (Existing Home Sales), <a href="https://fred.stlouisfed.org/series/HSN1F" target="_blank">HSN1F</a> (New Home Sales), <a href="https://fred.stlouisfed.org/series/MSPUS" target="_blank">MSPUS</a> (Median Sales Price), <a href="https://fred.stlouisfed.org/series/MORTGAGE30US" target="_blank">MORTGAGE30US</a>, <a href="https://fred.stlouisfed.org/series/USREC" target="_blank">USREC</a> — Federal Reserve Economic Data (FRED)</p>
+        </footer>
+    </article>
+
+    <script src="data/raw/housing_data.js"></script>
+    <script>
+        // Prepare data for charts
+        const chartData = housingData.filter(d => d.months_supply !== null);
+
+        // Prepare recession annotations
+        function getRecessionAnnotations(data) {
+            const annotations = {};
+            let recessionStart = null;
+            let annotationIndex = 0;
+            
+            for (let i = 0; i < data.length; i++) {
+                const current = data[i];
+                const isRecession = current.recession === 1.0;
+                
+                if (isRecession && recessionStart === null) {
+                    recessionStart = current.date;
+                } else if (!isRecession && recessionStart !== null) {
+                    annotations[`recession${annotationIndex}`] = {
+                        type: 'box',
+                        xMin: recessionStart,
+                        xMax: data[i - 1].date,
+                        backgroundColor: 'rgba(128, 128, 128, 0.2)',
+                        borderWidth: 0
+                    };
+                    annotationIndex++;
+                    recessionStart = null;
+                }
+            }
+            
+            // Handle recession that extends to end of data
+            if (recessionStart !== null) {
+                annotations[`recession${annotationIndex}`] = {
+                    type: 'box',
+                    xMin: recessionStart,
+                    xMax: data[data.length - 1].date,
+                    backgroundColor: 'rgba(128, 128, 128, 0.2)',
+                    borderWidth: 0
+                };
+            }
+            
+            return annotations;
+        }
+        
+        const recessionAnnotations = getRecessionAnnotations(chartData);
+
+        // Chart 1: Months of Supply
+        const ctx1 = document.getElementById('supplyChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: chartData.map(d => d.date),
+                datasets: [
+                    {
+                        label: 'Months of Supply',
+                        data: chartData.map(d => d.months_supply),
+                        borderColor: 'rgb(168, 85, 247)',
+                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Months of Supply'
+                        },
+                        min: 0,
+                        max: 12
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    annotation: {
+                        annotations: {
+                            ...recessionAnnotations,
+                            line1: {
+                                type: 'line',
+                                yMin: 4,
+                                yMax: 4,
+                                borderColor: 'rgba(34, 197, 94, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [5, 5]
+                            },
+                            line2: {
+                                type: 'line',
+                                yMin: 6,
+                                yMax: 6,
+                                borderColor: 'rgba(239, 68, 68, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [5, 5]
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Supply: ' + context.parsed.y.toFixed(1) + ' months';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Median Price
+        const priceData = chartData.filter(d => d.median_price !== null);
+        const ctx2 = document.getElementById('priceChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: priceData.map(d => d.date),
+                datasets: [
+                    {
+                        label: 'Median Sales Price',
+                        data: priceData.map(d => d.median_price),
+                        borderColor: 'rgb(34, 197, 94)',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Median Price (USD)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + (value/1000).toFixed(0) + 'K';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    annotation: {
+                        annotations: recessionAnnotations
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Price: $' + context.parsed.y.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 3: Combined Supply and Mortgage Rates
+        const ctx3 = document.getElementById('combinedChart').getContext('2d');
+        // Filter to only show data points where both series have values
+        const combinedData = chartData.filter(d => d.mortgage_rate !== null);
+        new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: combinedData.map(d => d.date),
+                datasets: [
+                    {
+                        label: 'Months of Supply',
+                        data: combinedData.map(d => d.months_supply),
+                        borderColor: 'rgb(168, 85, 247)',
+                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: '30Y Mortgage Rate',
+                        data: combinedData.map(d => d.mortgage_rate),
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Months of Supply'
+                        },
+                        min: 0,
+                        max: 12
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Mortgage Rate (%)'
+                        },
+                        min: 2,
+                        max: 20,
+                        grid: {
+                            drawOnChartArea: false,
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    annotation: {
+                        annotations: getRecessionAnnotations(combinedData)
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                if (context.datasetIndex === 0) {
+                                    return 'Supply: ' + context.parsed.y.toFixed(1) + ' months';
+                                } else {
+                                    return 'Rate: ' + context.parsed.y.toFixed(2) + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 4: New Home Sales
+        const ctx4 = document.getElementById('newHomesChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: chartData.map(d => d.date),
+                datasets: [
+                    {
+                        label: 'New Home Sales',
+                        data: chartData.map(d => d.new_home_sales),
+                        borderColor: 'rgb(249, 115, 22)',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.1,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'year'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'New Home Sales (thousands/year)'
+                        },
+                        min: 200,
+                        max: 1400
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    annotation: {
+                        annotations: recessionAnnotations
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Sales: ' + context.parsed.y.toFixed(0) + 'K/year';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

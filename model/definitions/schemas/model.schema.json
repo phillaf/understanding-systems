@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Economic Signal Graph Model Definition",
+  "description": "Schema for defining signal graphs in YAML/JSON",
+  "type": "object",
+  "required": ["signals", "edges"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "time_unit": { 
+          "type": "string",
+          "enum": ["day", "week", "month", "quarter", "year"]
+        },
+        "version": { "type": "string" }
+      }
+    },
+    "signals": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "observed": { 
+            "type": "boolean",
+            "default": false,
+            "description": "If true, this signal receives external data"
+          },
+          "description": { "type": "string" },
+          "min": { 
+            "type": "number",
+            "description": "Minimum value (for clamping)"
+          },
+          "max": { 
+            "type": "number",
+            "description": "Maximum value (for clamping)"
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "weight"],
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Source signal name"
+          },
+          "to": {
+            "type": "string",
+            "description": "Target signal name"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Signed weight for the connection"
+          },
+          "transform": {
+            "type": "string",
+            "enum": ["linear", "sigmoid", "tanh", "relu", "inverse", "log"],
+            "default": "linear",
+            "description": "Transform function applied to source value"
+          },
+          "delay": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Time delay in steps"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

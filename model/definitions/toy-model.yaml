@@ -1,0 +1,73 @@
+# Toy Model: Recession Prediction from Financial Stress Signals
+#
+# This is a minimal model to test the framework.
+# It uses relationships validated in our blog articles:
+# - Credit spreads predict recessions (~6 months lead)
+# - Fed rate affects credit conditions
+#
+# Signals flow: fed_rate → credit_spread → recession_probability
+#
+# Time unit: MONTHS
+
+metadata:
+  name: "Toy Recession Model"
+  description: "Minimal model: Fed rate → Credit spread → Recession probability"
+  time_unit: "month"
+  version: "0.1.0"
+
+signals:
+  # === OBSERVED SIGNALS (real data injected) ===
+  
+  fed_rate:
+    observed: true
+    description: "Federal Funds Effective Rate (%)"
+    min: 0
+    max: 20
+  
+  credit_spread:
+    observed: true
+    description: "BAA-AAA Corporate Bond Spread (percentage points)"
+    min: 0
+    max: 10
+  
+  # === COMPUTED SIGNALS ===
+  
+  financial_stress:
+    observed: false
+    description: "Combined financial stress indicator (0-1)"
+    min: 0
+    max: 1
+  
+  recession_probability:
+    observed: false
+    description: "Model's recession probability estimate (0-1)"
+    min: 0
+    max: 1
+
+edges:
+  # Fed rate increases → credit spreads widen (with lag)
+  # When Fed raises rates, corporate borrowing becomes riskier
+  - from: fed_rate
+    to: financial_stress
+    weight: 0.15
+    transform: linear
+    delay: 3
+    description: "Higher fed rate → higher stress (3mo lag)"
+
+  # Credit spread directly indicates stress
+  # Wider spreads = market pricing in more default risk
+  - from: credit_spread
+    to: financial_stress
+    weight: 0.4
+    transform: linear
+    delay: 0
+    description: "Credit spread is a direct stress measure"
+
+  # Financial stress predicts recession
+  # Based on credit spread article: ~6 month lead time
+  - from: financial_stress
+    to: recession_probability
+    weight: 2.5
+    transform: sigmoid
+    delay: 6
+    description: "Stress → recession probability (6mo lag, sigmoid)"

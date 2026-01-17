@@ -471,9 +471,9 @@
 
   <script type="module">
     // Cache-bust: v2
-    import { Signal, Edge, Graph, transforms, ModelFit } from '/model/kernel/index.js?v=2';
-    import { CircuitView } from '/model/ui/circuit-view.js?v=2';
-    import { createGraphFromDefinition } from '/model/adapters/loader.js?v=2';
+    import { Signal, Edge, Graph, transforms, ModelFit } from '../kernel/index.js?v=2';
+    import { CircuitView } from './circuit-view.js?v=2';
+    import { createGraphFromDefinition } from '../adapters/loader.js?v=2';
 
     // Time utilities (months since 1948-01-01)
     function dateToTime(dateStr) {
@@ -492,7 +492,7 @@
     // ============================================
     
     async function loadModel() {
-      const response = await fetch('/model/definitions/economic-model.yaml');
+      const response = await fetch('../definitions/economic-model.yaml');
       const yamlText = await response.text();
       const modelDef = jsyaml.load(yamlText);
       return createGraphFromDefinition(modelDef);
@@ -561,7 +561,7 @@
         // ============================================
         
         async function loadCacheFile(name) {
-          const response = await fetch(`/model/data/cache/${name}.json`);
+          const response = await fetch(`../data/cache/${name}.json`);
           if (!response.ok) throw new Error(`Failed to load ${name}.json`);
           return response.json();
         }
@@ -1333,7 +1333,7 @@
       window.circuitView = view;
 
       // Try to load saved node positions
-      fetch('/model/data/node-positions.json')
+      fetch('../data/node-positions.json')
         .then(response => response.ok ? response.json() : Promise.reject())
         .then(positions => {
           view.importPositions(positions);

@@ -231,6 +231,23 @@
 
     .pane-toggle:hover { color: #f8fafc; }
 
+    .clear-all-btn {
+      background: transparent;
+      border: 1px solid #475569;
+      border-radius: 4px;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      margin-left: auto;
+      display: none;
+    }
+    .clear-all-btn:hover { 
+      background: #334155;
+      color: #f8fafc;
+      border-color: #64748b;
+    }
+
     .pane-content {
       flex: 1;
       overflow-y: auto;
@@ -770,6 +787,7 @@
             <div class="pane-header">
               <button class="pane-toggle" id="pane-toggle" title="Toggle panel">▶</button>
               <h3>Signal Charts</h3>
+              <button class="clear-all-btn" id="clear-all-charts" title="Clear all charts">Clear All</button>
             </div>
             <div class="pane-content" id="charts-content">
               <div class="empty-state">
@@ -981,6 +999,8 @@
 
       function renderVisibleCharts() {
         const container = document.getElementById('charts-content');
+        const clearBtn = document.getElementById('clear-all-charts');
+        const chartsPane = document.getElementById('charts-pane');
         
         if (visibleCharts.size === 0) {
           container.innerHTML = `
@@ -989,8 +1009,12 @@
               <div>Click nodes in the graph<br>to view their time series</div>
             </div>
           `;
+          if (clearBtn) clearBtn.style.display = 'none';
+          if (chartsPane) chartsPane.classList.add('collapsed');
           return;
         }
+        
+        if (clearBtn) clearBtn.style.display = 'block';
 
         container.innerHTML = '';
 
@@ -1240,6 +1264,20 @@
         pane.classList.toggle('collapsed');
       });
 
+      // Clear all charts button
+      document.getElementById('clear-all-charts').addEventListener('click', () => {
+        visibleCharts.clear();
+        renderVisibleCharts();
+      });
+
+      // ESC key to close panel and edge editor
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          hideEdgeEditor();
+          pane.classList.add('collapsed');
+        }
+      });
+
       let isResizing = false;
       let startX, startWidth;
 
@@ -1307,8 +1345,6 @@
 
       // Initial state
       updateFitDisplay();
-      visibleCharts.add('recession_probability');
-      renderVisibleCharts();
 
       console.log('Economic model ready');
       console.log('Tip: Drag nodes to reposition. Call exportNodePositions() to download positions.');

@@ -43,11 +43,16 @@ export const transforms = {
   inverse: (x) => -x,
   
   /**
-   * Derivative: signals that this edge needs rate-of-change computation
-   * The actual derivative is computed in the graph propagation
-   * Here we just pass through - the graph handles the derivative logic
+   * Derivative: computes Year-over-Year percent change
+   * Formula: (value[t] - value[t-12]) / value[t-12] * 100
+   * Returns percentage (e.g., 2.5 for 2.5% growth)
    */
-  derivative: (x) => x,
+  derivative: (x) => x, // Actual computation in computeContribution
+  
+  /**
+   * Month-over-month change (for faster signals)
+   */
+  derivative_mom: (x) => x, // Actual computation in computeContribution
 
   /**
    * Log transform: compresses large values
@@ -102,20 +107,42 @@ export class Edge {
    */
   computeContribution(sourceSignal, t) {
     const readTime = t - this.delay;
-    const sourceValue = sourceSignal.getValue(readTime);
+    
+    // For observed signals (real data), use interpolation to handle sparse data (e.g., quarterly)
+    // This prevents oscillation from step functions in the data
+    // For computed signals, use exact match
+    const sourceValue = sourceSignal.observed 
+      ? sourceSignal.getValueInterpolated(readTime, 4) 
+      : sourceSignal.getValue(readTime);
     
     if (sourceValue === null) {
       return null; // Can't compute without source data
     }
 
-    // Handle derivative transform specially - needs previous value
+    // Handle derivative transform - Year-over-Year percent change
     if (this.transformName === 'derivative') {
-      const prevValue = sourceSignal.getValue(readTime - 1);
-      if (prevValue === null) {
+      // Also use interpolation for the lagged value to avoid oscillation
+      const prevValue = sourceSignal.observed
+        ? sourceSignal.getValueInterpolated(readTime - 12, 4)
+        : sourceSignal.getValue(readTime - 12);
+      if (prevValue === null || prevValue === 0) {
         return null;
       }
-      // Return rate of change (derivative)
-      return this.weight * (sourceValue - prevValue) + this.bias;
+      // YoY percentage change
+      const yoyChange = ((sourceValue - prevValue) / Math.abs(prevValue)) * 100;
+      return this.weight * yoyChange + this.bias;
+    }
+    
+    // Handle month-over-month derivative
+    if (this.transformName === 'derivative_mom') {
+      const prevValue = sourceSignal.observed
+        ? sourceSignal.getValueInterpolated(readTime - 1, 4)
+        : sourceSignal.getValue(readTime - 1);
+      if (prevValue === null || prevValue === 0) {
+        return null;
+      }
+      const momChange = ((sourceValue - prevValue) / Math.abs(prevValue)) * 100;
+      return this.weight * momChange + this.bias;
     }
 
     return this.weight * this.transform(sourceValue) + this.bias;

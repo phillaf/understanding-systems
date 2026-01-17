@@ -1,0 +1,127 @@
+{
+  "fed_funds_rate": {
+    "x": 555,
+    "y": 157,
+    "pinned": true
+  },
+  "treasury_10y": {
+    "x": 552,
+    "y": 316,
+    "pinned": true
+  },
+  "mortgage_rate_30y": {
+    "x": 326,
+    "y": 311,
+    "pinned": true
+  },
+  "unemployment_rate": {
+    "x": 860,
+    "y": 129,
+    "pinned": true
+  },
+  "gdp_real": {
+    "x": 1163,
+    "y": 134,
+    "pinned": true
+  },
+  "cyclical_gdp": {
+    "x": 1161,
+    "y": 334,
+    "pinned": true
+  },
+  "residential_investment": {
+    "x": 23,
+    "y": 670,
+    "pinned": true
+  },
+  "equipment_investment": {
+    "x": 1156,
+    "y": 674,
+    "pinned": true
+  },
+  "m2_money_supply": {
+    "x": 16,
+    "y": 152,
+    "pinned": true
+  },
+  "cpi_inflation": {
+    "x": 473,
+    "y": 45,
+    "pinned": true
+  },
+  "velocity_m2": {
+    "x": 328,
+    "y": 47,
+    "pinned": true
+  },
+  "lending_standards_ci": {
+    "x": 860,
+    "y": 677,
+    "pinned": true
+  },
+  "ci_loan_volume": {
+    "x": 1014,
+    "y": 674,
+    "pinned": true
+  },
+  "new_home_sales": {
+    "x": 315,
+    "y": 674,
+    "pinned": true
+  },
+  "months_supply": {
+    "x": 165,
+    "y": 556,
+    "pinned": true
+  },
+  "housing_inventory": {
+    "x": 167,
+    "y": 381,
+    "pinned": true
+  },
+  "median_home_price": {
+    "x": 26,
+    "y": 302,
+    "pinned": true
+  },
+  "recession_indicator": {
+    "x": 862,
+    "y": 325,
+    "pinned": true
+  },
+  "yield_curve_spread": {
+    "x": 687,
+    "y": 320,
+    "pinned": true
+  },
+  "gdp_growth": {
+    "x": 1007,
+    "y": 131,
+    "pinned": true
+  },
+  "cyclical_gdp_growth": {
+    "x": 1016,
+    "y": 329,
+    "pinned": true
+  },
+  "m2_growth": {
+    "x": 177,
+    "y": 154,
+    "pinned": true
+  },
+  "inflation_rate": {
+    "x": 391,
+    "y": 155,
+    "pinned": true
+  },
+  "housing_demand": {
+    "x": 324,
+    "y": 479,
+    "pinned": true
+  },
+  "leading_economy_index": {
+    "x": 687,
+    "y": 675,
+    "pinned": true
+  }
+}

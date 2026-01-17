@@ -84,22 +84,6 @@ signals:
     data_source: "posts/2026-01-02-cyclical-gdp-test/data/cyclical_gdp_data.js"
     tags: ["2026-01-02-cyclical-gdp-test", "2026-01-01-business-cycle-sequence"]
     
-  non_cyclical_gdp:
-    observed: true
-    description: "Non-cyclical GDP (services + structures + gov)"
-    min: 0
-    max: 25000
-    data_source: "posts/2026-01-02-cyclical-gdp-test/data/cyclical_gdp_data.js"
-    tags: ["2026-01-02-cyclical-gdp-test"]
-    
-  durables_consumption:
-    observed: true
-    description: "Durable goods consumption (billions $)"
-    min: 0
-    max: 2000
-    data_source: "posts/2026-01-02-cyclical-gdp-test/data/cyclical_gdp_data.js"
-    tags: ["2026-01-02-cyclical-gdp-test", "2026-01-01-business-cycle-sequence"]
-    
   residential_investment:
     observed: true
     description: "Residential fixed investment (billions $)"
@@ -247,13 +231,7 @@ signals:
   # --- Credit Conditions ---
   # NOTE: credit_conditions was removed as redundant
   # lending_standards_ci is used directly instead
-  
-  financial_stress:
-    observed: false
-    description: "Financial stress indicator (0-1)"
-    min: 0
-    max: 1
-    tags: ["2025-12-30-credit-spreads-recession-prediction", "2026-01-04-bank-lending-standards"]
+  # NOTE: financial_stress was removed - fed_funds alone not predictive of recession
     
   # --- Housing Conditions ---
   housing_demand:
@@ -270,14 +248,9 @@ signals:
     min: 0
     max: 1
     tags: ["2026-01-01-business-cycle-sequence"]
-    
-  cyclical_economy_index:
-    observed: false
-    description: "Cyclical economic activity composite"
-    min: 0
-    max: 1
-    tags: ["2026-01-01-business-cycle-sequence", "2026-01-02-cyclical-gdp-test"]
-    
+  
+  # NOTE: cyclical_economy_index was removed - redundant with cyclical_gdp_growth
+
   # --- Model Outputs ---
   # NOTE: Model outputs are now computed directly on observed signals
   # with model_output: true (unemployment_rate, recession_indicator)
@@ -306,11 +279,11 @@ edges:
     
   - from: yield_curve_spread
     to: recession_indicator
-    weight: -0.2
+    weight: -0.25
     transform: linear
     delay: 12
-    bias: 0.3
-    description: "Inverted yield curve → recession (12mo lag, negative spread = recession)"
+    bias: 0.1
+    description: "Inverted yield curve → recession (12mo lag). Spread ranges -8 to +4; negative = recession signal. Tuned: F1 0.575→0.636"
 
   # ============================================
   # CREDIT CONDITIONS → RECESSION
@@ -321,10 +294,11 @@ edges:
   
   - from: lending_standards_ci
     to: recession_indicator
-    weight: 0.01
+    weight: 0.005
     transform: linear
-    delay: 4
-    description: "Tight lending standards → recession (4mo lag)"
+    delay: 6
+    bias: 0
+    description: "Tight lending standards → recession (6mo lag). Standards range -32 to 84; >40 = stress. Tuned."
 
   # ============================================
   # FED FUNDS → TREASURY → MORTGAGE RATES
@@ -379,41 +353,10 @@ edges:
   # From cyclical GDP article: cyclical sectors lead contractions
   # ============================================
   
-  - from: durables_consumption
-    to: cyclical_gdp
-    weight: 1.0
-    transform: linear
-    delay: 0
-    description: "Durables are part of cyclical GDP"
-    
-  - from: residential_investment
-    to: cyclical_gdp
-    weight: 1.0
-    transform: linear
-    delay: 0
-    description: "Residential investment is cyclical"
-    
-  - from: equipment_investment
-    to: cyclical_gdp
-    weight: 1.0
-    transform: linear
-    delay: 0
-    description: "Equipment investment is cyclical"
-    
-  - from: cyclical_gdp
-    to: cyclical_economy_index
-    weight: 0.0004
-    transform: linear
-    delay: 0
-    bias: -0.5
-    description: "Cyclical GDP → cyclical index (normalized)"
-    
-  - from: cyclical_economy_index
-    to: recession_indicator
-    weight: -0.8
-    transform: linear
-    delay: 2
-    description: "Falling cyclical activity → recession"
+  # NOTE: Edges computing cyclical_gdp from components removed
+  # We have direct BEA data for cyclical_gdp, no need to compute
+  
+  # NOTE: cyclical_economy_index removed - redundant with cyclical_gdp_growth
 
   # ============================================
   # MONEY SUPPLY → INFLATION
@@ -423,10 +366,10 @@ edges:
   
   - from: m2_money_supply
     to: m2_growth
-    weight: 0.001
-    transform: linear
+    weight: 1.0
+    transform: derivative
     delay: 0
-    description: "M2 level → growth rate (needs derivative)"
+    description: "M2 level → YoY growth rate (%)"
     
   - from: m2_growth
     to: inflation_rate
@@ -484,38 +427,12 @@ edges:
     bias: -0.2
     description: "Housing sales are leading indicator"
     
-  - from: leading_economy_index
-    to: cyclical_economy_index
-    weight: 1.0
-    transform: linear
-    delay: 8
-    description: "Leading → Cyclical (8mo lag)"
+  # Removed: leading_economy_index → cyclical_economy_index
+  # The leading index is too abstract and not well calibrated
 
-  # ============================================
-  # FINANCIAL STRESS INDEX
-  # Composite of credit conditions
-  # ============================================
-  
-  - from: fed_funds_rate
-    to: financial_stress
-    weight: 0.05
-    transform: linear
-    delay: 3
-    description: "Higher fed rate → more stress"
-    
-  - from: lending_standards_ci
-    to: financial_stress
-    weight: 0.01
-    transform: linear
-    delay: 0
-    description: "Tight lending standards → stress"
-    
-  - from: financial_stress
-    to: recession_indicator
-    weight: 1.5
-    transform: linear
-    delay: 6
-    description: "Financial stress → recession (6mo lag)"
+  # NOTE: Financial stress index section removed
+  # Fed funds rate alone is not predictive of recession (high rates in 2022-24 without recession)
+  # Lending standards captured directly in recession_indicator edge
 
   # ============================================
   # MISSING CONNECTIONS - Added for completeness
@@ -532,46 +449,36 @@ edges:
   # --- GDP Real and Growth ---
   - from: gdp_real
     to: gdp_growth
-    weight: 0.0001
+    weight: 1.0
     transform: derivative
     delay: 0
-    description: "GDP level → GDP growth rate"
+    description: "GDP level → GDP YoY growth rate (%)"
     
-  - from: cyclical_gdp
-    to: gdp_real
-    weight: 1.0
-    transform: linear
-    delay: 0
-    description: "Cyclical GDP is component of total GDP"
-    
-  - from: non_cyclical_gdp
-    to: gdp_real
-    weight: 1.0
-    transform: linear
-    delay: 0
-    description: "Non-cyclical GDP is component of total GDP"
-    
+  # NOTE: Edges computing gdp_real from components removed
+  # We have direct BEA data for gdp_real, no need to compute
+  
   - from: cyclical_gdp
     to: cyclical_gdp_growth
-    weight: 0.0001
+    weight: 1.0
     transform: derivative
     delay: 0
-    description: "Cyclical GDP level → growth rate"
+    description: "Cyclical GDP level → YoY growth rate (%)"
     
   - from: cyclical_gdp_growth
     to: recession_indicator
     weight: -0.05
     transform: linear
     delay: 3
-    description: "Falling cyclical GDP growth → recession"
+    bias: 0.05
+    description: "Falling cyclical GDP growth → recession. Growth -8% to +8%; negative = recession. Tuned."
     
   # --- CPI Inflation ---
   - from: cpi_inflation
     to: inflation_rate
-    weight: 0.01
+    weight: 1.0
     transform: derivative
     delay: 0
-    description: "CPI level → inflation rate (derivative)"
+    description: "CPI level → YoY inflation rate (%)"
     
   - from: inflation_rate
     to: fed_funds_rate
@@ -631,10 +538,5 @@ edges:
     delay: 3
     description: "Higher prices → more building incentive"
     
-  # --- Non-cyclical GDP stability ---
-  - from: non_cyclical_gdp
-    to: cyclical_economy_index
-    weight: -0.0001
-    transform: linear
-    delay: 0
-    description: "Non-cyclical GDP provides stability buffer"
+  # Removed: non_cyclical_gdp → cyclical_economy_index
+  # Raw dollar values don't combine well with normalized index

@@ -53,44 +53,51 @@ Model doesn't compute these; they're loaded from blog post data.
 
 ### Computed Signals (9) - Model Calculates
 
-| Signal | Inputs | Ground Truth Available | Status |
-|--------|--------|------------------------|--------|
-| yield_curve_spread | treasury_10y, fed_funds | ✅ Synthetic proxy | OK |
-| gdp_growth | gdp_real (derivative) | ✅ Synthetic | BROKEN - derivative not working |
-| cyclical_gdp_growth | cyclical_gdp (derivative) | ❌ | BROKEN - derivative not working |
-| m2_growth | m2_money_supply (derivative) | ✅ Synthetic | BROKEN - derivative not working |
-| inflation_rate | m2_growth, velocity, cpi (derivative) | ✅ Synthetic | BROKEN - depends on m2_growth |
-| financial_stress | fed_rate, lending_standards | ❌ Abstract | OK but needs calibration |
-| housing_demand | mortgage_rate | ❌ Abstract | OK |
-| leading_economy_index | yield_curve, lending, housing | ❌ Abstract | Needs calibration |
-| cyclical_economy_index | cyclical_gdp, leading | ❌ Abstract | Needs calibration |
+| Signal | Inputs | Real Ground Truth Available | Status |
+|--------|--------|------------------------------|--------|
+| yield_curve_spread | treasury_10y, fed_funds | ❌ Need T10Y-T2Y from FRED | OK |
+| gdp_growth | gdp_real (derivative) | ✅ BEA via gdp_growth.js | ✅ FIXED |
+| cyclical_gdp_growth | cyclical_gdp (derivative) | ❌ Not directly measured | ✅ FIXED |
+| m2_growth | m2_money_supply (derivative) | ✅ FRED m2_yoy field | ✅ FIXED |
+| inflation_rate | cpi (derivative) | ✅ FRED cpi_yoy field | ✅ FIXED |
+| financial_stress | fed_rate, lending_standards | ❌ Abstract composite | Needs calibration |
+| housing_demand | mortgage_rate | ❌ Abstract composite | OK |
+| leading_economy_index | yield_curve, lending, housing | ❌ Abstract composite | Needs calibration |
+| cyclical_economy_index | cyclical_gdp, leading | ❌ Abstract composite | Needs calibration |
+
+## Real Data Sources (from blog posts)
+
+| Data | Source | File |
+|------|--------|------|
+| GDP Growth | BEA via FRED | `posts/2025-12-15-recession-unemployment/data/transformed/gdp_growth.js` |
+| M2 YoY | FRED M2SL | `posts/2026-01-03-money-supply-inflation/data/money_supply_data.js` (m2_yoy field) |
+| CPI YoY | FRED CPIAUCSL | `posts/2026-01-03-money-supply-inflation/data/money_supply_data.js` (cpi_yoy field) |
+| Unemployment | BLS via FRED | `posts/2025-12-15-recession-unemployment/data/raw/unemployment.js` |
+| Recession Dates | NBER via FRED | `posts/2025-12-15-recession-unemployment/data/raw/recession_indicator.js` |
+
+**Important:** Only use ground truth comparisons when we have actual authoritative data. 
+Do NOT generate synthetic "ground truth" - that defeats the purpose.
 
 ## Priority Fixes
 
-### 1. ⚠️ Derivative Transform Not Working
-The `transform: derivative` edges produce flat/wrong values.
+### 1. ✅ FIXED: Derivative Transform
+Changed from `(v[t] - v[t-1])` to Year-over-Year percent change:
+```
+YoY % = (value[t] - value[t-12]) / |value[t-12]| * 100
+```
+Updated edges to use `weight: 1.0` so they pass through actual percentages.
 
-**Affected:**
-- gdp_real → gdp_growth
-- cyclical_gdp → cyclical_gdp_growth
-- m2_money_supply → m2_growth
-- cpi_inflation → inflation_rate
+### 2. ✅ Weight Calibration Done
 
-**Root cause:** The derivative transform in edge.js needs consecutive time values. Current implementation may not be handling the time series correctly.
+Based on actual data ranges from FRED:
 
-**Fix options:**
-1. Fix derivative in edge.js to compute `(v[t] - v[t-12]) / v[t-12] * 100` for YoY %
-2. Pre-compute growth rates in data adapter
-3. Add observed growth rate signals from existing transformed data
-
-### 2. Weight Calibration Needed
-
-| Edge | Current | Issue |
-|------|---------|-------|
-| lending_standards → recession | 0.01 | Too small, CI standards range 0-100 |
-| financial_stress → recession | 1.5 | Dominates, need to scale |
-| gdp_growth → unemployment | -0.4 | Okun's law should be ~-2 |
-| cyclical_economy → recession | -0.8 | Sign correct, magnitude uncertain |
+| Input Signal | Data Range | Weight | Contribution to Recession |
+|--------------|------------|--------|---------------------------|
+| yield_curve_spread | -8 to +4 | -0.15, bias 0.15 | 0 to 1.35 (inverted=high) |
+| lending_standards_ci | -32 to 84 | 0.008, bias -0.05 | -0.3 to 0.6 (tight=high) |
+| financial_stress | 0 to ~1 | 0.8 | 0 to 0.8 |
+| cyclical_economy_index | 0 to 1 | -0.5, bias 0.5 | 0 to 1 (low activity=high) |
+| cyclical_gdp_growth | -8% to +8% | -0.08, bias 0.1 | -0.5 to 0.7 (negative=high) |
 
 ### 3. Abstract Composite Signals
 `leading_economy_index` and `cyclical_economy_index` are not directly measurable. Options:
@@ -108,20 +115,44 @@ The `transform: derivative` edges produce flat/wrong values.
 
 ## Data Organization
 
-Current: Data scattered in `posts/*/data/` folders, loaded inline via fetch
-
-Proposed: Centralized in `model/data/cache/` with consistent JSON format
+**COMPLETED:** Data is now centralized in `model/data/cache/` with consistent JSON format.
 
 ```
 model/data/
-├── README.md           # Documents sources
+├── README.md             # Documents sources
+├── build-cache.mjs       # Script to rebuild from blog posts
 └── cache/
-    ├── interest_rates.json
-    ├── labor_market.json
-    ├── gdp_components.json
-    ├── money_inflation.json
-    ├── credit_lending.json
-    └── housing.json
+    ├── labor_market.json     # unemployment_rate, recession_indicator
+    ├── interest_rates.json   # fed_funds, treasury_10y, mortgage_30y
+    ├── gdp_components.json   # gdp_real, gdp_growth, cyclical components
+    ├── money_inflation.json  # m2, cpi, velocity, growth rates
+    ├── credit_lending.json   # lending_standards, loan_volume
+    └── housing.json          # sales, supply, inventory, prices
+```
+
+### Cache File Format
+```json
+{
+  "metadata": {
+    "updated": "2026-01-16",
+    "frequency": "monthly",
+    "sources": {
+      "signal_name": "FRED series ID or description"
+    }
+  },
+  "series": {
+    "signal_name": [
+      { "date": "2000-01-01", "value": 5.4 },
+      ...
+    ]
+  }
+}
+```
+
+### Rebuilding Cache
+```bash
+cd /home/phil/Projects/blog
+node model/data/build-cache.mjs
 ```
 
 ## How to Run
@@ -134,11 +165,12 @@ python3 -m http.server 8765
 
 ## Next Steps (In Priority Order)
 
-1. **Fix derivative transform** - Without this, growth rate signals are broken
-2. **Calibrate recession inputs** - Get yield_curve, lending_standards, financial_stress weights reasonable
-3. **Test with real data** - Replace synthetic data with actual blog post data
-4. **Consider simplifying** - Remove abstract composites if they add noise
-5. **Regression** - Only after manual tuning produces plausible outputs
+1. ~~**Load real data**~~ ✅ Done - using cache files from FRED/BEA/BLS
+2. ~~**Calibrate recession inputs**~~ ✅ Done - weights normalized to data ranges
+3. ~~**Fix graph computation**~~ ✅ Done - observed data preserved, forward-fill for sparse data
+4. ~~**Simplify abstract composites**~~ ✅ Done - removed problematic edges
+5. **Tune recession prediction** - Compare against NBER recession dates
+6. **Regression** - Only after manual tuning produces plausible outputs
 
 ## Key Relationships From Blog Posts
 
@@ -149,3 +181,11 @@ python3 -m http.server 8765
 | 2025-12-15 Recession/Unemployment | GDP → Unemployment ~7 quarters | gdp_growth → unemployment (7mo) |
 | 2026-01-03 Money Supply | M2 → Inflation 12-18mo | m2_growth → inflation (18mo) |
 | 2026-01-01 Business Cycle | Leading → Cyclical 8mo | leading_index → cyclical_index (8mo) |
+
+## manual control of the nodes
+
+works in the browser console
+
+exportNodePositions() - Downloads JSON and logs to console
+importNodePositions({...}) - Load positions from a JSON object
+resetNodeLayout() - Reset all positions to force-directed layout

@@ -993,10 +993,14 @@
       }
     });
 
+    // Expose for console access
+    window.circuitView = view;
+
     // ============================================
     // INITIAL STATE
     // ============================================
     
+    console.log('Tip: Drag nodes to reposition. Call exportNodePositions() to download positions.');
     updateFitDisplay();
 
     // Start with recession_probability visible

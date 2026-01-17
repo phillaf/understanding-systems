@@ -94,24 +94,37 @@ export class Graph {
 
     const updates = {};
 
-    // Compute new values for all non-observed signals
+    // Compute new values for all signals
     for (const [name, signal] of this.signals) {
-      // Skip observed signals - they get their values from external data
-      if (signal.observed) {
-        const existingValue = signal.getValue(t);
-        if (existingValue !== null) {
-          updates[name] = existingValue;
+      // Get all incoming edges
+      const incomingEdges = this.getIncomingEdges(name);
+      
+      // If signal has no incoming edges, it's a pure input signal
+      // Use existing observed data or previous value
+      if (incomingEdges.length === 0) {
+        if (signal.observed) {
+          const existingValue = signal.getValue(t);
+          if (existingValue !== null) {
+            updates[name] = existingValue;
+          }
+        } else {
+          // No incoming edges and not observed - stay at previous value
+          const prevValue = signal.getValue(t - 1);
+          updates[name] = prevValue !== null ? prevValue : 0;
         }
         continue;
       }
 
-      // Get all incoming edges
-      const incomingEdges = this.getIncomingEdges(name);
-      
-      if (incomingEdges.length === 0) {
-        // No incoming edges - signal stays at previous value or 0
-        const prevValue = signal.getValue(t - 1);
-        updates[name] = prevValue !== null ? prevValue : 0;
+      // Signal has incoming edges - check if we should compute or use observed data
+      // If observed and has data at this timestep, prefer observed data
+      if (signal.observed) {
+        const observedValue = signal.getValue(t);
+        if (observedValue !== null) {
+          updates[name] = observedValue;
+          continue;
+        }
+        // No observed data at this t - skip this signal entirely
+        // Don't overwrite observed signals with computed values
         continue;
       }
 

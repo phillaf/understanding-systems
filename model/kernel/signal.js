@@ -50,6 +50,83 @@ export class Signal {
   }
 
   /**
+   * Get value at a specific timestep, with linear interpolation for sparse data
+   * Useful for quarterly data used in monthly simulation - avoids step functions
+   * @param {number} t - Timestep
+   * @param {number} [maxGap=4] - Maximum gap to interpolate across (months)
+   * @returns {number|null} - Interpolated value or null if not found
+   */
+  getValueInterpolated(t, maxGap = 4) {
+    // First check exact match
+    if (this.history.has(t)) {
+      return this.history.get(t);
+    }
+    
+    // Find surrounding data points for interpolation
+    let prevT = null, nextT = null;
+    let prevVal = null, nextVal = null;
+    
+    // Search backward for previous value
+    for (let lookback = 1; lookback <= maxGap; lookback++) {
+      if (this.history.has(t - lookback)) {
+        prevT = t - lookback;
+        prevVal = this.history.get(prevT);
+        break;
+      }
+    }
+    
+    // Search forward for next value
+    for (let lookahead = 1; lookahead <= maxGap; lookahead++) {
+      if (this.history.has(t + lookahead)) {
+        nextT = t + lookahead;
+        nextVal = this.history.get(nextT);
+        break;
+      }
+    }
+    
+    // If we have both, interpolate
+    if (prevT !== null && nextT !== null) {
+      const fraction = (t - prevT) / (nextT - prevT);
+      return prevVal + fraction * (nextVal - prevVal);
+    }
+    
+    // If only previous, use it (forward-fill at end of series)
+    if (prevT !== null) {
+      return prevVal;
+    }
+    
+    // If only next, use it (back-fill at start of series)
+    if (nextT !== null) {
+      return nextVal;
+    }
+    
+    return null;
+  }
+
+  /**
+   * Get value at a specific timestep, with forward-fill for missing values
+   * Useful for sparse data (e.g., quarterly series used in monthly simulation)
+   * @param {number} t - Timestep
+   * @param {number} [maxLookback=3] - Maximum months to look back
+   * @returns {number|null} - Value or null if not found within lookback
+   */
+  getValueForwardFill(t, maxLookback = 3) {
+    // First check exact match
+    if (this.history.has(t)) {
+      return this.history.get(t);
+    }
+    
+    // Look back for most recent value
+    for (let lookback = 1; lookback <= maxLookback; lookback++) {
+      if (this.history.has(t - lookback)) {
+        return this.history.get(t - lookback);
+      }
+    }
+    
+    return null;
+  }
+
+  /**
    * Set value at a specific timestep
    * @param {number} t - Timestep
    * @param {number} value - Value to set

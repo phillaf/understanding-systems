@@ -453,9 +453,10 @@
   -->
 
   <script type="module">
-    import { Signal, Edge, Graph, transforms, ModelFit } from '/model/kernel/index.js';
-    import { CircuitView } from '/model/ui/circuit-view.js';
-    import { createGraphFromDefinition } from '/model/adapters/loader.js';
+    // Cache-bust: v2
+    import { Signal, Edge, Graph, transforms, ModelFit } from '/model/kernel/index.js?v=2';
+    import { CircuitView } from '/model/ui/circuit-view.js?v=2';
+    import { createGraphFromDefinition } from '/model/adapters/loader.js?v=2';
 
     // Time utilities (months since 1948-01-01)
     function dateToTime(dateStr) {
@@ -538,145 +539,98 @@
         const graph = await loadModel();
         console.log('Model loaded:', graph.signals.size, 'signals,', graph.edges.length, 'edges');
 
-        // Generate synthetic data for ALL observed signals
-        const startTime = dateToTime('2000-01-01');
-        const endTime = dateToTime('2024-01-01');
-
-        // Synthetic data generation for all observed signals
-        for (let t = startTime; t <= endTime; t++) {
-          const year = 1948 + Math.floor(t / 12);
-          const month = t % 12;
-          const cyclePhase = Math.sin(t / 48 * Math.PI * 2);  // ~4 year cycle
-          
-          // === INTEREST RATES ===
-          // Fed Funds Rate (approximate historical pattern)
-          let fedRate = 5;
-          if (year >= 2001 && year <= 2003) fedRate = 1.5 + (year - 2001) * 0.3;
-          else if (year >= 2004 && year <= 2007) fedRate = 2 + (year - 2004) * 1;
-          else if (year >= 2008 && year <= 2015) fedRate = 0.25;
-          else if (year >= 2016 && year <= 2019) fedRate = 1 + (year - 2016) * 0.5;
-          else if (year >= 2020 && year <= 2021) fedRate = 0.1;
-          else if (year >= 2022) fedRate = 0.5 + (year - 2022) * 2;
-          
-          const fedSignal = graph.getSignal('fed_funds_rate');
-          if (fedSignal) fedSignal.setValue(t, fedRate + Math.random() * 0.2);
-
-          // Treasury 10Y
-          const t10y = fedRate + 1.5 + Math.sin(t / 24) * 0.5;
-          const treasurySignal = graph.getSignal('treasury_10y');
-          if (treasurySignal) treasurySignal.setValue(t, t10y);
-
-          // Mortgage rate (30Y)
-          const mortgageRate = t10y + 1.8 + Math.random() * 0.3;
-          const mortgageSignal = graph.getSignal('mortgage_rate_30y');
-          if (mortgageSignal) mortgageSignal.setValue(t, mortgageRate);
-
-          // === LABOR MARKET ===
-          // Unemployment
-          let unemployment = 5;
-          if (year === 2001 || year === 2002) unemployment = 5.5 + (year - 2000) * 0.5;
-          else if (year === 2009 || year === 2010) unemployment = 9 - (year - 2009) * 2;
-          else if (year === 2020) unemployment = month < 4 ? 4 : (month < 7 ? 12 : 8);
-          else if (year === 2021) unemployment = 6 - month * 0.2;
-          
-          const unempSignal = graph.getSignal('unemployment_rate');
-          if (unempSignal) unempSignal.setValue(t, unemployment + Math.random() * 0.3);
-
-          // === GDP COMPONENTS ===
-          // Real GDP (trillions, growing trend)
-          const baseGdp = 10000 + (year - 2000) * 500 + cyclePhase * 200;
-          const gdpSignal = graph.getSignal('gdp_real');
-          if (gdpSignal) gdpSignal.setValue(t, baseGdp + Math.random() * 100);
-
-          // Cyclical GDP components
-          const cyclicalBase = 2000 + (year - 2000) * 100 + cyclePhase * 300;
-          const cyclicalSignal = graph.getSignal('cyclical_gdp');
-          if (cyclicalSignal) cyclicalSignal.setValue(t, cyclicalBase + Math.random() * 50);
-
-          const nonCyclicalSignal = graph.getSignal('non_cyclical_gdp');
-          if (nonCyclicalSignal) nonCyclicalSignal.setValue(t, baseGdp - cyclicalBase + Math.random() * 50);
-
-          // Durables consumption
-          const durablesSignal = graph.getSignal('durables_consumption');
-          if (durablesSignal) durablesSignal.setValue(t, 800 + (year - 2000) * 30 + cyclePhase * 80 + Math.random() * 20);
-
-          // Residential investment
-          let residential = 400 + (year - 2000) * 15 + cyclePhase * 60;
-          if (year >= 2006 && year <= 2011) residential = 400 - (year - 2006) * 50 + (year > 2009 ? (year - 2009) * 30 : 0);
-          const residentialSignal = graph.getSignal('residential_investment');
-          if (residentialSignal) residentialSignal.setValue(t, Math.max(150, residential + Math.random() * 20));
-
-          // Equipment investment
-          const equipmentSignal = graph.getSignal('equipment_investment');
-          if (equipmentSignal) equipmentSignal.setValue(t, 600 + (year - 2000) * 25 + cyclePhase * 50 + Math.random() * 15);
-
-          // === MONEY SUPPLY / INFLATION ===
-          // M2 Money Supply (trillions)
-          let m2 = 5000 + (year - 2000) * 400;
-          if (year >= 2020) m2 += 4000;  // COVID expansion
-          const m2Signal = graph.getSignal('m2_money_supply');
-          if (m2Signal) m2Signal.setValue(t, m2 + Math.random() * 100);
-
-          // CPI (index)
-          const cpi = 170 + (year - 2000) * 5 + (year >= 2021 ? (year - 2020) * 8 : 0);
-          const cpiSignal = graph.getSignal('cpi_inflation');
-          if (cpiSignal) cpiSignal.setValue(t, cpi + Math.random() * 2);
-
-          // M2 Velocity
-          let velocity = 1.9 - (year - 2000) * 0.03;
-          if (year >= 2020) velocity = 1.1 + (year - 2020) * 0.05;
-          const velocitySignal = graph.getSignal('velocity_m2');
-          if (velocitySignal) velocitySignal.setValue(t, velocity + Math.random() * 0.05);
-
-          // === CREDIT / LENDING ===
-          // Lending standards
-          let lending = 0;
-          if (year === 2008 || year === 2009) lending = 60;
-          else if (year === 2020) lending = month < 6 ? 70 : 40;
-          else lending = 10 + Math.random() * 10;
-          
-          const lendingSignal = graph.getSignal('lending_standards_ci');
-          if (lendingSignal) lendingSignal.setValue(t, lending);
-
-          // C&I Loan volume
-          const ciLoans = 1000 + (year - 2000) * 80 + cyclePhase * 100;
-          const ciLoansSignal = graph.getSignal('ci_loan_volume');
-          if (ciLoansSignal) ciLoansSignal.setValue(t, ciLoans + Math.random() * 30);
-
-          // === HOUSING ===
-          // New home sales (thousands)
-          let newHomeSales = 800 + cyclePhase * 200;
-          if (year >= 2006 && year <= 2011) newHomeSales = 800 - (year - 2005) * 100 + (year > 2009 ? (year - 2009) * 80 : 0);
-          const salesSignal = graph.getSignal('new_home_sales');
-          if (salesSignal) salesSignal.setValue(t, Math.max(300, newHomeSales + Math.random() * 50));
-
-          // Months supply
-          let monthsSupply = 5 - cyclePhase * 1.5;
-          if (year >= 2008 && year <= 2011) monthsSupply = 8 + (2010 - year) * 1;
-          const supplySignal = graph.getSignal('months_supply');
-          if (supplySignal) supplySignal.setValue(t, Math.max(3, monthsSupply + Math.random() * 0.5));
-
-          // Housing inventory
-          const inventorySignal = graph.getSignal('housing_inventory');
-          if (inventorySignal) inventorySignal.setValue(t, monthsSupply + 1 + Math.random() * 0.5);
-
-          // Median home price
-          let homePrice = 200000 + (year - 2000) * 10000;
-          if (year >= 2006 && year <= 2012) homePrice = 220000 - (year - 2005) * 15000 + (year > 2011 ? (year - 2011) * 20000 : 0);
-          if (year >= 2020) homePrice += 50000;
-          const priceSignal = graph.getSignal('median_home_price');
-          if (priceSignal) priceSignal.setValue(t, homePrice + Math.random() * 5000);
-
-          // === RECESSION INDICATOR (ground truth) ===
-          const recessionSignal = graph.getSignal('recession_indicator');
-          if (recessionSignal) {
-            let isRecession = 0;
-            if (year === 2001 && month >= 2 && month <= 10) isRecession = 1;
-            if ((year === 2007 && month >= 11) || year === 2008 || (year === 2009 && month <= 5)) isRecession = 1;
-            if (year === 2020 && month >= 1 && month <= 3) isRecession = 1;
-            recessionSignal.setValue(t, isRecession);
+        // ============================================
+        // LOAD REAL DATA FROM CACHE FILES
+        // ============================================
+        
+        async function loadCacheFile(name) {
+          const response = await fetch(`/model/data/cache/${name}.json`);
+          if (!response.ok) throw new Error(`Failed to load ${name}.json`);
+          return response.json();
+        }
+        
+        // Load all cache files in parallel
+        const [laborMarket, interestRates, gdpComponents, moneyInflation, creditLending, housing] = await Promise.all([
+          loadCacheFile('labor_market'),
+          loadCacheFile('interest_rates'),
+          loadCacheFile('gdp_components'),
+          loadCacheFile('money_inflation'),
+          loadCacheFile('credit_lending'),
+          loadCacheFile('housing')
+        ]);
+        
+        console.log('Loaded cache files:', {
+          laborMarket: Object.keys(laborMarket.series),
+          interestRates: Object.keys(interestRates.series),
+          gdpComponents: Object.keys(gdpComponents.series),
+          moneyInflation: Object.keys(moneyInflation.series),
+          creditLending: Object.keys(creditLending.series),
+          housing: Object.keys(housing.series)
+        });
+        
+        // Helper to inject series into signal
+        function injectSeries(signalName, series, source) {
+          const signal = graph.getSignal(signalName);
+          if (!signal) {
+            console.warn(`Signal ${signalName} not found in model`);
+            return 0;
+          }
+          let count = 0;
+          for (const point of series) {
+            const t = dateToTime(point.date);
+            signal.setValue(t, point.value);
+            count++;
+          }
+          console.log(`  ${signalName}: ${count} points from ${source}`);
+          return count;
+        }
+        
+        // Inject all real data
+        console.log('Injecting real data from FRED/BEA/BLS:');
+        
+        // Labor market (FRED)
+        injectSeries('unemployment_rate', laborMarket.series.unemployment_rate, 'BLS UNRATE');
+        injectSeries('recession_indicator', laborMarket.series.recession_indicator, 'NBER USREC');
+        
+        // Interest rates (FRED)
+        injectSeries('fed_funds_rate', interestRates.series.fed_funds_rate, 'FRED FEDFUNDS');
+        injectSeries('treasury_10y', interestRates.series.treasury_10y, 'FRED DGS10');
+        injectSeries('mortgage_rate_30y', interestRates.series.mortgage_rate_30y, 'FRED MORTGAGE30US');
+        
+        // GDP (BEA via FRED)
+        injectSeries('gdp_real', gdpComponents.series.gdp_real, 'BEA GDPC1');
+        injectSeries('cyclical_gdp', gdpComponents.series.cyclical_gdp, 'BEA components');
+        injectSeries('residential_investment', gdpComponents.series.residential_investment, 'BEA');
+        injectSeries('equipment_investment', gdpComponents.series.equipment_investment, 'BEA');
+        
+        // Money supply (FRED)
+        injectSeries('m2_money_supply', moneyInflation.series.m2_money_supply, 'FRED M2SL');
+        injectSeries('cpi_inflation', moneyInflation.series.cpi_inflation, 'FRED CPIAUCSL');
+        injectSeries('velocity_m2', moneyInflation.series.velocity_m2, 'FRED M2V');
+        
+        // Credit (FRED)
+        injectSeries('lending_standards_ci', creditLending.series.lending_standards_ci, 'FRED DRTSCILM');
+        injectSeries('ci_loan_volume', creditLending.series.ci_loan_volume, 'FRED BUSLOANS');
+        
+        // Housing (Census via FRED)
+        injectSeries('new_home_sales', housing.series.new_home_sales, 'Census HSN1F');
+        injectSeries('months_supply', housing.series.months_supply, 'Census MSACSR');
+        injectSeries('housing_inventory', housing.series.housing_inventory, 'Census');
+        injectSeries('median_home_price', housing.series.median_home_price, 'Census MSPNHSUS');
+        
+        // Find time range with data
+        let minTime = Infinity, maxTime = -Infinity;
+        for (const [name, signal] of graph.signals) {
+          if (signal.history.size > 0) {
+            const times = [...signal.history.keys()];
+            minTime = Math.min(minTime, Math.min(...times));
+            maxTime = Math.max(maxTime, Math.max(...times));
           }
         }
+        
+        // Use reasonable range (1990-2024 for most data overlap)
+        const startTime = dateToTime('1990-01-01');
+        const endTime = Math.min(maxTime, dateToTime('2025-01-01'));
 
         // For model_output signals, copy observed data to ground truth
         // so we can compare model predictions vs actual data
@@ -712,58 +666,39 @@
           unemploymentSignal.observed = false;
         }
         
-        // Set up ground truth for other computed signals
-        // These stay as computed but we can compare against synthetic "expected" values
-        const computedSignalsWithGT = [
-          'gdp_growth',
-          'm2_growth', 
-          'inflation_rate',
-          'yield_curve_spread'
-        ];
-        
-        for (const name of computedSignalsWithGT) {
-          const signal = graph.getSignal(name);
-          if (signal && !signal.observed) {
-            // Generate plausible ground truth based on signal type
-            const gtData = [];
-            for (let t = startTime; t <= endTime; t++) {
-              const year = 1948 + Math.floor(t / 12);
-              let value = null;
-              
-              if (name === 'gdp_growth') {
-                // Typical GDP growth: 2-3% with recessions going negative
-                value = 2.5 + Math.sin(t / 36) * 2;
-                if (year === 2001 || year === 2008 || year === 2009 || year === 2020) {
-                  value = -3 + Math.random() * 2;
-                }
-              } else if (name === 'm2_growth') {
-                // M2 growth: typically 5-7%, spikes during QE
-                value = 6 + Math.sin(t / 24) * 2;
-                if (year >= 2020 && year <= 2021) value = 20 + Math.random() * 5;
-              } else if (name === 'inflation_rate') {
-                // CPI inflation: 2-3% typical, spikes in 2022
-                value = 2.5 + Math.sin(t / 48) * 1;
-                if (year >= 2021 && year <= 2023) value = 5 + (year - 2021) * 2;
-              } else if (name === 'yield_curve_spread') {
-                // 10Y-2Y spread: typically 0.5-2%, goes negative before recessions
-                const fedSignal = graph.getSignal('fed_funds_rate');
-                const treasurySignal = graph.getSignal('treasury_10y');
-                if (fedSignal && treasurySignal) {
-                  const fedVal = fedSignal.getValue(t) || 2;
-                  const t10yVal = treasurySignal.getValue(t) || 4;
-                  value = t10yVal - fedVal + 0.5; // proxy for 2Y ≈ fed_funds + 0.5
-                }
-              }
-              
-              if (value !== null) {
-                gtData.push({ t, value });
-              }
-            }
-            if (gtData.length > 0) {
-              signal.setGroundTruth(gtData);
-              console.log(`Set ${gtData.length} ground truth points for computed signal: ${name}`);
+        // Set up REAL ground truth for computed signals from authoritative sources
+        // Helper to set ground truth from cache series
+        function setGroundTruth(signalName, series, source) {
+          const signal = graph.getSignal(signalName);
+          if (!signal) return;
+          const gtData = [];
+          for (const point of series) {
+            const t = dateToTime(point.date);
+            if (t >= startTime && t <= endTime) {
+              gtData.push({ t, value: point.value });
             }
           }
+          if (gtData.length > 0) {
+            signal.setGroundTruth(gtData);
+            console.log(`  Ground truth for ${signalName}: ${gtData.length} points from ${source}`);
+          }
+        }
+        
+        console.log('Setting ground truth from real data:');
+        
+        // GDP growth - BEA via FRED
+        if (gdpComponents.series.gdp_growth) {
+          setGroundTruth('gdp_growth', gdpComponents.series.gdp_growth, 'BEA GDP growth');
+        }
+        
+        // M2 growth - FRED M2SL YoY
+        if (moneyInflation.series.m2_growth) {
+          setGroundTruth('m2_growth', moneyInflation.series.m2_growth, 'FRED M2 YoY');
+        }
+        
+        // Inflation rate - FRED CPI YoY
+        if (moneyInflation.series.inflation_rate) {
+          setGroundTruth('inflation_rate', moneyInflation.series.inflation_rate, 'FRED CPI YoY');
         }
 
         // Run simulation function (also used for re-running after edge edits)
@@ -919,6 +854,10 @@
         const tMin = Math.min(...times);
         const tMax = Math.max(...times);
         const tRange = tMax - tMin || 1;
+        
+        // Check if data is sparse (gaps > 1 month between consecutive points)
+        const isSparse = history.length > 1 && 
+          history.some((h, i) => i > 0 && h.t - history[i-1].t > 1);
 
         const padding = { top: 12, right: 12, bottom: 20, left: 40 };
         const chartWidth = width - padding.left - padding.right;
@@ -1000,18 +939,38 @@
           ctx.setLineDash([]);
         }
 
-        // Main line
+        // Main line - for observed signals with sparse data, interpolate for smooth display
         const color = signal.observed ? '#3b82f6' : '#22c55e';
         ctx.beginPath();
         ctx.strokeStyle = color;
         ctx.lineWidth = 2.5;
 
-        history.forEach(({ t, value }, i) => {
-          const x = padding.left + ((t - tMin) / tRange) * chartWidth;
-          const y = padding.top + ((yMax - value) / yRange) * chartHeight;
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        });
+        if (isSparse && signal.observed) {
+          // Interpolate sparse data for smooth rendering
+          let firstPoint = true;
+          for (let t = Math.floor(tMin); t <= Math.ceil(tMax); t++) {
+            const value = signal.getValueInterpolated(t, 6); // 6 month tolerance for quarterly data
+            if (value === null) continue;
+            
+            const x = padding.left + ((t - tMin) / tRange) * chartWidth;
+            const y = padding.top + ((yMax - value) / yRange) * chartHeight;
+            
+            if (firstPoint) {
+              ctx.moveTo(x, y);
+              firstPoint = false;
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+        } else {
+          // Dense data - draw directly
+          history.forEach(({ t, value }, i) => {
+            const x = padding.left + ((t - tMin) / tRange) * chartWidth;
+            const y = padding.top + ((yMax - value) / yRange) * chartHeight;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+        }
         ctx.stroke();
       }
 
@@ -1332,12 +1291,27 @@
         onDeselect: () => {}
       });
 
+      // Expose for console access
+      window.circuitView = view;
+
+      // Try to load saved node positions
+      fetch('/model/data/node-positions.json')
+        .then(response => response.ok ? response.json() : Promise.reject())
+        .then(positions => {
+          view.importPositions(positions);
+          console.log('Loaded saved node positions');
+        })
+        .catch(() => {
+          // No saved positions, use default layout
+        });
+
       // Initial state
       updateFitDisplay();
       visibleCharts.add('recession_probability');
       renderVisibleCharts();
 
       console.log('Economic model ready');
+      console.log('Tip: Drag nodes to reposition. Call exportNodePositions() to download positions.');
     }
 
     // Start initialization

@@ -30,6 +30,15 @@ export class CircuitView {
     this.lastMouseX = 0;
     this.lastMouseY = 0;
     
+    // Node dragging state
+    this.isDraggingNode = false;
+    this.draggedNodeName = null;
+    
+    // Expose export/import functions globally for console access
+    window.exportNodePositions = () => this.exportPositions();
+    window.importNodePositions = (positions) => this.importPositions(positions);
+    window.resetNodeLayout = () => this.resetLayout();
+    
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     this.svg.setAttribute('width', '100%');
     this.svg.setAttribute('height', '100%');
@@ -47,7 +56,7 @@ export class CircuitView {
     this.mainGroup.appendChild(this.nodeGroup);
     this.mainGroup.appendChild(this.labelGroup);
     
-    // Pan handlers
+    // Pan handlers (panning only on background)
     this.svg.addEventListener('mousedown', (e) => {
       if (e.target === this.svg) {
         this.isPanning = true;
@@ -58,6 +67,25 @@ export class CircuitView {
     });
     
     document.addEventListener('mousemove', (e) => {
+      // Node dragging takes priority
+      if (this.isDraggingNode && this.draggedNodeName) {
+        const rect = this.svg.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        // Convert to graph coordinates
+        const graphX = (mouseX - this.panX) / this.zoom;
+        const graphY = (mouseY - this.panY) / this.zoom;
+        
+        const pos = this.nodePositions.get(this.draggedNodeName);
+        if (pos) {
+          pos.x = graphX;
+          pos.y = graphY;
+          pos.pinned = true; // Mark as manually positioned
+          this.render();
+        }
+        return;
+      }
+      
       if (!this.isPanning) return;
       const dx = e.clientX - this.lastMouseX;
       const dy = e.clientY - this.lastMouseY;
@@ -69,6 +97,11 @@ export class CircuitView {
     });
     
     document.addEventListener('mouseup', () => {
+      if (this.isDraggingNode) {
+        this.isDraggingNode = false;
+        this.draggedNodeName = null;
+        this.svg.style.cursor = 'grab';
+      }
       if (this.isPanning) {
         this.isPanning = false;
         this.svg.style.cursor = 'grab';
@@ -360,16 +393,42 @@ export class CircuitView {
   }
 
   renderNode(pos) {
-    const { x, y, signal } = pos;
+    const { x, y, signal, pinned } = pos;
     const radius = 35;
     const isSelected = this.selectedNode === signal.name;
     
     const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    group.style.cursor = 'pointer';
+    group.style.cursor = 'grab';
+    group.dataset.nodeName = signal.name;
+    
+    // Drag start handler
+    group.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+      this.isDraggingNode = true;
+      this.draggedNodeName = signal.name;
+      this.svg.style.cursor = 'grabbing';
+    });
+    
+    // Click handler (only fires if not dragged)
     group.addEventListener('click', (e) => {
       e.stopPropagation();
-      this.selectNode(signal.name);
+      // Only select if we didn't drag
+      if (!this.isDraggingNode) {
+        this.selectNode(signal.name);
+      }
     });
+    
+    // Pin indicator (small dot) for manually positioned nodes
+    if (pinned) {
+      const pin = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      pin.setAttribute('cx', x + radius - 8);
+      pin.setAttribute('cy', y - radius + 8);
+      pin.setAttribute('r', 5);
+      pin.setAttribute('fill', '#f59e0b');
+      pin.setAttribute('stroke', '#1e293b');
+      pin.setAttribute('stroke-width', '1');
+      group.appendChild(pin);
+    }
     
     // Glow effect for selected
     if (isSelected) {
@@ -459,5 +518,63 @@ export class CircuitView {
 
   update() {
     this.render();
+  }
+
+  /**
+   * Export node positions to JSON
+   * Call from console: exportNodePositions()
+   */
+  exportPositions() {
+    const positions = {};
+    for (const [name, pos] of this.nodePositions) {
+      positions[name] = {
+        x: Math.round(pos.x),
+        y: Math.round(pos.y),
+        pinned: pos.pinned || false
+      };
+    }
+    
+    const json = JSON.stringify(positions, null, 2);
+    console.log('Node positions (copy this):');
+    console.log(json);
+    
+    // Also trigger download
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'node-positions.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    return positions;
+  }
+
+  /**
+   * Import node positions from JSON object
+   * Call from console: importNodePositions({...})
+   * @param {Object} positions - { signalName: { x, y, pinned? } }
+   */
+  importPositions(positions) {
+    for (const [name, pos] of Object.entries(positions)) {
+      const existing = this.nodePositions.get(name);
+      if (existing) {
+        existing.x = pos.x;
+        existing.y = pos.y;
+        existing.pinned = pos.pinned || true;
+      }
+    }
+    this.render();
+    console.log(`Imported positions for ${Object.keys(positions).length} nodes`);
+  }
+
+  /**
+   * Reset all node positions to force-directed layout
+   * Call from console: window.circuitView.resetLayout()
+   */
+  resetLayout() {
+    this.computeLayout();
+    this.render();
+    console.log('Layout reset to force-directed');
   }
 }

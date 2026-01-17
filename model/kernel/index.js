@@ -5,7 +5,8 @@
  * It knows nothing about data sources, learning, or visualization.
  */
 
-export { Signal } from './signal.js';
-export { Edge, transforms } from './edge.js';
-export { Graph } from './graph.js';
-export { ModelFit, calculateSignalMetrics, mse, mae, correlation, findBestLag } from './model-fit.js';
+// v2 - added getValueInterpolated to Signal
+export { Signal } from './signal.js?v=2';
+export { Edge, transforms } from './edge.js?v=2';
+export { Graph } from './graph.js?v=2';
+export { ModelFit, calculateSignalMetrics, mse, mae, correlation, findBestLag } from './model-fit.js?v=2';

@@ -31,16 +31,23 @@ export const transforms = {
   relu: (x) => Math.max(0, x),
 
   /**
-   * Threshold: binary output
-   * @param {number} threshold - The cutoff value
+   * Threshold: binary output (simple version for string lookup)
+   * Converts to 1 if positive, 0 otherwise
    */
-  threshold: (threshold) => (x) => x > threshold ? 1 : 0,
+  threshold: (x) => x > 0.5 ? 1 : 0,
 
   /**
    * Inverse: higher input = lower output
    * Useful for inverse relationships (e.g., rates up → demand down)
    */
   inverse: (x) => -x,
+  
+  /**
+   * Derivative: signals that this edge needs rate-of-change computation
+   * The actual derivative is computed in the graph propagation
+   * Here we just pass through - the graph handles the derivative logic
+   */
+  derivative: (x) => x,
 
   /**
    * Log transform: compresses large values
@@ -57,13 +64,15 @@ export class Edge {
    * @param {number} config.weight - Signed weight (-1 to 1 typical)
    * @param {string|function} [config.transform='linear'] - Transform function name or function
    * @param {number} [config.delay=0] - Time delay in steps
+   * @param {number} [config.bias=0] - Constant offset added to the contribution
    * @param {string} [config.description] - Human-readable description
    */
-  constructor({ from, to, weight, transform = 'linear', delay = 0, description = '' }) {
+  constructor({ from, to, weight, transform = 'linear', delay = 0, bias = 0, description = '' }) {
     this.from = from;
     this.to = to;
     this.weight = weight;
     this.delay = delay;
+    this.bias = bias;
     this.description = description;
 
     // Resolve transform function
@@ -99,7 +108,17 @@ export class Edge {
       return null; // Can't compute without source data
     }
 
-    return this.weight * this.transform(sourceValue);
+    // Handle derivative transform specially - needs previous value
+    if (this.transformName === 'derivative') {
+      const prevValue = sourceSignal.getValue(readTime - 1);
+      if (prevValue === null) {
+        return null;
+      }
+      // Return rate of change (derivative)
+      return this.weight * (sourceValue - prevValue) + this.bias;
+    }
+
+    return this.weight * this.transform(sourceValue) + this.bias;
   }
 
   /**

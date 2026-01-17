@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Economic Model</title>
+  <link rel="icon" href="data:,">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      padding: 0.4rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    header h1 { font-size: 0.9rem; font-weight: 600; }
+
+    .header-stats {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.7rem;
+    }
+
+    .header-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .header-stat .label { color: #64748b; }
+    .header-stat .value { font-weight: 600; font-family: monospace; }
+    .header-stat .value.good { color: #22c55e; }
+    .header-stat .value.medium { color: #eab308; }
+    .header-stat .value.poor { color: #ef4444; }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #circuit-container {
+      flex: 1;
+      background: #0f172a;
+    }
+
+    /* Floating edge editor overlay */
+    #edge-overlay {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      width: 300px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 100;
+    }
+
+    #edge-overlay.visible { display: block; }
+
+    .overlay-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid #334155;
+    }
+
+    .overlay-header h3 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+      padding: 0.2rem;
+    }
+
+    .close-btn:hover { color: #f8fafc; }
+
+    .overlay-body { padding: 0.75rem; }
+
+    .edge-path {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: #0f172a;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .edge-path .node {
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+
+    .edge-path .node.from {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+    }
+
+    .edge-path .node.to {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    .edge-path .arrow { color: #64748b; }
+
+    .form-group {
+      margin-bottom: 0.6rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.65rem;
+      color: #94a3b8;
+      margin-bottom: 0.2rem;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 4px;
+      padding: 0.35rem 0.5rem;
+      color: #f8fafc;
+      font-size: 0.75rem;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .form-row .form-group { flex: 1; margin-bottom: 0; }
+
+    #transform-preview {
+      width: 100%;
+      height: 80px;
+      background: #0f172a;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+    }
+
+    /* Charts pane */
+    #charts-pane {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      background: #1e293b;
+      border-left: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      transition: transform 0.2s ease;
+    }
+
+    #charts-pane.collapsed {
+      transform: translateX(calc(100% - 32px));
+    }
+
+    #charts-pane.collapsed .pane-content { opacity: 0; pointer-events: none; }
+    #charts-pane.collapsed .pane-toggle { transform: rotate(180deg); }
+
+    .pane-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid #334155;
+      background: #1e293b;
+    }
+
+    .pane-header h3 {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pane-toggle {
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.2rem;
+      transition: transform 0.2s ease;
+    }
+
+    .pane-toggle:hover { color: #f8fafc; }
+
+    .pane-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem;
+      transition: opacity 0.15s ease;
+    }
+
+    .resize-handle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      cursor: ew-resize;
+      background: transparent;
+    }
+
+    .resize-handle:hover,
+    .resize-handle.dragging {
+      background: #3b82f6;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #64748b;
+      font-size: 0.75rem;
+    }
+
+    .empty-state .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.5;
+    }
+
+    .chart-card {
+      background: #0f172a;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.4rem 0.6rem;
+      background: rgba(0,0,0,0.3);
+    }
+
+    .chart-header h4 {
+      font-size: 0.7rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .chart-header .badge {
+      font-size: 0.55rem;
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+
+    .chart-header .badge.input {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+    }
+
+    .chart-header .badge.computed {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    .chart-header .badge.fitted {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+    }
+
+    .chart-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      padding: 0.3rem 0.6rem;
+      border-bottom: 1px solid #334155;
+    }
+
+    .chart-tags a {
+      font-size: 0.55rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      background: rgba(139, 92, 246, 0.15);
+      color: #a78bfa;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .chart-tags a:hover {
+      background: rgba(139, 92, 246, 0.3);
+    }
+
+    .chart-header .close-btn {
+      font-size: 1rem;
+      padding: 0;
+    }
+
+    .chart-metrics {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.6rem;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid #334155;
+    }
+
+    .chart-metrics .metric {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .chart-metrics .metric-label {
+      color: #64748b;
+    }
+
+    .chart-metrics .metric-value {
+      font-family: monospace;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+
+    .chart-metrics .metric-value.good { color: #22c55e; }
+    .chart-metrics .metric-value.medium { color: #eab308; }
+    .chart-metrics .metric-value.poor { color: #ef4444; }
+
+    .chart-canvas {
+      width: 100%;
+      height: 100px;
+    }
+
+    .chart-legend {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.6rem;
+      color: #94a3b8;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .legend-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .instructions {
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 41, 59, 0.95);
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.7rem;
+      color: #94a3b8;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .instructions strong { color: #3b82f6; }
+    .instructions span { margin: 0 0.5rem; color: #475569; }
+
+    /* Loading state */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-size: 1.2rem;
+      color: #64748b;
+    }
+
+    .loading .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #334155;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 0.75rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading economic model...
+    </div>
+  </div>
+
+  <!-- 
+    Blog data files are loaded from the parent blog directory.
+    The server must be started from /home/phil/Projects/blog (not /model)
+    OR we can inline the data loading via fetch.
+    For now, we'll use a simplified test dataset that works without external files.
+  -->
+
+  <script type="module">
+    import { Signal, Edge, Graph, transforms, ModelFit } from '/model/kernel/index.js';
+    import { CircuitView } from '/model/ui/circuit-view.js';
+    import { createGraphFromDefinition } from '/model/adapters/loader.js';
+
+    // Time utilities (months since 1948-01-01)
+    function dateToTime(dateStr) {
+      const d = new Date(dateStr);
+      return (d.getFullYear() - 1948) * 12 + d.getMonth();
+    }
+
+    function timeToDate(t) {
+      const year = 1948 + Math.floor(t / 12);
+      const month = t % 12 + 1;
+      return `${year}-${String(month).padStart(2, '0')}-01`;
+    }
+
+    // ============================================
+    // LOAD MODEL FROM YAML
+    // ============================================
+    
+    async function loadModel() {
+      const response = await fetch('/model/definitions/economic-model.yaml');
+      const yamlText = await response.text();
+      const modelDef = jsyaml.load(yamlText);
+      return createGraphFromDefinition(modelDef);
+    }
+
+    // ============================================
+    // FETCH AND PARSE JS DATA FILES
+    // ============================================
+
+    async function loadJsDataFile(url, varName) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) return null;
+        const text = await response.text();
+        // Extract the data from the JS file
+        const match = text.match(new RegExp(`(const|var|let)\\s+${varName}\\s*=\\s*`));
+        if (!match) return null;
+        const start = match.index + match[0].length;
+        // Find the data - it's either an array or object
+        let depth = 0;
+        let end = start;
+        let inString = false;
+        let stringChar = '';
+        for (let i = start; i < text.length; i++) {
+          const c = text[i];
+          if (inString) {
+            if (c === stringChar && text[i-1] !== '\\') inString = false;
+          } else {
+            if (c === '"' || c === "'") {
+              inString = true;
+              stringChar = c;
+            } else if (c === '{' || c === '[') {
+              depth++;
+            } else if (c === '}' || c === ']') {
+              depth--;
+              if (depth === 0) {
+                end = i + 1;
+                break;
+              }
+            }
+          }
+        }
+        const jsonStr = text.slice(start, end)
+          .replace(/(\w+):/g, '"$1":')  // Add quotes to keys
+          .replace(/'/g, '"')           // Replace single quotes
+          .replace(/,\s*([}\]])/g, '$1'); // Remove trailing commas
+        return JSON.parse(jsonStr);
+      } catch (e) {
+        console.warn(`Failed to load ${url}:`, e);
+        return null;
+      }
+    }
+
+    // ============================================
+    // MAIN INITIALIZATION
+    // ============================================
+    
+    async function init() {
+      try {
+        // Load the model
+        const graph = await loadModel();
+        console.log('Model loaded:', graph.signals.size, 'signals,', graph.edges.length, 'edges');
+
+        // Generate synthetic data for ALL observed signals
+        const startTime = dateToTime('2000-01-01');
+        const endTime = dateToTime('2024-01-01');
+
+        // Synthetic data generation for all observed signals
+        for (let t = startTime; t <= endTime; t++) {
+          const year = 1948 + Math.floor(t / 12);
+          const month = t % 12;
+          const cyclePhase = Math.sin(t / 48 * Math.PI * 2);  // ~4 year cycle
+          
+          // === INTEREST RATES ===
+          // Fed Funds Rate (approximate historical pattern)
+          let fedRate = 5;
+          if (year >= 2001 && year <= 2003) fedRate = 1.5 + (year - 2001) * 0.3;
+          else if (year >= 2004 && year <= 2007) fedRate = 2 + (year - 2004) * 1;
+          else if (year >= 2008 && year <= 2015) fedRate = 0.25;
+          else if (year >= 2016 && year <= 2019) fedRate = 1 + (year - 2016) * 0.5;
+          else if (year >= 2020 && year <= 2021) fedRate = 0.1;
+          else if (year >= 2022) fedRate = 0.5 + (year - 2022) * 2;
+          
+          const fedSignal = graph.getSignal('fed_funds_rate');
+          if (fedSignal) fedSignal.setValue(t, fedRate + Math.random() * 0.2);
+
+          // Treasury 10Y
+          const t10y = fedRate + 1.5 + Math.sin(t / 24) * 0.5;
+          const treasurySignal = graph.getSignal('treasury_10y');
+          if (treasurySignal) treasurySignal.setValue(t, t10y);
+
+          // Mortgage rate (30Y)
+          const mortgageRate = t10y + 1.8 + Math.random() * 0.3;
+          const mortgageSignal = graph.getSignal('mortgage_rate_30y');
+          if (mortgageSignal) mortgageSignal.setValue(t, mortgageRate);
+
+          // === LABOR MARKET ===
+          // Unemployment
+          let unemployment = 5;
+          if (year === 2001 || year === 2002) unemployment = 5.5 + (year - 2000) * 0.5;
+          else if (year === 2009 || year === 2010) unemployment = 9 - (year - 2009) * 2;
+          else if (year === 2020) unemployment = month < 4 ? 4 : (month < 7 ? 12 : 8);
+          else if (year === 2021) unemployment = 6 - month * 0.2;
+          
+          const unempSignal = graph.getSignal('unemployment_rate');
+          if (unempSignal) unempSignal.setValue(t, unemployment + Math.random() * 0.3);
+
+          // === GDP COMPONENTS ===
+          // Real GDP (trillions, growing trend)
+          const baseGdp = 10000 + (year - 2000) * 500 + cyclePhase * 200;
+          const gdpSignal = graph.getSignal('gdp_real');
+          if (gdpSignal) gdpSignal.setValue(t, baseGdp + Math.random() * 100);
+
+          // Cyclical GDP components
+          const cyclicalBase = 2000 + (year - 2000) * 100 + cyclePhase * 300;
+          const cyclicalSignal = graph.getSignal('cyclical_gdp');
+          if (cyclicalSignal) cyclicalSignal.setValue(t, cyclicalBase + Math.random() * 50);
+
+          const nonCyclicalSignal = graph.getSignal('non_cyclical_gdp');
+          if (nonCyclicalSignal) nonCyclicalSignal.setValue(t, baseGdp - cyclicalBase + Math.random() * 50);
+
+          // Durables consumption
+          const durablesSignal = graph.getSignal('durables_consumption');
+          if (durablesSignal) durablesSignal.setValue(t, 800 + (year - 2000) * 30 + cyclePhase * 80 + Math.random() * 20);
+
+          // Residential investment
+          let residential = 400 + (year - 2000) * 15 + cyclePhase * 60;
+          if (year >= 2006 && year <= 2011) residential = 400 - (year - 2006) * 50 + (year > 2009 ? (year - 2009) * 30 : 0);
+          const residentialSignal = graph.getSignal('residential_investment');
+          if (residentialSignal) residentialSignal.setValue(t, Math.max(150, residential + Math.random() * 20));
+
+          // Equipment investment
+          const equipmentSignal = graph.getSignal('equipment_investment');
+          if (equipmentSignal) equipmentSignal.setValue(t, 600 + (year - 2000) * 25 + cyclePhase * 50 + Math.random() * 15);
+
+          // === MONEY SUPPLY / INFLATION ===
+          // M2 Money Supply (trillions)
+          let m2 = 5000 + (year - 2000) * 400;
+          if (year >= 2020) m2 += 4000;  // COVID expansion
+          const m2Signal = graph.getSignal('m2_money_supply');
+          if (m2Signal) m2Signal.setValue(t, m2 + Math.random() * 100);
+
+          // CPI (index)
+          const cpi = 170 + (year - 2000) * 5 + (year >= 2021 ? (year - 2020) * 8 : 0);
+          const cpiSignal = graph.getSignal('cpi_inflation');
+          if (cpiSignal) cpiSignal.setValue(t, cpi + Math.random() * 2);
+
+          // M2 Velocity
+          let velocity = 1.9 - (year - 2000) * 0.03;
+          if (year >= 2020) velocity = 1.1 + (year - 2020) * 0.05;
+          const velocitySignal = graph.getSignal('velocity_m2');
+          if (velocitySignal) velocitySignal.setValue(t, velocity + Math.random() * 0.05);
+
+          // === CREDIT / LENDING ===
+          // Lending standards
+          let lending = 0;
+          if (year === 2008 || year === 2009) lending = 60;
+          else if (year === 2020) lending = month < 6 ? 70 : 40;
+          else lending = 10 + Math.random() * 10;
+          
+          const lendingSignal = graph.getSignal('lending_standards_ci');
+          if (lendingSignal) lendingSignal.setValue(t, lending);
+
+          // C&I Loan volume
+          const ciLoans = 1000 + (year - 2000) * 80 + cyclePhase * 100;
+          const ciLoansSignal = graph.getSignal('ci_loan_volume');
+          if (ciLoansSignal) ciLoansSignal.setValue(t, ciLoans + Math.random() * 30);
+
+          // === HOUSING ===
+          // New home sales (thousands)
+          let newHomeSales = 800 + cyclePhase * 200;
+          if (year >= 2006 && year <= 2011) newHomeSales = 800 - (year - 2005) * 100 + (year > 2009 ? (year - 2009) * 80 : 0);
+          const salesSignal = graph.getSignal('new_home_sales');
+          if (salesSignal) salesSignal.setValue(t, Math.max(300, newHomeSales + Math.random() * 50));
+
+          // Months supply
+          let monthsSupply = 5 - cyclePhase * 1.5;
+          if (year >= 2008 && year <= 2011) monthsSupply = 8 + (2010 - year) * 1;
+          const supplySignal = graph.getSignal('months_supply');
+          if (supplySignal) supplySignal.setValue(t, Math.max(3, monthsSupply + Math.random() * 0.5));
+
+          // Housing inventory
+          const inventorySignal = graph.getSignal('housing_inventory');
+          if (inventorySignal) inventorySignal.setValue(t, monthsSupply + 1 + Math.random() * 0.5);
+
+          // Median home price
+          let homePrice = 200000 + (year - 2000) * 10000;
+          if (year >= 2006 && year <= 2012) homePrice = 220000 - (year - 2005) * 15000 + (year > 2011 ? (year - 2011) * 20000 : 0);
+          if (year >= 2020) homePrice += 50000;
+          const priceSignal = graph.getSignal('median_home_price');
+          if (priceSignal) priceSignal.setValue(t, homePrice + Math.random() * 5000);
+
+          // === RECESSION INDICATOR (ground truth) ===
+          const recessionSignal = graph.getSignal('recession_indicator');
+          if (recessionSignal) {
+            let isRecession = 0;
+            if (year === 2001 && month >= 2 && month <= 10) isRecession = 1;
+            if ((year === 2007 && month >= 11) || year === 2008 || (year === 2009 && month <= 5)) isRecession = 1;
+            if (year === 2020 && month >= 1 && month <= 3) isRecession = 1;
+            recessionSignal.setValue(t, isRecession);
+          }
+        }
+
+        // For model_output signals, copy observed data to ground truth
+        // so we can compare model predictions vs actual data
+        const recessionSignal = graph.getSignal('recession_indicator');
+        if (recessionSignal) {
+          const gtData = [];
+          for (let t = startTime; t <= endTime; t++) {
+            const value = recessionSignal.getValue(t);
+            if (value !== null) {
+              gtData.push({ t, value });
+            }
+          }
+          recessionSignal.setGroundTruth(gtData);
+          // Clear history so model can compute its own prediction
+          recessionSignal.history.clear();
+          // Mark as not observed so model computes it
+          recessionSignal.observed = false;
+        }
+        
+        const unemploymentSignal = graph.getSignal('unemployment_rate');
+        if (unemploymentSignal) {
+          const gtData = [];
+          for (let t = startTime; t <= endTime; t++) {
+            const value = unemploymentSignal.getValue(t);
+            if (value !== null) {
+              gtData.push({ t, value });
+            }
+          }
+          unemploymentSignal.setGroundTruth(gtData);
+          // Clear history so model can compute its own prediction
+          unemploymentSignal.history.clear();
+          // Mark as not observed so model computes it
+          unemploymentSignal.observed = false;
+        }
+        
+        // Set up ground truth for other computed signals
+        // These stay as computed but we can compare against synthetic "expected" values
+        const computedSignalsWithGT = [
+          'gdp_growth',
+          'm2_growth', 
+          'inflation_rate',
+          'yield_curve_spread'
+        ];
+        
+        for (const name of computedSignalsWithGT) {
+          const signal = graph.getSignal(name);
+          if (signal && !signal.observed) {
+            // Generate plausible ground truth based on signal type
+            const gtData = [];
+            for (let t = startTime; t <= endTime; t++) {
+              const year = 1948 + Math.floor(t / 12);
+              let value = null;
+              
+              if (name === 'gdp_growth') {
+                // Typical GDP growth: 2-3% with recessions going negative
+                value = 2.5 + Math.sin(t / 36) * 2;
+                if (year === 2001 || year === 2008 || year === 2009 || year === 2020) {
+                  value = -3 + Math.random() * 2;
+                }
+              } else if (name === 'm2_growth') {
+                // M2 growth: typically 5-7%, spikes during QE
+                value = 6 + Math.sin(t / 24) * 2;
+                if (year >= 2020 && year <= 2021) value = 20 + Math.random() * 5;
+              } else if (name === 'inflation_rate') {
+                // CPI inflation: 2-3% typical, spikes in 2022
+                value = 2.5 + Math.sin(t / 48) * 1;
+                if (year >= 2021 && year <= 2023) value = 5 + (year - 2021) * 2;
+              } else if (name === 'yield_curve_spread') {
+                // 10Y-2Y spread: typically 0.5-2%, goes negative before recessions
+                const fedSignal = graph.getSignal('fed_funds_rate');
+                const treasurySignal = graph.getSignal('treasury_10y');
+                if (fedSignal && treasurySignal) {
+                  const fedVal = fedSignal.getValue(t) || 2;
+                  const t10yVal = treasurySignal.getValue(t) || 4;
+                  value = t10yVal - fedVal + 0.5; // proxy for 2Y ≈ fed_funds + 0.5
+                }
+              }
+              
+              if (value !== null) {
+                gtData.push({ t, value });
+              }
+            }
+            if (gtData.length > 0) {
+              signal.setGroundTruth(gtData);
+              console.log(`Set ${gtData.length} ground truth points for computed signal: ${name}`);
+            }
+          }
+        }
+
+        // Run simulation function (also used for re-running after edge edits)
+        window.runSimulation = function(g, start, end) {
+          for (const [name, signal] of g.signals) {
+            if (!signal.observed) signal.history.clear();
+          }
+          for (let t = start; t <= end; t++) {
+            g.step(t);
+          }
+        };
+        
+        // Initial simulation run
+        runSimulation(graph, startTime, endTime);
+
+        // Create ModelFit instance
+        const modelFit = new ModelFit(graph, {
+          recession_indicator: 1.0,
+          unemployment_rate: 1.0
+        });
+
+        // Render UI
+        renderUI(graph, modelFit, startTime, endTime);
+
+      } catch (error) {
+        console.error('Failed to load model:', error);
+        document.getElementById('app').innerHTML = `
+          <div class="loading">
+            <span style="color: #ef4444;">Error: ${error.message}</span>
+          </div>
+        `;
+      }
+    }
+
+    // ============================================
+    // RENDER UI
+    // ============================================
+    
+    function renderUI(graph, modelFit, startTime, endTime) {
+      const app = document.getElementById('app');
+      
+      app.innerHTML = `
+        <header>
+          <h1>Economic Model</h1>
+          <div class="header-stats">
+            <div class="header-stat">
+              <span class="label">Signals:</span>
+              <span class="value" id="signal-count">${graph.signals.size}</span>
+            </div>
+            <div class="header-stat">
+              <span class="label">Edges:</span>
+              <span class="value" id="edge-count">${graph.edges.length}</span>
+            </div>
+            <div class="header-stat">
+              <span class="label">Loss:</span>
+              <span class="value" id="loss-value">—</span>
+            </div>
+            <div class="header-stat">
+              <span class="label">Fitted:</span>
+              <span class="value" id="fitted-count">0/0</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="main-content">
+          <div id="circuit-container"></div>
+
+          <div id="charts-pane" class="collapsed" style="width: 350px;">
+            <div class="pane-header">
+              <button class="pane-toggle" id="pane-toggle" title="Toggle panel">▶</button>
+              <h3>Signal Charts</h3>
+            </div>
+            <div class="pane-content" id="charts-content">
+              <div class="empty-state">
+                <div class="icon">📊</div>
+                <div>Click nodes in the graph<br>to view their time series</div>
+              </div>
+            </div>
+            <div class="resize-handle" id="resize-handle"></div>
+          </div>
+
+          <div id="edge-overlay">
+            <div class="overlay-header">
+              <h3>Edit Edge</h3>
+              <button class="close-btn" id="close-edge-overlay">×</button>
+            </div>
+            <div class="overlay-body" id="edge-editor-body"></div>
+          </div>
+
+          <div class="instructions">
+            <strong>Click nodes</strong> to view charts
+            <span>|</span>
+            <strong>Click edges</strong> to edit
+            <span>|</span>
+            <strong>Drag</strong> to pan
+            <span>|</span>
+            <strong>Scroll</strong> to zoom
+          </div>
+        </div>
+      `;
+
+      // Initialize interactions
+      initializeInteractions(graph, modelFit, startTime, endTime);
+    }
+
+    // ============================================
+    // INTERACTIONS
+    // ============================================
+    
+    function initializeInteractions(graph, modelFit, startTime, endTime) {
+      const visibleCharts = new Set();
+      let currentEdgeIndex = null;
+
+      // Time conversion for charts
+      function tToDate(t) {
+        const date = new Date(timeToDate(t));
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${months[date.getMonth()]} '${String(date.getFullYear()).slice(2)}`;
+      }
+
+      // Update fit display
+      function updateFitDisplay() {
+        const summary = modelFit.getSummary();
+        
+        const lossEl = document.getElementById('loss-value');
+        const loss = summary.globalLoss;
+        lossEl.textContent = isFinite(loss) ? loss.toFixed(3) : '—';
+        
+        lossEl.classList.remove('good', 'medium', 'poor');
+        if (loss < 0.2) lossEl.classList.add('good');
+        else if (loss < 0.5) lossEl.classList.add('medium');
+        else lossEl.classList.add('poor');
+        
+        document.getElementById('fitted-count').textContent = 
+          `${summary.signalsFitted}/${summary.signalsWithGroundTruth}`;
+      }
+
+      // Draw chart
+      function drawChart(canvas, signalName, signal) {
+        const ctx = canvas.getContext('2d');
+        const rect = canvas.getBoundingClientRect();
+        const width = canvas.width = rect.width * 2;
+        const height = canvas.height = rect.height * 2;
+        
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, width, height);
+
+        const history = signal.getHistoryArray().filter(h => h.t >= startTime && h.t <= endTime);
+        const data = history.map(h => h.value);
+        if (data.length === 0) return;
+
+        const times = history.map(h => h.t);
+        const tMin = Math.min(...times);
+        const tMax = Math.max(...times);
+        const tRange = tMax - tMin || 1;
+
+        const padding = { top: 12, right: 12, bottom: 20, left: 40 };
+        const chartWidth = width - padding.left - padding.right;
+        const chartHeight = height - padding.top - padding.bottom;
+
+        let min = Math.min(...data);
+        let max = Math.max(...data);
+        
+        if (signal.hasGroundTruth()) {
+          const gtArray = signal.getGroundTruthArray().filter(h => h.t >= startTime && h.t <= endTime);
+          const gtValues = gtArray.map(h => h.value);
+          if (gtValues.length > 0) {
+            min = Math.min(min, ...gtValues);
+            max = Math.max(max, ...gtValues);
+          }
+        }
+        
+        const range = max - min || 1;
+        const yMin = min - range * 0.05;
+        const yMax = max + range * 0.05;
+        const yRange = yMax - yMin;
+
+        // Grid
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        for (let i = 0; i <= 2; i++) {
+          const y = padding.top + (i / 2) * chartHeight;
+          ctx.beginPath();
+          ctx.moveTo(padding.left, y);
+          ctx.lineTo(width - padding.right, y);
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+
+        // Y axis labels
+        ctx.fillStyle = '#64748b';
+        ctx.font = '16px monospace';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 2; i++) {
+          const y = padding.top + (i / 2) * chartHeight;
+          const value = yMax - (i / 2) * yRange;
+          ctx.fillText(value.toFixed(2), padding.left - 5, y + 5);
+        }
+
+        // X axis labels
+        ctx.textAlign = 'center';
+        const labelTimes = [tMin, tMin + tRange/2, tMax].map(Math.round);
+        labelTimes.forEach(t => {
+          const x = padding.left + ((t - tMin) / tRange) * chartWidth;
+          ctx.fillText(tToDate(t), x, height - 3);
+        });
+
+        // Ground truth shading
+        if (signal.hasGroundTruth()) {
+          const gtArray = signal.getGroundTruthArray().filter(h => h.t >= startTime && h.t <= endTime);
+          
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.15)';
+          for (const { t, value } of gtArray) {
+            if (value >= 0.5) {
+              const x = padding.left + ((t - tMin) / tRange) * chartWidth;
+              const barWidth = chartWidth / tRange + 1;
+              ctx.fillRect(x, padding.top, barWidth, chartHeight);
+            }
+          }
+
+          // Ground truth line
+          ctx.beginPath();
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([5, 3]);
+          gtArray.forEach(({ t, value }, i) => {
+            const x = padding.left + ((t - tMin) / tRange) * chartWidth;
+            const y = padding.top + ((yMax - value) / yRange) * chartHeight;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        // Main line
+        const color = signal.observed ? '#3b82f6' : '#22c55e';
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2.5;
+
+        history.forEach(({ t, value }, i) => {
+          const x = padding.left + ((t - tMin) / tRange) * chartWidth;
+          const y = padding.top + ((yMax - value) / yRange) * chartHeight;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+      }
+
+      function getSignalMetrics(signal) {
+        const metrics = modelFit.calculateAllMetrics();
+        return metrics.get(signal.name);
+      }
+
+      function renderVisibleCharts() {
+        const container = document.getElementById('charts-content');
+        
+        if (visibleCharts.size === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="icon">📊</div>
+              <div>Click nodes in the graph<br>to view their time series</div>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = '';
+
+        for (const name of visibleCharts) {
+          const signal = graph.getSignal(name);
+          if (!signal) continue;
+
+          const hasGT = signal.hasGroundTruth();
+          const metrics = hasGT ? getSignalMetrics(signal) : null;
+          
+          let metricsHtml = '';
+          if (metrics && metrics.hasData) {
+            const corrClass = metrics.correlation >= 0.8 ? 'good' : metrics.correlation >= 0.5 ? 'medium' : 'poor';
+            metricsHtml = `
+              <div class="chart-metrics">
+                <span class="metric">
+                  <span class="metric-label">r</span>
+                  <span class="metric-value ${corrClass}">${metrics.correlation.toFixed(2)}</span>
+                </span>
+                <span class="metric">
+                  <span class="metric-label">RMSE</span>
+                  <span class="metric-value">${metrics.rmse.toFixed(3)}</span>
+                </span>
+                ${metrics.bestLag !== 0 ? `
+                  <span class="metric">
+                    <span class="metric-label">lag</span>
+                    <span class="metric-value">${metrics.bestLag > 0 ? '+' : ''}${metrics.bestLag}mo</span>
+                  </span>
+                ` : ''}
+              </div>
+            `;
+          }
+          
+          const card = document.createElement('div');
+          card.className = 'chart-card';
+          card.dataset.signal = name;
+          
+          // Generate tags HTML
+          const tagsHtml = signal.tags && signal.tags.length > 0 
+            ? `<div class="chart-tags">${signal.tags.map(tag => 
+                `<a href="/posts/${tag}/" target="_blank" title="Read blog post">${tag.replace(/^\d{4}-\d{2}-\d{2}-/, '')}</a>`
+              ).join('')}</div>`
+            : '';
+          
+          card.innerHTML = `
+            <div class="chart-header">
+              <h4>
+                ${name.replace(/_/g, ' ')}
+                <span class="badge ${signal.observed ? 'input' : 'computed'}">${signal.observed ? 'INPUT' : 'COMPUTED'}</span>
+                ${hasGT ? '<span class="badge fitted">FITTED</span>' : ''}
+              </h4>
+              <button class="close-btn" data-close="${name}">×</button>
+            </div>
+            ${tagsHtml}
+            ${metricsHtml}
+            <canvas class="chart-canvas"></canvas>
+            ${hasGT ? `
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #22c55e;"></span>
+                  <span>Model</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #ef4444;"></span>
+                  <span>Ground Truth</span>
+                </div>
+              </div>
+            ` : ''}
+          `;
+          container.appendChild(card);
+
+          const canvas = card.querySelector('canvas');
+          requestAnimationFrame(() => drawChart(canvas, name, signal));
+
+          card.querySelector(`[data-close="${name}"]`).addEventListener('click', () => {
+            visibleCharts.delete(name);
+            renderVisibleCharts();
+          });
+        }
+      }
+
+      function refreshCharts() {
+        for (const name of visibleCharts) {
+          const card = document.querySelector(`.chart-card[data-signal="${name}"]`);
+          if (!card) continue;
+          const canvas = card.querySelector('canvas');
+          const signal = graph.getSignal(name);
+          if (canvas && signal) {
+            drawChart(canvas, name, signal);
+          }
+        }
+      }
+
+      function rerunSimulation() {
+        for (const [name, signal] of graph.signals) {
+          if (!signal.observed) signal.history.clear();
+        }
+        runSimulation(graph, startTime, endTime);
+      }
+
+      // Edge editor
+      function drawTransformPreview(canvas, transformName, weight) {
+        const ctx = canvas.getContext('2d');
+        const rect = canvas.getBoundingClientRect();
+        const width = canvas.width = rect.width * 2;
+        const height = canvas.height = rect.height * 2;
+        
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, width, height);
+
+        const padding = 15;
+        const plotWidth = width - 2 * padding;
+        const plotHeight = height - 2 * padding;
+
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padding, height / 2);
+        ctx.lineTo(width - padding, height / 2);
+        ctx.moveTo(width / 2, padding);
+        ctx.lineTo(width / 2, height - padding);
+        ctx.stroke();
+
+        const fn = transforms[transformName] || transforms.linear;
+
+        ctx.beginPath();
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 2.5;
+
+        const xRange = [-3, 3];
+        const steps = 80;
+        
+        for (let i = 0; i <= steps; i++) {
+          const inputX = xRange[0] + (i / steps) * (xRange[1] - xRange[0]);
+          let outputY = fn(inputX) * weight;
+          outputY = Math.max(-2, Math.min(2, outputY));
+          
+          const screenX = padding + ((inputX - xRange[0]) / (xRange[1] - xRange[0])) * plotWidth;
+          const screenY = height / 2 - (outputY / 2) * (plotHeight / 2);
+          
+          if (i === 0) ctx.moveTo(screenX, screenY);
+          else ctx.lineTo(screenX, screenY);
+        }
+        ctx.stroke();
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '12px monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText(`y = ${weight.toFixed(2)} × ${transformName}(x)`, padding, height - 4);
+      }
+
+      function showEdgeEditor(index, edge) {
+        currentEdgeIndex = index;
+        const overlay = document.getElementById('edge-overlay');
+        const body = document.getElementById('edge-editor-body');
+
+        body.innerHTML = `
+          <div class="edge-path">
+            <span class="node from">${edge.from.replace(/_/g, ' ')}</span>
+            <span class="arrow">→</span>
+            <span class="node to">${edge.to.replace(/_/g, ' ')}</span>
+          </div>
+          
+          <div class="form-group">
+            <label>Weight</label>
+            <input type="range" id="edge-weight-slider" min="-3" max="3" step="0.05" value="${edge.weight}">
+            <input type="number" id="edge-weight" value="${edge.weight}" step="0.05" style="margin-top: 0.25rem;">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Transform</label>
+              <select id="edge-transform">
+                <option value="linear" ${edge.transformName === 'linear' ? 'selected' : ''}>linear</option>
+                <option value="sigmoid" ${edge.transformName === 'sigmoid' ? 'selected' : ''}>sigmoid</option>
+                <option value="tanh" ${edge.transformName === 'tanh' ? 'selected' : ''}>tanh</option>
+                <option value="relu" ${edge.transformName === 'relu' ? 'selected' : ''}>relu</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Delay (mo)</label>
+              <input type="number" id="edge-delay" value="${edge.delay}" min="0" max="24" step="1">
+            </div>
+          </div>
+
+          <canvas id="transform-preview"></canvas>
+        `;
+
+        overlay.classList.add('visible');
+
+        const weightSlider = document.getElementById('edge-weight-slider');
+        const weightInput = document.getElementById('edge-weight');
+        const transformSelect = document.getElementById('edge-transform');
+        const delayInput = document.getElementById('edge-delay');
+        const previewCanvas = document.getElementById('transform-preview');
+
+        function updateEdge() {
+          edge.weight = parseFloat(weightInput.value) || 0;
+          edge.delay = parseInt(delayInput.value) || 0;
+          
+          const newTransform = transformSelect.value;
+          edge.transform = transforms[newTransform] || transforms.linear;
+          edge.transformName = newTransform;
+
+          weightSlider.value = edge.weight;
+
+          rerunSimulation();
+          view.update();
+          renderVisibleCharts();
+          updateFitDisplay();
+          drawTransformPreview(previewCanvas, edge.transformName, edge.weight);
+        }
+
+        weightSlider.addEventListener('input', () => {
+          weightInput.value = weightSlider.value;
+          updateEdge();
+        });
+
+        weightInput.addEventListener('input', () => {
+          weightSlider.value = weightInput.value;
+          updateEdge();
+        });
+
+        transformSelect.addEventListener('change', updateEdge);
+        delayInput.addEventListener('input', updateEdge);
+
+        requestAnimationFrame(() => {
+          drawTransformPreview(previewCanvas, edge.transformName, edge.weight);
+        });
+      }
+
+      function hideEdgeEditor() {
+        document.getElementById('edge-overlay').classList.remove('visible');
+        currentEdgeIndex = null;
+        view.deselectAll();
+      }
+
+      document.getElementById('close-edge-overlay').addEventListener('click', hideEdgeEditor);
+
+      // Pane toggle & resize
+      const pane = document.getElementById('charts-pane');
+      const toggleBtn = document.getElementById('pane-toggle');
+      const resizeHandle = document.getElementById('resize-handle');
+
+      toggleBtn.addEventListener('click', () => {
+        pane.classList.toggle('collapsed');
+      });
+
+      let isResizing = false;
+      let startX, startWidth;
+
+      resizeHandle.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        startX = e.clientX;
+        startWidth = pane.offsetWidth;
+        resizeHandle.classList.add('dragging');
+        document.body.style.cursor = 'ew-resize';
+        document.body.style.userSelect = 'none';
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const delta = startX - e.clientX;
+        const newWidth = Math.max(250, Math.min(600, startWidth + delta));
+        pane.style.width = newWidth + 'px';
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (isResizing) {
+          isResizing = false;
+          resizeHandle.classList.remove('dragging');
+          document.body.style.cursor = '';
+          document.body.style.userSelect = '';
+          requestAnimationFrame(refreshCharts);
+        }
+      });
+
+      // Circuit view
+      const container = document.getElementById('circuit-container');
+      const view = new CircuitView(container, graph, {
+        onNodeSelect: (name, signal) => {
+          if (visibleCharts.has(name)) {
+            visibleCharts.delete(name);
+          } else {
+            visibleCharts.add(name);
+            pane.classList.remove('collapsed');
+          }
+          renderVisibleCharts();
+        },
+        onEdgeSelect: (index, edge) => {
+          if (currentEdgeIndex === index) {
+            hideEdgeEditor();
+          } else {
+            showEdgeEditor(index, edge);
+          }
+        },
+        onDeselect: () => {}
+      });
+
+      // Initial state
+      updateFitDisplay();
+      visibleCharts.add('recession_probability');
+      renderVisibleCharts();
+
+      console.log('Economic model ready');
+    }
+
+    // Start initialization
+    init();
+  </script>
+</body>
+</html>

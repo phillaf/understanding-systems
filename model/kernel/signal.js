@@ -17,8 +17,9 @@ export class Signal {
    * @param {function} [config.activation] - Optional activation function (e.g., clamp)
    * @param {number} [config.min] - Minimum value (for clamping)
    * @param {number} [config.max] - Maximum value (for clamping)
+   * @param {string[]} [config.tags] - Blog post tags referencing this signal
    */
-  constructor({ name, observed = false, description = '', unit = '', activation = null, min = null, max = null }) {
+  constructor({ name, observed = false, description = '', unit = '', activation = null, min = null, max = null, tags = [] }) {
     this.name = name;
     this.observed = observed;
     this.description = description;
@@ -26,6 +27,7 @@ export class Signal {
     this.activation = activation;
     this.min = min;
     this.max = max;
+    this.tags = tags;
     
     // Time series data: Map<timestep, value>
     // For observed signals: this holds the real input data

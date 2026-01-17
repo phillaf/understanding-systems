@@ -19,7 +19,8 @@ export function createGraphFromDefinition(modelDef) {
       observed: config.observed || false,
       description: config.description || '',
       min: config.min ?? null,
-      max: config.max ?? null
+      max: config.max ?? null,
+      tags: config.tags || []
     });
     graph.addSignal(signal);
   }
@@ -32,6 +33,7 @@ export function createGraphFromDefinition(modelDef) {
       weight: edgeDef.weight,
       transform: edgeDef.transform || 'linear',
       delay: edgeDef.delay || 0,
+      bias: edgeDef.bias || 0,
       description: edgeDef.description || ''
     });
     graph.addEdge(edge);

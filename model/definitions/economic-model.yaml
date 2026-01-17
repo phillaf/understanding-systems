@@ -1,0 +1,640 @@
+# Comprehensive Economic Model
+# 
+# Signals and relationships extracted from blog posts:
+# - 2025-12-15: Recession/Unemployment relationship
+# - 2025-12-20: Unemployment trends
+# - 2025-12-30: Bond markets, yield curve, credit spreads
+# - 2026-01-01: Business cycle sequence
+# - 2026-01-02: Cyclical GDP components
+# - 2026-01-03: Money supply and inflation
+# - 2026-01-04: Bank lending standards
+# - 2026-01-06: Mortgage rates
+# - 2026-01-10: Housing supply/demand
+#
+# Key relationships:
+# - Yield curve inversion → Recession (6-16mo lead)
+# - Credit spreads → Recession (4-6mo lead)
+# - Lending standards → Recession (4mo lead)
+# - GDP growth → Unemployment (Okun's Law, ~7 quarters lag)
+# - Fed funds → Treasury rates → Mortgage rates (near-immediate)
+# - Four-economy sequence: Leading → Cyclical → Aggregate → Lagging
+#
+# Time unit: MONTHS
+
+metadata:
+  name: "Comprehensive Economic Model"
+  description: "Full economic model with signals from all blog posts"
+  time_unit: "month"
+  version: "1.0.0"
+
+signals:
+  # ============================================
+  # OBSERVED SIGNALS - Real data injected
+  # ============================================
+  
+  # --- Interest Rates ---
+  fed_funds_rate:
+    observed: true
+    description: "Federal Funds Effective Rate (%)"
+    min: 0
+    max: 25
+    data_source: "posts/2026-01-06-mortgage-rates/data/raw/mortgage_rates.js"
+    tags: ["2026-01-06-mortgage-rates", "2025-12-30-bond-markets-yield-curve"]
+    
+  treasury_10y:
+    observed: true
+    description: "10-Year Treasury Yield (%)"
+    min: 0
+    max: 20
+    data_source: "posts/2026-01-06-mortgage-rates/data/raw/mortgage_rates.js"
+    tags: ["2026-01-06-mortgage-rates", "2025-12-30-bond-markets-yield-curve"]
+    
+  mortgage_rate_30y:
+    observed: true
+    description: "30-Year Fixed Mortgage Rate (%)"
+    min: 0
+    max: 25
+    data_source: "posts/2026-01-06-mortgage-rates/data/raw/mortgage_rates.js"
+    tags: ["2026-01-06-mortgage-rates", "2026-01-10-housing-supply-demand"]
+    
+  # --- Labor Market ---
+  unemployment_rate:
+    observed: true
+    model_output: true
+    description: "US Unemployment Rate (%) - model computes forecast overlay"
+    min: 0
+    max: 30
+    data_source: "posts/2025-12-15-recession-unemployment/data/raw/unemployment.js"
+    tags: ["2025-12-15-recession-unemployment", "2025-12-20-unemployment-trend"]
+    
+  # --- GDP Components ---
+  gdp_real:
+    observed: true
+    description: "Real GDP (billions $)"
+    min: 0
+    max: 30000
+    data_source: "posts/2025-12-15-recession-unemployment/data/raw/gdp.js"
+    tags: ["2025-12-15-recession-unemployment", "2026-01-02-cyclical-gdp-test"]
+    
+  cyclical_gdp:
+    observed: true
+    description: "Cyclical GDP (durables + residential + equipment)"
+    min: 0
+    max: 5000
+    data_source: "posts/2026-01-02-cyclical-gdp-test/data/cyclical_gdp_data.js"
+    tags: ["2026-01-02-cyclical-gdp-test", "2026-01-01-business-cycle-sequence"]
+    
+  non_cyclical_gdp:
+    observed: true
+    description: "Non-cyclical GDP (services + structures + gov)"
+    min: 0
+    max: 25000
+    data_source: "posts/2026-01-02-cyclical-gdp-test/data/cyclical_gdp_data.js"
+    tags: ["2026-01-02-cyclical-gdp-test"]
+    
+  durables_consumption:
+    observed: true
+    description: "Durable goods consumption (billions $)"
+    min: 0
+    max: 2000
+    data_source: "posts/2026-01-02-cyclical-gdp-test/data/cyclical_gdp_data.js"
+    tags: ["2026-01-02-cyclical-gdp-test", "2026-01-01-business-cycle-sequence"]
+    
+  residential_investment:
+    observed: true
+    description: "Residential fixed investment (billions $)"
+    min: 0
+    max: 1000
+    data_source: "posts/2026-01-02-cyclical-gdp-test/data/cyclical_gdp_data.js"
+    tags: ["2026-01-02-cyclical-gdp-test", "2026-01-10-housing-supply-demand"]
+    
+  equipment_investment:
+    observed: true
+    description: "Equipment investment (billions $)"
+    min: 0
+    max: 2000
+    data_source: "posts/2026-01-02-cyclical-gdp-test/data/cyclical_gdp_data.js"
+    tags: ["2026-01-02-cyclical-gdp-test", "2026-01-04-bank-lending-standards"]
+    
+  # --- Money Supply / Inflation ---
+  m2_money_supply:
+    observed: true
+    description: "M2 Money Supply (billions $)"
+    min: 0
+    max: 30000
+    data_source: "posts/2026-01-03-money-supply-inflation/data/money_supply_data.js"
+    tags: ["2026-01-03-money-supply-inflation"]
+    
+  cpi_inflation:
+    observed: true
+    description: "Consumer Price Index"
+    min: 0
+    max: 500
+    data_source: "posts/2026-01-03-money-supply-inflation/data/money_supply_data.js"
+    tags: ["2026-01-03-money-supply-inflation"]
+    
+  velocity_m2:
+    observed: true
+    description: "M2 Velocity of Money"
+    min: 0
+    max: 3
+    data_source: "posts/2026-01-03-money-supply-inflation/data/money_supply_data.js"
+    tags: ["2026-01-03-money-supply-inflation"]
+    
+  # --- Credit / Lending ---
+  lending_standards_ci:
+    observed: true
+    description: "Senior Loan Officer Survey - C&I Tightening (%)"
+    min: -50
+    max: 100
+    data_source: "posts/2026-01-04-bank-lending-standards/data/lending_standards_data.js"
+    tags: ["2026-01-04-bank-lending-standards", "2025-12-31-credit-spreads-recession-prediction"]
+    
+  ci_loan_volume:
+    observed: true
+    description: "Commercial & Industrial Loans (billions $)"
+    min: 0
+    max: 3000
+    data_source: "posts/2026-01-04-bank-lending-standards/data/lending_standards_data.js"
+    tags: ["2026-01-04-bank-lending-standards"]
+    
+  # --- Housing ---
+  new_home_sales:
+    observed: true
+    description: "New Home Sales (thousands, SAAR)"
+    min: 0
+    max: 2000
+    data_source: "posts/2026-01-10-housing-supply-demand/data/raw/housing_data.js"
+    tags: ["2026-01-10-housing-supply-demand", "2026-01-01-business-cycle-sequence"]
+    
+  months_supply:
+    observed: true
+    description: "Months Supply of New Homes"
+    min: 0
+    max: 15
+    data_source: "posts/2026-01-10-housing-supply-demand/data/raw/housing_data.js"
+    tags: ["2026-01-10-housing-supply-demand"]
+    
+  housing_inventory:
+    observed: true
+    description: "Housing Inventory (months)"
+    min: 0
+    max: 15
+    data_source: "posts/2026-01-10-housing-supply-demand/data/raw/housing_data.js"
+    tags: ["2026-01-10-housing-supply-demand"]
+    
+  median_home_price:
+    observed: true
+    description: "Median New Home Price ($)"
+    min: 0
+    max: 1000000
+    data_source: "posts/2026-01-10-housing-supply-demand/data/raw/housing_data.js"
+    tags: ["2026-01-10-housing-supply-demand"]
+    
+  # --- Ground Truth ---
+  recession_indicator:
+    observed: true
+    model_output: true
+    description: "NBER Recession (0=expansion, 1=recession) - model computes probability overlay"
+    min: 0
+    max: 1
+    ground_truth: true
+    data_source: "posts/2025-12-15-recession-unemployment/data/raw/recession_indicator.js"
+    tags: ["2025-12-15-recession-unemployment", "2025-12-31-credit-spreads-recession-prediction", "2026-01-01-business-cycle-sequence"]
+
+  # ============================================
+  # COMPUTED SIGNALS - Model calculates these
+  # ============================================
+  
+  # --- Yield Curve ---
+  yield_curve_spread:
+    observed: false
+    description: "10Y-2Y Treasury Spread (computed proxy: 10Y - fed_funds)"
+    min: -5
+    max: 5
+    tags: ["2025-12-30-bond-markets-yield-curve"]
+    
+  # --- GDP Growth ---
+  gdp_growth:
+    observed: false
+    description: "Real GDP Growth Rate (% YoY)"
+    min: -15
+    max: 15
+    tags: ["2025-12-15-recession-unemployment"]
+    
+  cyclical_gdp_growth:
+    observed: false
+    description: "Cyclical GDP Growth Rate (% YoY)"
+    min: -30
+    max: 30
+    tags: ["2026-01-02-cyclical-gdp-test"]
+    
+  # --- Inflation ---
+  m2_growth:
+    observed: false
+    description: "M2 Money Supply Growth (% YoY)"
+    min: -10
+    max: 30
+    tags: ["2026-01-03-money-supply-inflation"]
+    
+  inflation_rate:
+    observed: false
+    description: "CPI Inflation Rate (% YoY)"
+    min: -5
+    max: 20
+    tags: ["2026-01-03-money-supply-inflation"]
+    
+  # --- Credit Conditions ---
+  # NOTE: credit_conditions was removed as redundant
+  # lending_standards_ci is used directly instead
+  
+  financial_stress:
+    observed: false
+    description: "Financial stress indicator (0-1)"
+    min: 0
+    max: 1
+    tags: ["2025-12-30-credit-spreads-recession-prediction", "2026-01-04-bank-lending-standards"]
+    
+  # --- Housing Conditions ---
+  housing_demand:
+    observed: false
+    description: "Housing demand index"
+    min: 0
+    max: 1
+    tags: ["2026-01-10-housing-supply-demand", "2026-01-06-mortgage-rates"]
+    
+  # --- Business Cycle Composites ---
+  leading_economy_index:
+    observed: false
+    description: "Leading economic indicators composite"
+    min: 0
+    max: 1
+    tags: ["2026-01-01-business-cycle-sequence"]
+    
+  cyclical_economy_index:
+    observed: false
+    description: "Cyclical economic activity composite"
+    min: 0
+    max: 1
+    tags: ["2026-01-01-business-cycle-sequence", "2026-01-02-cyclical-gdp-test"]
+    
+  # --- Model Outputs ---
+  # NOTE: Model outputs are now computed directly on observed signals
+  # with model_output: true (unemployment_rate, recession_indicator)
+  # This allows overlay comparison of model predictions vs actual data
+
+edges:
+  # ============================================
+  # YIELD CURVE → RECESSION
+  # From bond markets article: inverted yield curve predicts recession
+  # Lead time: 6-16 months
+  # ============================================
+  
+  - from: treasury_10y
+    to: yield_curve_spread
+    weight: 1.0
+    transform: linear
+    delay: 0
+    description: "Treasury 10Y contributes positively to spread"
+    
+  - from: fed_funds_rate
+    to: yield_curve_spread
+    weight: -1.0
+    transform: linear
+    delay: 0
+    description: "Fed funds rate subtracted from spread (proxy for 2Y)"
+    
+  - from: yield_curve_spread
+    to: recession_indicator
+    weight: -0.2
+    transform: linear
+    delay: 12
+    bias: 0.3
+    description: "Inverted yield curve → recession (12mo lag, negative spread = recession)"
+
+  # ============================================
+  # CREDIT CONDITIONS → RECESSION
+  # From credit spreads article: widening spreads predict recession
+  # Lead time: 4-6 months
+  # NOTE: credit_conditions was merged - lending_standards_ci used directly
+  # ============================================
+  
+  - from: lending_standards_ci
+    to: recession_indicator
+    weight: 0.01
+    transform: linear
+    delay: 4
+    description: "Tight lending standards → recession (4mo lag)"
+
+  # ============================================
+  # FED FUNDS → TREASURY → MORTGAGE RATES
+  # From mortgage rates article: chain of rate transmission
+  # Near-immediate transmission
+  # ============================================
+  
+  - from: fed_funds_rate
+    to: treasury_10y
+    weight: 0.6
+    transform: linear
+    delay: 1
+    description: "Fed funds influences treasury rates"
+    
+  - from: treasury_10y
+    to: mortgage_rate_30y
+    weight: 1.1
+    transform: linear
+    delay: 0
+    description: "Treasury 10Y → Mortgage rates (spread ~1.5-2%)"
+
+  # ============================================
+  # MORTGAGE RATES → HOUSING
+  # From housing article: rates affect demand
+  # Higher rates reduce demand; baseline ~6%, range 3-10%
+  # ============================================
+  
+  - from: mortgage_rate_30y
+    to: housing_demand
+    weight: -0.15
+    transform: linear
+    delay: 2
+    bias: 1.5
+    description: "Higher mortgage rates → lower housing demand (demand = 1.5 - 0.15*rate)"
+    
+  - from: housing_demand
+    to: new_home_sales
+    weight: 100
+    transform: linear
+    delay: 1
+    description: "Housing demand → new home sales"
+    
+  - from: new_home_sales
+    to: residential_investment
+    weight: 0.3
+    transform: linear
+    delay: 2
+    description: "Home sales → residential investment"
+
+  # ============================================
+  # CYCLICAL GDP COMPONENTS
+  # From cyclical GDP article: cyclical sectors lead contractions
+  # ============================================
+  
+  - from: durables_consumption
+    to: cyclical_gdp
+    weight: 1.0
+    transform: linear
+    delay: 0
+    description: "Durables are part of cyclical GDP"
+    
+  - from: residential_investment
+    to: cyclical_gdp
+    weight: 1.0
+    transform: linear
+    delay: 0
+    description: "Residential investment is cyclical"
+    
+  - from: equipment_investment
+    to: cyclical_gdp
+    weight: 1.0
+    transform: linear
+    delay: 0
+    description: "Equipment investment is cyclical"
+    
+  - from: cyclical_gdp
+    to: cyclical_economy_index
+    weight: 0.0004
+    transform: linear
+    delay: 0
+    bias: -0.5
+    description: "Cyclical GDP → cyclical index (normalized)"
+    
+  - from: cyclical_economy_index
+    to: recession_indicator
+    weight: -0.8
+    transform: linear
+    delay: 2
+    description: "Falling cyclical activity → recession"
+
+  # ============================================
+  # MONEY SUPPLY → INFLATION
+  # From money supply article: M2 growth predicts inflation
+  # ~18 month lag (but variable)
+  # ============================================
+  
+  - from: m2_money_supply
+    to: m2_growth
+    weight: 0.001
+    transform: linear
+    delay: 0
+    description: "M2 level → growth rate (needs derivative)"
+    
+  - from: m2_growth
+    to: inflation_rate
+    weight: 0.5
+    transform: linear
+    delay: 18
+    description: "M2 growth → inflation (18mo lag)"
+    
+  - from: velocity_m2
+    to: inflation_rate
+    weight: 2.0
+    transform: linear
+    delay: 0
+    description: "Higher velocity → higher inflation"
+
+  # ============================================
+  # UNEMPLOYMENT ↔ GDP (Okun's Law)
+  # From recession-unemployment article
+  # ~7 quarters lag from GDP to unemployment
+  # ============================================
+  
+  - from: gdp_growth
+    to: unemployment_rate
+    weight: -0.4
+    transform: linear
+    delay: 7
+    description: "Okun's Law: GDP growth → unemployment (7mo lag)"
+
+  # ============================================
+  # LEADING INDICATORS COMPOSITE
+  # From business cycle sequence article
+  # Sequence: Leading → Cyclical (8mo) → Aggregate (6mo) → Lagging (3mo)
+  # ============================================
+  
+  - from: yield_curve_spread
+    to: leading_economy_index
+    weight: 0.15
+    transform: linear
+    delay: 0
+    bias: 0.5
+    description: "Yield curve is leading indicator (positive spread = good)"
+    
+  - from: lending_standards_ci
+    to: leading_economy_index
+    weight: -0.008
+    transform: linear
+    delay: 0
+    description: "Tight lending is leading indicator (high tightening = bad)"
+    
+  - from: new_home_sales
+    to: leading_economy_index
+    weight: 0.0008
+    transform: linear
+    delay: 0
+    bias: -0.2
+    description: "Housing sales are leading indicator"
+    
+  - from: leading_economy_index
+    to: cyclical_economy_index
+    weight: 1.0
+    transform: linear
+    delay: 8
+    description: "Leading → Cyclical (8mo lag)"
+
+  # ============================================
+  # FINANCIAL STRESS INDEX
+  # Composite of credit conditions
+  # ============================================
+  
+  - from: fed_funds_rate
+    to: financial_stress
+    weight: 0.05
+    transform: linear
+    delay: 3
+    description: "Higher fed rate → more stress"
+    
+  - from: lending_standards_ci
+    to: financial_stress
+    weight: 0.01
+    transform: linear
+    delay: 0
+    description: "Tight lending standards → stress"
+    
+  - from: financial_stress
+    to: recession_indicator
+    weight: 1.5
+    transform: linear
+    delay: 6
+    description: "Financial stress → recession (6mo lag)"
+
+  # ============================================
+  # MISSING CONNECTIONS - Added for completeness
+  # ============================================
+  
+  # --- Unemployment (lagging indicator) ---
+  - from: recession_indicator
+    to: unemployment_rate
+    weight: 2.0
+    transform: linear
+    delay: 6
+    description: "Recessions → unemployment rises (6mo lag)"
+    
+  # --- GDP Real and Growth ---
+  - from: gdp_real
+    to: gdp_growth
+    weight: 0.0001
+    transform: derivative
+    delay: 0
+    description: "GDP level → GDP growth rate"
+    
+  - from: cyclical_gdp
+    to: gdp_real
+    weight: 1.0
+    transform: linear
+    delay: 0
+    description: "Cyclical GDP is component of total GDP"
+    
+  - from: non_cyclical_gdp
+    to: gdp_real
+    weight: 1.0
+    transform: linear
+    delay: 0
+    description: "Non-cyclical GDP is component of total GDP"
+    
+  - from: cyclical_gdp
+    to: cyclical_gdp_growth
+    weight: 0.0001
+    transform: derivative
+    delay: 0
+    description: "Cyclical GDP level → growth rate"
+    
+  - from: cyclical_gdp_growth
+    to: recession_indicator
+    weight: -0.05
+    transform: linear
+    delay: 3
+    description: "Falling cyclical GDP growth → recession"
+    
+  # --- CPI Inflation ---
+  - from: cpi_inflation
+    to: inflation_rate
+    weight: 0.01
+    transform: derivative
+    delay: 0
+    description: "CPI level → inflation rate (derivative)"
+    
+  - from: inflation_rate
+    to: fed_funds_rate
+    weight: 0.5
+    transform: linear
+    delay: 3
+    description: "Fed raises rates when inflation rises (Taylor rule)"
+    
+  # --- Credit / Loan Volume ---
+  - from: lending_standards_ci
+    to: ci_loan_volume
+    weight: -10.0
+    transform: linear
+    delay: 6
+    description: "Tighter standards → less loan volume"
+    
+  - from: ci_loan_volume
+    to: equipment_investment
+    weight: 0.3
+    transform: linear
+    delay: 3
+    description: "Business loans fund equipment investment"
+    
+  # --- Housing Inventory ---
+  - from: new_home_sales
+    to: months_supply
+    weight: -0.002
+    transform: linear
+    delay: 1
+    description: "More sales → lower months supply"
+    
+  - from: months_supply
+    to: housing_inventory
+    weight: 1.0
+    transform: linear
+    delay: 0
+    description: "Months supply ≈ housing inventory"
+    
+  - from: housing_inventory
+    to: median_home_price
+    weight: -10000
+    transform: linear
+    delay: 3
+    description: "More inventory → lower prices"
+    
+  - from: mortgage_rate_30y
+    to: median_home_price
+    weight: -5000
+    transform: linear
+    delay: 6
+    description: "Higher rates → lower home prices (affordability)"
+    
+  - from: median_home_price
+    to: residential_investment
+    weight: 0.0005
+    transform: linear
+    delay: 3
+    description: "Higher prices → more building incentive"
+    
+  # --- Non-cyclical GDP stability ---
+  - from: non_cyclical_gdp
+    to: cyclical_economy_index
+    weight: -0.0001
+    transform: linear
+    delay: 0
+    description: "Non-cyclical GDP provides stability buffer"

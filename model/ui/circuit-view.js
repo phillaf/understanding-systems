@@ -107,70 +107,118 @@ export class CircuitView {
     this.updateTransform();
   }
 
+  /**
+   * Simple force-directed graph layout
+   * - Grid-based initial placement to avoid clustering
+   * - Nodes repel each other
+   * - Edges act as springs
+   */
   computeLayout() {
     const signals = Array.from(this.graph.signals.values());
-    const observed = signals.filter(s => s.observed);
-    const computed = signals.filter(s => !s.observed);
+    const nodeCount = signals.length;
     
-    const padding = 70;
-    const nodeRadius = 40;
+    // Canvas dimensions
+    const canvasWidth = Math.max(this.width, 1200);
+    const canvasHeight = Math.max(this.height, 900);
+    const padding = 80;
     
-    const leftX = padding + nodeRadius;
-    const observedSpacing = (this.height - 2 * padding) / Math.max(observed.length, 1);
-    observed.forEach((signal, i) => {
+    // Grid-based initial placement (avoids random clustering)
+    const cols = Math.ceil(Math.sqrt(nodeCount * 1.5));
+    const rows = Math.ceil(nodeCount / cols);
+    const cellW = (canvasWidth - 2 * padding) / cols;
+    const cellH = (canvasHeight - 2 * padding) / rows;
+    
+    signals.forEach((signal, i) => {
+      const col = i % cols;
+      const row = Math.floor(i / cols);
       this.nodePositions.set(signal.name, {
-        x: leftX,
-        y: padding + observedSpacing * (i + 0.5),
+        x: padding + col * cellW + cellW / 2 + (Math.random() - 0.5) * cellW * 0.3,
+        y: padding + row * cellH + cellH / 2 + (Math.random() - 0.5) * cellH * 0.3,
+        vx: 0,
+        vy: 0,
         signal
       });
     });
     
-    const depths = this.computeDepths();
-    const maxDepth = Math.max(...Array.from(depths.values()), 1);
-    const colWidth = (this.width - 2 * padding - 2 * nodeRadius) / maxDepth;
+    // Force simulation parameters
+    const repulsionStrength = 20000;
+    const springStrength = 0.015;
+    const springLength = 200;
+    const damping = 0.9;
+    const iterations = 300;
     
-    const byDepth = new Map();
-    for (const signal of computed) {
-      const d = depths.get(signal.name) || 1;
-      if (!byDepth.has(d)) byDepth.set(d, []);
-      byDepth.get(d).push(signal);
-    }
-    
-    for (const [depth, sigs] of byDepth) {
-      const x = leftX + colWidth * depth;
-      const spacing = (this.height - 2 * padding) / Math.max(sigs.length, 1);
-      sigs.forEach((signal, i) => {
-        this.nodePositions.set(signal.name, {
-          x,
-          y: padding + spacing * (i + 0.5),
-          signal
-        });
-      });
-    }
-  }
-
-  computeDepths() {
-    const depths = new Map();
-    for (const [name, signal] of this.graph.signals) {
-      if (signal.observed) depths.set(name, 0);
-    }
-    
-    let changed = true;
-    while (changed) {
-      changed = false;
-      for (const edge of this.graph.edges) {
-        const fromDepth = depths.get(edge.from);
-        if (fromDepth !== undefined) {
-          const currentDepth = depths.get(edge.to);
-          const newDepth = fromDepth + 1;
-          if (currentDepth === undefined || newDepth > currentDepth) {
-            depths.set(edge.to, newDepth);
-            changed = true;
+    // Run simulation
+    for (let iter = 0; iter < iterations; iter++) {
+      // Temperature decreases over time (simulated annealing)
+      const temp = 1 - iter / iterations;
+      
+      // Calculate forces for each node
+      for (const [name, node] of this.nodePositions) {
+        let fx = 0, fy = 0;
+        
+        // Repulsion from all other nodes (Coulomb's law)
+        for (const [otherName, other] of this.nodePositions) {
+          if (name === otherName) continue;
+          
+          const dx = node.x - other.x;
+          const dy = node.y - other.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const force = repulsionStrength / (dist * dist);
+          
+          fx += (dx / dist) * force;
+          fy += (dy / dist) * force;
+        }
+        
+        // Spring forces from connected edges (Hooke's law)
+        for (const edge of this.graph.edges) {
+          let other = null;
+          if (edge.from === name) other = this.nodePositions.get(edge.to);
+          else if (edge.to === name) other = this.nodePositions.get(edge.from);
+          
+          if (other) {
+            const dx = other.x - node.x;
+            const dy = other.y - node.y;
+            const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+            const displacement = dist - springLength;
+            const force = springStrength * displacement;
+            
+            fx += (dx / dist) * force;
+            fy += (dy / dist) * force;
           }
         }
+        
+        // Update velocity with damping
+        node.vx = (node.vx + fx) * damping * temp;
+        node.vy = (node.vy + fy) * damping * temp;
+      }
+      
+      // Update positions
+      for (const [name, node] of this.nodePositions) {
+        node.x += node.vx;
+        node.y += node.vy;
+        
+        // Keep within bounds
+        node.x = Math.max(padding, Math.min(canvasWidth - padding, node.x));
+        node.y = Math.max(padding, Math.min(canvasHeight - padding, node.y));
       }
     }
-    return depths;
+    
+    // Center the view on the final layout
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (const [, node] of this.nodePositions) {
+      minX = Math.min(minX, node.x);
+      maxX = Math.max(maxX, node.x);
+      minY = Math.min(minY, node.y);
+      maxY = Math.max(maxY, node.y);
+    }
+    
+    const graphWidth = maxX - minX + 2 * padding;
+    const graphHeight = maxY - minY + 2 * padding;
+    
+    // Set initial zoom to fit the graph
+    this.zoom = Math.min(1, this.width / graphWidth, this.height / graphHeight) * 0.9;
+    this.panX = (this.width - graphWidth * this.zoom) / 2 - minX * this.zoom + padding * this.zoom;
+    this.panY = (this.height - graphHeight * this.zoom) / 2 - minY * this.zoom + padding * this.zoom;
   }
 
   render() {
@@ -194,7 +242,7 @@ export class CircuitView {
     const toPos = this.nodePositions.get(edge.to);
     if (!fromPos || !toPos) return;
     
-    const nodeRadius = 40;
+    const nodeRadius = 35;
     const isSelected = this.selectedEdge === index;
     
     const dx = toPos.x - fromPos.x;
@@ -205,12 +253,12 @@ export class CircuitView {
     
     const x1 = fromPos.x + nx * nodeRadius;
     const y1 = fromPos.y + ny * nodeRadius;
-    const x2 = toPos.x - nx * (nodeRadius + 12);
-    const y2 = toPos.y - ny * (nodeRadius + 12);
+    const x2 = toPos.x - nx * (nodeRadius + 10);
+    const y2 = toPos.y - ny * (nodeRadius + 10);
     
     const color = edge.weight >= 0 ? '#22c55e' : '#ef4444';
-    const absWeight = Math.abs(edge.weight);
-    const strokeWidth = Math.max(2, Math.min(8, absWeight * 3 + 1));
+    // Thin uniform stroke width for cleaner look
+    const strokeWidth = 2;
     
     const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     group.style.cursor = 'pointer';
@@ -219,62 +267,68 @@ export class CircuitView {
       this.selectEdge(index);
     });
     
+    // Always use straight lines for cleaner schematic look
+    const pathD = `M ${x1} ${y1} L ${x2} ${y2}`;
+    
     // Hit area
     const hitArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    hitArea.setAttribute('d', `M ${x1} ${y1} L ${x2} ${y2}`);
+    hitArea.setAttribute('d', pathD);
     hitArea.setAttribute('stroke', 'transparent');
-    hitArea.setAttribute('stroke-width', '25');
+    hitArea.setAttribute('stroke-width', '20');
     hitArea.setAttribute('fill', 'none');
     group.appendChild(hitArea);
     
     // Visible path
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', `M ${x1} ${y1} L ${x2} ${y2}`);
+    path.setAttribute('d', pathD);
     path.setAttribute('stroke', isSelected ? '#fbbf24' : color);
-    path.setAttribute('stroke-width', isSelected ? strokeWidth + 2 : strokeWidth);
+    path.setAttribute('stroke-width', isSelected ? '3' : strokeWidth);
     path.setAttribute('fill', 'none');
+    path.setAttribute('opacity', isSelected ? '1' : '0.8');
     path.setAttribute('marker-end', `url(#arrow-${isSelected ? 'selected' : (edge.weight >= 0 ? 'positive' : 'negative')})`);
     group.appendChild(path);
     
-    // Label
-    const midX = (x1 + x2) / 2;
-    const midY = (y1 + y2) / 2;
-    const perpX = -ny * 18;
-    const perpY = nx * 18;
+    // Label - only show on hover or if selected (to reduce clutter)
+    if (isSelected) {
+      const midX = (x1 + x2) / 2;
+      const midY = (y1 + y2) / 2;
+      const perpX = -ny * 15;
+      const perpY = nx * 15;
+      
+      const labelText = `w=${edge.weight.toFixed(2)}`;
+      const labelWidth = 60;
     
-    const labelText = `w=${edge.weight.toFixed(2)}`;
-    const labelWidth = 70;
-    
-    const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    labelBg.setAttribute('x', midX + perpX - labelWidth / 2);
-    labelBg.setAttribute('y', midY + perpY - 12);
-    labelBg.setAttribute('width', labelWidth);
-    labelBg.setAttribute('height', 24);
-    labelBg.setAttribute('rx', 4);
-    labelBg.setAttribute('fill', isSelected ? '#fbbf24' : '#1e293b');
-    labelBg.setAttribute('stroke', isSelected ? '#fbbf24' : '#475569');
-    group.appendChild(labelBg);
-    
-    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    label.setAttribute('x', midX + perpX);
-    label.setAttribute('y', midY + perpY + 5);
-    label.setAttribute('text-anchor', 'middle');
-    label.setAttribute('fill', isSelected ? '#1e293b' : '#e2e8f0');
-    label.setAttribute('font-size', '12');
-    label.setAttribute('font-family', 'monospace');
-    label.textContent = labelText;
-    group.appendChild(label);
-    
-    // Delay indicator
-    if (edge.delay > 0) {
-      const delayLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      delayLabel.setAttribute('x', midX + perpX);
-      delayLabel.setAttribute('y', midY + perpY + 32);
-      delayLabel.setAttribute('text-anchor', 'middle');
-      delayLabel.setAttribute('fill', '#94a3b8');
-      delayLabel.setAttribute('font-size', '10');
-      delayLabel.textContent = `delay: ${edge.delay}mo`;
-      group.appendChild(delayLabel);
+      const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      labelBg.setAttribute('x', midX + perpX - labelWidth / 2);
+      labelBg.setAttribute('y', midY + perpY - 12);
+      labelBg.setAttribute('width', labelWidth);
+      labelBg.setAttribute('height', 24);
+      labelBg.setAttribute('rx', 4);
+      labelBg.setAttribute('fill', '#fbbf24');
+      labelBg.setAttribute('stroke', '#fbbf24');
+      group.appendChild(labelBg);
+      
+      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      label.setAttribute('x', midX + perpX);
+      label.setAttribute('y', midY + perpY + 5);
+      label.setAttribute('text-anchor', 'middle');
+      label.setAttribute('fill', '#1e293b');
+      label.setAttribute('font-size', '12');
+      label.setAttribute('font-family', 'monospace');
+      label.textContent = labelText;
+      group.appendChild(label);
+      
+      // Delay indicator
+      if (edge.delay > 0) {
+        const delayLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        delayLabel.setAttribute('x', midX + perpX);
+        delayLabel.setAttribute('y', midY + perpY + 32);
+        delayLabel.setAttribute('text-anchor', 'middle');
+        delayLabel.setAttribute('fill', '#94a3b8');
+        delayLabel.setAttribute('font-size', '10');
+        delayLabel.textContent = `delay: ${edge.delay}mo`;
+        group.appendChild(delayLabel);
+      }
     }
     
     this.edgeGroup.appendChild(group);
@@ -307,7 +361,7 @@ export class CircuitView {
 
   renderNode(pos) {
     const { x, y, signal } = pos;
-    const radius = 40;
+    const radius = 35;
     const isSelected = this.selectedNode === signal.name;
     
     const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -322,7 +376,7 @@ export class CircuitView {
       const glow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       glow.setAttribute('cx', x);
       glow.setAttribute('cy', y);
-      glow.setAttribute('r', radius + 8);
+      glow.setAttribute('r', radius + 6);
       glow.setAttribute('fill', 'none');
       glow.setAttribute('stroke', '#fbbf24');
       glow.setAttribute('stroke-width', '3');
@@ -335,35 +389,37 @@ export class CircuitView {
     circle.setAttribute('cy', y);
     circle.setAttribute('r', radius);
     circle.setAttribute('fill', signal.observed ? '#1e3a5f' : '#1e293b');
-    circle.setAttribute('stroke', isSelected ? '#fbbf24' : (signal.observed ? '#3b82f6' : '#475569'));
+    circle.setAttribute('stroke', isSelected ? '#fbbf24' : (signal.observed ? '#3b82f6' : '#22c55e'));
     circle.setAttribute('stroke-width', isSelected ? '3' : '2');
     group.appendChild(circle);
     
-    // Name
-    const lines = signal.name.split('_');
+    // Name - truncate long names
+    const displayName = signal.name.length > 15 
+      ? signal.name.replace(/_/g, ' ').slice(0, 12) + '...'
+      : signal.name.replace(/_/g, ' ');
+    const lines = displayName.split(' ').reduce((acc, word) => {
+      const lastLine = acc[acc.length - 1];
+      if (lastLine && lastLine.length + word.length < 10) {
+        acc[acc.length - 1] = lastLine + ' ' + word;
+      } else {
+        acc.push(word);
+      }
+      return acc;
+    }, []);
+    
     lines.forEach((line, i) => {
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       text.setAttribute('x', x);
-      text.setAttribute('y', y + (i - (lines.length - 1) / 2) * 14 + 5);
+      text.setAttribute('y', y + (i - (lines.length - 1) / 2) * 12 + 4);
       text.setAttribute('text-anchor', 'middle');
       text.setAttribute('fill', '#f8fafc');
-      text.setAttribute('font-size', '11');
+      text.setAttribute('font-size', '10');
       text.setAttribute('font-weight', '500');
       text.textContent = line;
       group.appendChild(text);
     });
     
     this.nodeGroup.appendChild(group);
-    
-    // Type label below
-    const typeLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    typeLabel.setAttribute('x', x);
-    typeLabel.setAttribute('y', y + radius + 18);
-    typeLabel.setAttribute('text-anchor', 'middle');
-    typeLabel.setAttribute('fill', signal.observed ? '#3b82f6' : '#64748b');
-    typeLabel.setAttribute('font-size', '10');
-    typeLabel.textContent = signal.observed ? '● INPUT' : '○ COMPUTED';
-    this.labelGroup.appendChild(typeLabel);
   }
 
   selectNode(name) {
